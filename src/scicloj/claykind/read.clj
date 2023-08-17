@@ -1,7 +1,6 @@
 (ns scicloj.claykind.read
   (:require [clojure.tools.reader]
             [clojure.tools.reader.reader-types]
-            [parcera.core :as parcera]
             [clojure.string :as string]
             [rewrite-clj.parser :as parser]
             [rewrite-clj.node :as node]))
@@ -17,6 +16,15 @@
                   ;; skip whitespace
                   (#{:newline :whitespace} tag) nil
                   ;;
+
+                  ;; ?? Why not ^{:kindly/kind :kind/comment} ??
+                  ;; can't put on strings...
+                  ;; [:kind/comment "this is a comment"]
+                  ;; or ^{:kindly/kind :kind/comment)
+                  ;; ?? Why is the value a keyword? ??
+                  ;; doesn't a type make more sense?
+                  ;; or a spec? or a schema? JSON-schema!
+
                   ;; extract text from comments
                   (= tag :comment) #:kindly{:comment (-> child
                                                          str
@@ -26,8 +34,8 @@
                   :else (let [code (str child)
                               _ (println [:code code])
                               form (read-string code)]
-                          #:kindly{:code code
-                                   :form form
+                          #:kindly{:code  code
+                                   :form  form
                                    :value (eval form)})))))
        (remove nil?)))
 
@@ -43,7 +51,7 @@
        (mapcat (fn [part]
                  (if (-> part first :kindly/comment)
                    [(unified-comment-block part)]
-
+                   )))))
 
 (defn ->safe-notes [code]
   (try

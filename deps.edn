@@ -1,3 +1,4 @@
-{:deps {org.clojure/clojure      {:mvn/version "1.11.0"}
-        org.scicloj/kindly       {:mvn/version "3-alpha8"}
-        rewrite-clj/rewrite-clj {:mvn/version "1.1.47"}}}
+{:deps {org.clojure/clojure     {:mvn/version "1.11.0"}
+        org.scicloj/kindly      {:mvn/version "3-alpha8"}
+        rewrite-clj/rewrite-clj {:mvn/version "1.1.47"}}
+ :aliases {:dev {:extra-paths ["notebooks"]}}}
