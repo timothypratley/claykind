@@ -6,23 +6,21 @@
 
 (defn join-comment-blocks [comment-blocks]
   {:kind           :kindly/comment
-   :kindly/comment (->> (map :kindly/comment comment-blocks)
-                        ;; TODO: comment blocks that have newlines between them
-                        ;; might want to preserve the newline
-
-                        ;; This is a different block of comments,
-                        ;; but currently it is merged with no gap.
-                        (str/join))})
+   :kindly/comment (-> (map :kindly/comment comment-blocks)
+                       (str/join))})
 
 (defn eval-notes [code]
   (->> (read/parse-forms code)
-       (remove (comp #{:kindly/whitespace} :kind))
-       (map kinds/infer-kind)
+       (map (fn [context]
+              (if (-> context :kind #{:kindly/comment :kindly/whitespace})
+                context
+                (kinds/infer-kind context))))
        (partition-by (comp some? :kindly/comment))
        (mapcat (fn [part]
                  (if (-> part first :kindly/comment)
                    [(join-comment-blocks part)]
-                   part)))))
+                   part)))
+       (remove (comp #{:kindly/whitespace} :kind))))
 
 (defn safe-eval-notes [code]
   (try

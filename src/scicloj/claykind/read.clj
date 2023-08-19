@@ -23,7 +23,8 @@
       :comment
       {:code           code
        :kind           :kindly/comment
-       :kindly/comment (str/replace code #"^;*\s?" "")}
+       ;; remove leading semicolons and one non-newline space if present.
+       :kindly/comment (str/replace-first code #"^;*[^\S\r\n]?" "")}
 
       ;; evaluate for value
       (let [form (node/sexpr node)]

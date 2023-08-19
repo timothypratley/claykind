@@ -38,14 +38,16 @@
 ;; Possible feature: Order of evaluation
 ;; present the last form first!
 ;; Just reverse the contexts.
-
+;;
 ;; |  |  |  |
 ;; |--|--|--|
 ;; | "a" | "b" | "c" |
-
+;;
 ;; standards to abide by for tool creators
+;;
 ;; * unknown tags render the content of the tags
 ;; * noscript
+;;
 ;; css allows fallback tags
 ;; anomalies library is interesting
 ;; ring was enough and won
