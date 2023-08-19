@@ -23,22 +23,6 @@ Alpha. Subject to change.
 A glue library can be made use of in more contexts.
 The Kindly specs can be used for the creation of markdown, tests, or other purposes.
 
-Let's recap some history about notebooks and the evolution of their tools:
-
-1. Rich REPLs (Gorilla): Improved interactive development, but we want namespaces to be published as documents.
-2. Jupyter (Python) sit on a webpage, and you can interact with them. Notebooks are cool!
-   Oh no, notebooks are not reproducible, I lose the power of my editor, no git.
-3. Maria Cloud: Web editable Clojure notebooks.
-4. NextJournal: Makes a graph of calculations and caches them. Interactive in a webpage.
-5. Clerk: Use your editor again. Renders with React.
-   Computes the graph of calculations and caching, but this takes away from the usual REPL experience.
-6. Portal and Calva notebooks: Less notebook features, more like Clojure that you can observe interactively.
-   Missing static rendering. VScode is unsurprising and standard.
-7. Clay: Provides the Portal/Calva static experience (renders to regular HTML), embraces Quarto.
-8. Kindly: Standardization, simplicity and integration.
-   Now we can look at things in our IDE, or a web page, and maybe other contexts.
-9. note-to-test: Reproducibility and tests are important.
-
 Clay does quite a lot of things, and has undesirable dependencies.
 We want to attempt to build something even simpler.
 Something that emphasizes the evaluation and preparation.
