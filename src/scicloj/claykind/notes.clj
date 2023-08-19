@@ -7,7 +7,12 @@
 (defn join-comment-blocks [comment-blocks]
   {:kind           :kindly/comment
    :kindly/comment (->> (map :kindly/comment comment-blocks)
-                        (str/join "\n"))})
+                        ;; TODO: comment blocks that have newlines between them
+                        ;; might want to preserve the newline
+
+                        ;; This is a different block of comments,
+                        ;; but currently it is merged with no gap.
+                        (str/join))})
 
 (defn eval-notes [code]
   (->> (read/parse-forms code)

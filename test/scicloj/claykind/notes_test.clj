@@ -43,6 +43,7 @@
              :value        29
              :kind         :kindly/value
              :kindly/value 29}
+            ;; Definitely want filename/column/line (is it on form!)
             {:kind           :kindly/comment
              :kindly/comment "# section 2
 
