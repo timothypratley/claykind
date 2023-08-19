@@ -1,44 +1,14 @@
-# claykind
+# claykind (or note-kind)
 
 <img src="claykind.png" alt="claykind" align="right"/>
 
 A tiny library to produce [Kindly](https://scicloj.github.io/kindly/) expressions from Clojure source code.
-This library is intended for use by literate programming tools such as [Clay](https://github.com/scicloj/clay) which produce documents from code.
+This library is intended for use by literate programming tools
+such as [Clay](https://github.com/scicloj/clay) which produce documents from code.
 
 ```
 Code -> Kindly-spec (what to display)
 ```
-
-```clojure
-[{:kind :kind/table
-  :value {:column-names ... :row-maps}}
- {:kind :kind/vega-lite
-  :value {...}}]
-```
-
-```dot
-digraph G {
-  Code -> Kindly
-  Kindly -> Clay
-  Kindly -> Portal
-  Portal -> Calva
-  Portal -> Cursive
-  Portal -> Browser
-  Kindly -> Markdown
-  Markdown -> Quarto
-  Markdown -> Pandoc
-  Quarto -> HTML
-  Quarto -> PDF
-  Quarto -> RevealJS
-  Pandoc -> HTML
-  Pandoc -> PDF
-}
-```
-
-## Rationale
-
-A glue library can be made use of in more contexts.
-The Kindly specs can be used for the creation of markdown, tests, or other purposes.
 
 ## Status
 
@@ -47,6 +17,182 @@ Alpha. Subject to change.
 ## Usage
 
 [![Clojars Project](https://img.shields.io/clojars/v/org.scicloj/read-kindly.svg)](https://clojars.org/org.scicloj/read-kindly)
+
+## Rational
+
+A glue library can be made use of in more contexts.
+The Kindly specs can be used for the creation of markdown, tests, or other purposes.
+
+Let's recap some history about notebooks and the evolution of their tools:
+
+1. Rich REPLs (Gorilla): Improved interactive development, but we want namespaces to be published as documents.
+2. Jupyter (Python) sit on a webpage, and you can interact with them. Notebooks are cool!
+   Oh no, notebooks are not reproducible, I lose the power of my editor, no git.
+3. Maria Cloud: Web editable Clojure notebooks.
+4. NextJournal: Makes a graph of calculations and caches them. Interactive in a webpage.
+5. Clerk: Use your editor again. Renders with React.
+   Computes the graph of calculations and caching, but this takes away from the usual REPL experience.
+6. Portal and Calva notebooks: Less notebook features, more like Clojure that you can observe interactively.
+   Missing static rendering. VScode is unsurprising and standard.
+7. Clay: Provides the Portal/Calva static experience (renders to regular HTML), embraces Quarto.
+8. Kindly: Standardization, simplicity and integration.
+   Now we can look at things in our IDE, or a web page, and maybe other contexts.
+9. note-to-test: Reproducibility and tests are important.
+
+Clay does quite a lot of things, and has undesirable dependencies.
+We want to attempt to build something even simpler.
+Something that emphasizes the evaluation and preparation.
+Leaving downstream tools to perform rendering and display or test for changes.
+
+## Design
+
+The key design focus is on creating interoperable parts,
+and thus the key concern is what shape should the data be?
+
+### Everything, all at once
+
+Taking a broader view, we want all these parts to come together to achieve several outcomes:
+
+* Process forms, namespaces, and directory trees of namespaces.
+* Display inside an editor, render to HTML, or generate testable difference detection
+
+Many of these parts already exist and have existing protocols that we should adapt to.
+
+A complete pipeline of tool composition might look something like this:
+
+```
+my-ns.clj
+ -> AST
+  -> top level forms
+   -> eval
+    -> kind inference
+     -> kind validation/parsing
+      -> downstream tools (editors/html/tests)
+```
+
+Throughout the pipeline will pass various representations,
+beginning with a string (the original representation of the code),
+which is read into an Abstract Syntax Tree,
+which is converted into forms for evaluation.
+
+Let's examine the stages of the pipeline.
+
+#### rewrite-clj keeps whitespace
+
+The first stage converts from the text representation of the code into a data-structure.
+The shape of this data-structure will remain largely unchanged from here,
+being annotated with more information by other stages.
+
+```clojure
+[{:code "(...)"
+  :form (...)}
+ {:code "(...)"
+  :form (...)}]
+```
+
+You can imagine the above representing all the top-level forms in a namespace.
+
+#### Evaluation attaches a value
+
+```clojure
+[{:code  "(...)"
+  :form  (...)
+  :value {:column-names ... :row-maps ...}}
+ {:code  "(...)"
+  :form  (...)
+  :value {...}}]
+```
+
+#### Kind inference attaches display hints
+
+```clojure
+[{:form  (...)
+  :code  "(...)"
+  :value {:column-names ... :row-maps}
+  :kind  :kind/table}
+ {:code  "(...)"
+  :form  ()
+  :value {...}
+  :kind  :kind/vega-lite}]
+```
+
+* While it sounds desirable to automatically detect the kind always, bear in mind that metadata hinting the kind is
+  desirable so that when there is an error, it can be reported.
+* WARNING: Kinds can be nested! example: `^:kind/table {:rows [^:kind/table {:rows [1 2]]}` so having a `:value` and
+  a `:kind` is insufficient. Either the value should be replaced with a metadata annotated value, or the kind should be
+  a richer version of the value in some other way. On the other hand, the top level kind may still have some use.
+
+#### Kind validation (and parsing)
+
+```clojure
+[{:form   (...)
+  :code   "(...)"
+  :value  {:column-names ... :row-maps}
+  :kind   :kind/table
+  :valid  true
+  :parsed {...}}
+ {:code   "(...)"
+  :form   ()
+  :value  {...}
+  :kindly :kind/vega-lite
+  :valid  false
+  :error  {:message "Bad"
+           :line    34}}]
+```
+
+### The role of Kindly
+
+Tools benefit from having a standard way of passing information about things to display.
+We have already seen what that looks like.
+Kindly defines the tool passing shape (which end users don't need to know about),
+and it also defines the user facing grammar of what things can be displayed.
+End users experience Kindly as a schema for creating data structures that can be visualized.
+
+There is a short list of Kindly grammars:
+
+* hiccup
+* tables
+* plain data structures
+* plots
+* images
+* reagent component (proposed)
+  WARNING: the notebook is not evaluated in the browser, so what can reagent really do?
+  this idea would only really make sense of notebooks that are evaluated in the browser.
+  In such a scenario, this library might only prepare the namespace into parts to be evaluated later.
+* tablecloth datasets
+* markdown
+
+End users have several options for informing tools which grammar they intend to use:
+
+1. Inference: does the data look like one of these?
+2. Explicitly marking a `kind` via metadata
+3. Using Kindly functions to mark `kind` via metadata.
+
+### Composition
+
+There are many tools that compose this way:
+
+```dot
+digraph G {
+    Code -> Kindly
+    Kindly -> Clay
+    Kindly -> Portal
+    Portal -> Calva
+    Portal -> Cursive
+    Portal -> Browser
+    Kindly -> Markdown
+    Markdown -> Quarto
+    Markdown -> Pandoc
+    Quarto -> HTML
+    Quarto -> PDF
+    Quarto -> RevealJS
+    Pandoc -> HTML
+    Pandoc -> PDF
+}
+```
+
+This library concerns itself only with constructing the initial data representation of the code and pairing it with
+values from evaluation.
 
 ## License
 

@@ -1,4 +1,4 @@
-(ns dum.dummy)
+(ns test.basic)
 
 (+ 1 2)
 
