@@ -1,6 +1,5 @@
-(ns scicloj.claykind.kinds)
-
-every-pred
+(ns scicloj.claykind.kinds
+  "Kinds are advice for how to visualize values that will be passed to downstream tools.")
 
 (def primitive?
   (some-fn nil? number? string? symbol? keyword?))
@@ -9,7 +8,7 @@ every-pred
   "Provides advice for a context.
   Advice is a Kindly representation of a value."
   [context]
-  (let [{:keys [value]} context
+  (let [{:keys [value form]} context
         [kind representation]
         (cond
           (primitive? value)
@@ -18,6 +17,11 @@ every-pred
           (coll? value)
           [:kindly/value value]
 
+          (fn? value)
+          [:kindly/function form]
+
+          ;; The default handles Objects that cannot be compared or displayed
+          ;; e.g.: vars
           :default
           [:kindly/value (str value)])]
     (assoc context
@@ -25,7 +29,6 @@ every-pred
       kind representation))
 
   ;; TODO: is this :kind or :kindly/kind ?
-  ;; TODO: vars should be represented as strings for comparison, etc
   ;; perhaps representation is another thing, and it may need some user adjustment
 
   ;; TODO: can we make use of [:kindly/type ...] maybe

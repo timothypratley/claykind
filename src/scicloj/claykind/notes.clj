@@ -1,4 +1,5 @@
 (ns scicloj.claykind.notes
+  "Notes organize contexts by removing whitespace and joining adjacent comment blocks."
   (:require [clojure.string :as str]
             [scicloj.claykind.read :as read]
             [scicloj.claykind.kinds :as kinds]))
