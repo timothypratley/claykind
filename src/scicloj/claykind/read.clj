@@ -6,8 +6,8 @@
             [rewrite-clj.node :as node]))
 
 (defn eval-node
-  "Given an Abstract Syntax Tree node, returns an X.
-  X represent top level form evaluation."
+  "Given an Abstract Syntax Tree node, returns a context.
+  A context represents a top level form evaluation."
   [node]
   (let [tag (node/tag node)
         code (node/string node)]

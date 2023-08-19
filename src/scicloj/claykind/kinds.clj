@@ -5,7 +5,10 @@ every-pred
 (def primitive?
   (some-fn nil? number? string? symbol? keyword?))
 
-(defn infer-kind [context]
+(defn infer-kind
+  "Provides advice for a context.
+  Advice is a Kindly representation of a value."
+  [context]
   (let [{:keys [value]} context
         [kind representation]
         (cond
