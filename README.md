@@ -178,6 +178,18 @@ digraph G {
 This library concerns itself only with constructing the initial data representation of the code and pairing it with
 values from evaluation.
 
+A big challenge in achieving the composition we seek is establishing standards to abide by for tool creators.
+Perhaps we can draw inspiration from HTML strategies.
+
+* Unknown tags render the content of the tags
+* noscript handles situations where functionality is missing
+* css allows fallback tags (if you can't render this kind, then try that kind)
+* anomalies library is interesting for error categorization
+* ring was enough and won
+* adapter to portal
+* portal is not only a tool, it is a specification (could be a kind)
+* notebook writers may wish to configure which viewer to render with
+
 ## License
 
 Copyright © 2023 Scicloj
