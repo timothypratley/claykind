@@ -29,6 +29,9 @@
          ;; TODO: vars should be represented as strings for comparison, etc
          ;; perhaps representation is another thing, and it may need some user adjustment
 
+         ;; TODO: can we make use of [:kindly/type ...] maybe
+         ;; :kindly/representation [:kindly/something ...]
+
          }))))
 
 (defn parse-form [code]
