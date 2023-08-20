@@ -45,44 +45,29 @@ And that tables are tricky
 "}
            {:code         "^:kindly/table
 {:rows [[\"a\" \"b\" \"c\"]]}"
-            :form         {:rows [["a"
-                                   "b"
-                                   "c"]]}
+            :form         {:rows [["a" "b" "c"]]}
             :kind         :kindly/value
-            :kindly/value {:rows [["a"
-                                   "b"
-                                   "c"]]}
-            :value        {:rows [["a"
-                                   "b"
-                                   "c"]]}}
+            :kindly/value {:rows [["a" "b" "c"]]}
+            :value        {:rows [["a" "b" "c"]]}}
            {:code         "^:kindly/table
 {:headers  [:a :b]
  :row-maps [{:a \"a\" :b \"b\"}]}"
-            :form         {:headers  [:a
-                                      :b]
+            :form         {:headers  [:a :b]
                            :row-maps [{:a "a"
                                        :b "b"}]}
             :kind         :kindly/value
-            :kindly/value {:headers  [:a
-                                      :b]
+            :kindly/value {:headers  [:a :b]
                            :row-maps [{:a "a"
                                        :b "b"}]}
-            :value        {:headers  [:a
-                                      :b]
+            :value        {:headers  [:a :b]
                            :row-maps [{:a "a"
                                        :b "b"}]}}
            {:code         "^:kindly/table-matrix
 [[\"a\" \"b\" \"c\"]]"
-            :form         [["a"
-                            "b"
-                            "c"]]
+            :form         [["a" "b" "c"]]
             :kind         :kindly/value
-            :kindly/value [["a"
-                            "b"
-                            "c"]]
-            :value        [["a"
-                            "b"
-                            "c"]]}
+            :kindly/value [["a" "b" "c"]]
+            :value        [["a" "b" "c"]]}
            {:kind           :kindly/comment
             :kindly/comment "We can add things that translate to the existing kindly specs...
 But! Now I have this different thing; SVG images, tables that have double rows.
