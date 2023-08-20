@@ -2,5 +2,15 @@
         org.scicloj/kindly      {:mvn/version "3-alpha8"}
         rewrite-clj/rewrite-clj {:mvn/version "1.1.47"}}
  :aliases
- {:dev {:extra-paths ["notebooks" "tests" "examples"]
-        :extra-deps  {org.clojure/tools.cli {:mvn/version "1.0.219"}}}}}
+ {:dev   {:extra-paths ["notebooks" "test" "examples" "dev"]
+          :extra-deps  {org.clojure/tools.cli {:mvn/version "1.0.219"}}}
+  ;; Run tests with `clojure -M:dev:test`
+  :test  {:extra-paths ["test"]
+          :extra-deps  {io.github.cognitect-labs/test-runner
+                        {:git/tag "v0.5.1" :git/sha "dfb30dd6605cb6c0efc275e1df1736f6e90d4d73"}}
+          :main-opts   ["-m" "cognitect.test-runner"]
+          :exec-fn     cognitect.test-runner.api/test}
+  :build {:extra-paths ["dev"]
+          :extra-deps  {org.clojure/tools.build {:mvn/version "0.9.2"}
+                        slipset/deps-deploy     {:mvn/version "RELEASE"}}
+          :ns-default  build}}}

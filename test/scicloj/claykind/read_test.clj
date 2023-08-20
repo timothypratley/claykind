@@ -1,6 +1,6 @@
 (ns scicloj.claykind.read-test
-  (:require [clojure.test :refer :all])
-  (:require [scicloj.claykind.read :as read]))
+  (:require [clojure.test :refer :all]
+            [scicloj.claykind.read :as read]))
 
 (deftest parse-form-test
   (->> (read/parse-form "(+ 1 2)")

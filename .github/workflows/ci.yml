@@ -1,0 +1,47 @@
+name: claykind CI
+
+on: [push]
+
+jobs:
+
+  clojure:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Prepare Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '8'
+
+      - name: Install Clojure tools
+        uses: DeLaGuardo/setup-clojure@11.0
+        with:
+          cli: latest              # Clojure CLI based on tools.deps
+
+      # Optional step:
+      - name: Cache Clojure dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+            ~/.deps.clj
+          # List all files containing dependencies:
+          key: cljdeps-${{ hashFiles('deps.edn') }}
+          restore-keys: cljdeps-
+
+      - name: Execute tests
+        run: clojure -M:dev:test
+
+# TODO: for this to work: change myusername to a valid Clojars username, generate a token, add it as a secret in github project settings
+#      - name: Deploy
+#        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'org.scicloj/claykind'
+#        env:
+#          CLOJARS_PASSWORD: ${{ secrets.CLOJARSTOKEN }}
+#          CLOJARS_USERNAME: myusername
+#        run: clojure -T:build jar && clojure -T:build deploy

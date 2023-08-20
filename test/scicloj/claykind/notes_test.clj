@@ -1,6 +1,6 @@
 (ns scicloj.claykind.notes-test
-  (:require [clojure.test :refer :all])
-  (:require [scicloj.claykind.notes :as notes]))
+  (:require [clojure.test :refer :all]
+            [scicloj.claykind.notes :as notes]))
 
 (deftest safe-eval-notes-test
   (->> (slurp "notebooks/test/basic.clj")
@@ -27,7 +27,7 @@
             :form         '(defn f [x] (+ x 9))
             :kind         :kindly/value
             :kindly/value "#'test.basic/f"
-            :value        #'test.basic/f}
+            :value        (resolve 'test.basic/f)}
            {:code         "(f 20)"
             :form         '(f 20)
             :kind         :kindly/value
