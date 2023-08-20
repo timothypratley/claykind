@@ -8,6 +8,14 @@
             [rewrite-clj.parser :as parser]
             [rewrite-clj.node :as node]))
 
+(defn ^:dynamic *on-eval-error*
+  "By default, eval errors will be rethrown.
+  Binding *on-eval-error* to nil will cause the error to pass through instead.
+  *on-eval-error* may be bound to a function to provide alternative behavior like warning.
+  When bound to a function the result will be ignored."
+  [context ex]
+  (throw (ex-info "Eval failed" context ex)))
+
 (defn eval-node
   "Given an Abstract Syntax Tree node, returns a context.
   A context represents a top level form evaluation."
@@ -28,10 +36,18 @@
 
       ;; evaluate for value
       (let [form (node/sexpr node)]
-        ;; TODO: maybe infer kind or check for kind metadata
-        {:code         code
-         :form         form
-         :value        (eval form)}))))
+        (try
+          {:code  code
+           :form  form
+           :value (eval form)}
+          (catch Throwable ex
+            (when *on-eval-error*
+              (*on-eval-error* {:code code
+                                :form form}
+                               ex))
+            {:code  code
+             :form  form
+             :error ex}))))))
 
 (defn parse-form [code]
   (-> (parser/parse-string code)

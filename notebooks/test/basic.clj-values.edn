@@ -1,1 +1,1 @@
-[nil 3 #'test.basic/f 29]
+[nil 6 "#'test.basic/f" 29 {:rows [["a" "b" "c"]]} {:row-maps [{:b "b", :a "a"}], :headers [:a :b]} [["a" "b" "c"]]]

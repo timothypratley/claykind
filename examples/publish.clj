@@ -1,11 +1,12 @@
 (ns publish
+  "This example converts any namespace in the `notebooks` directory
+  into a markdown file in the `docs` directory.
+  You could use this to publish a blog that works with markdown,
+  or use Pandoc or Quarto to convert the markdown into HTML."
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.tools.cli :as cli]
-            [scicloj.claykind.notes :as notes])
-  (:import (java.io File)))
-
-(set! *warn-on-reflection* true)
+            [scicloj.claykind.notes :as notes]))
 
 (def cli-options
   [["-d" "--dirs" :default ["notebooks"]]
@@ -13,12 +14,9 @@
    ["-v" "--verbose"]
    ["-h" "--help"]])
 
-(defn clojure-source? [^File file]
-  (boolean
-    (and (.isFile file)
-         (re-matches #".*\.clj[cx]?$" (.getName file)))))
-
-(defn render-md [context]
+(defn render-md
+  "Transform the context into a string"
+  [context]
   (let [{:keys [code form kind value]} context]
     (cond
       (= kind :kindly/comment) (:kindly/comment context)
@@ -29,7 +27,7 @@
            \newline "```" \newline
            "```" \newline "=>" \newline
            (get context kind)
-           \newline "```")
+           \newline "```" \newline)
       :else code)))
 
 (defn target [source extension {:keys [output-dir]}]
@@ -40,42 +38,24 @@
   (spit file content))
 
 (defn notes-to-md
-  "Saves all the values into an edn file"
-  [dirs options]
-  (doseq [dir dirs
-          file (file-seq (io/file dir))
-          :when (clojure-source? file)]
-    (->> (slurp file)
-         (notes/safe-eval-notes)
-         ;; TODO: ways to control order
-         ;;(reverse)
-         (map render-md)
-         (str/join (str \newline \newline))
-         (spit! (target file ".md" options)))))
+  "Creates a markdown file from a notebook"
+  [{:keys [file contexts]} options]
+  (->> contexts
+       ;; TODO: ways to control order
+       ;;(reverse)
+       (map render-md)
+       (str/join \newline)
+       (spit! (target file ".md" options))))
 
-;; TODO: differentiate
-(def render-html render-md)
-
-(defn notes-to-html
-  "Saves all the values into an edn file"
-  [dirs options]
-  (doseq [dir dirs
-          file (file-seq (io/file dir))
-          :when (clojure-source? file)]
-    (->> (slurp file)
-         (notes/safe-eval-notes)
-         ;;(reverse)
-         (map render-html)
-         (str/join (str \newline \newline))
-         (spit! (target file ".html" options)))))
-
-(defn -main [& args]
+(defn -main
+  "Invoke with `clojure -M:dev publish --help` to see options"
+  [& args]
   (let [{:keys [options summary]} (cli/parse-opts args cli-options)
         {:keys [dirs help]} options]
     (if help
       (println summary)
-      (do (notes-to-md dirs options)
-          (notes-to-html dirs options)))))
+      (doseq [notebook (notes/all-notes dirs)]
+        (notes-to-md notebook options)))))
 
 (comment
   (-main))
