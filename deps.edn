@@ -1,6 +1,8 @@
 {:deps {org.clojure/clojure     {:mvn/version "1.11.0"}
         org.scicloj/kindly      {:mvn/version "3-alpha8"}
-        rewrite-clj/rewrite-clj {:mvn/version "1.1.47"}}
+        rewrite-clj/rewrite-clj {:mvn/version "1.1.47"}
+        ;; TODO: should be optional
+        org.babashka/sci        {:mvn/version "0.8.40"}}
  :aliases
  {
   ;; Run examples with `clojure -M:dev -m publish`

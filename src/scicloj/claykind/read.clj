@@ -6,7 +6,8 @@
             [clojure.tools.reader.reader-types]
             [clojure.string :as str]
             [rewrite-clj.parser :as parser]
-            [rewrite-clj.node :as node]))
+            [rewrite-clj.node :as node]
+            [sci.core :as sci]))
 
 (defn ^:dynamic *on-eval-error*
   "By default, eval errors will be rethrown.
@@ -19,9 +20,10 @@
 (defn eval-node
   "Given an Abstract Syntax Tree node, returns a context.
   A context represents a top level form evaluation."
-  [node]
+  [node options]
   (let [tag (node/tag node)
-        code (node/string node)]
+        code (node/string node)
+        {:keys [babashka sci-ctx]} options]
     (case tag
       (:newline :whitespace)
       {:code code
@@ -39,7 +41,9 @@
         (try
           {:code  code
            :form  form
-           :value (eval form)}
+           :value (if babashka
+                    (sci/eval-form form sci-ctx)
+                    (eval form))}
           (catch Throwable ex
             (when *on-eval-error*
               (*on-eval-error* {:code code
@@ -49,11 +53,15 @@
              :form  form
              :error ex}))))))
 
-(defn parse-form [code]
-  (-> (parser/parse-string code)
-      (eval-node)))
+(defn parse-form
+  ([code] (parse-form code {}))
+  ([code options]
+   (-> (parser/parse-string code)
+       (eval-node options))))
 
-(defn parse-forms [code]
-  (->> (parser/parse-string-all code)
-       (:children)
-       (map eval-node)))
+(defn parse-forms
+  ([code] (parse-forms {}))
+  ([code options]
+   (->> (parser/parse-string-all code)
+        (:children)
+        (map #(eval-node % options)))))
