@@ -139,10 +139,7 @@ There is a short list of Kindly grammars:
 * plain data structures
 * plots
 * images
-* reagent component (proposed)
-  WARNING: the notebook is not evaluated in the browser, so what can reagent really do?
-  this idea would only really make sense of notebooks that are evaluated in the browser.
-  In such a scenario, this library might only prepare the namespace into parts to be evaluated later.
+* reagent component
 * tablecloth datasets
 * markdown
 

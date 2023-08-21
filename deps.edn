@@ -6,7 +6,8 @@
   ;; Run examples with `clojure -M:dev -m publish`
   :dev   {:extra-paths ["notebooks" "test" "examples" "dev"]
           :extra-deps  {org.clojure/tools.cli {:mvn/version "1.0.219"}
-                        djblue/portal         {:mvn/version "0.46.0"}}}
+                        djblue/portal         {:mvn/version "0.46.0"}
+                        metosin/malli         {:mvn/version "0.11.0"}}}
   ;; Run tests with `clojure -M:dev:test`
   :test  {:extra-paths ["test"]
           :extra-deps  {io.github.cognitect-labs/test-runner
