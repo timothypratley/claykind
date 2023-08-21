@@ -60,7 +60,7 @@
        (eval-node options))))
 
 (defn parse-forms
-  ([code] (parse-forms {}))
+  ([code] (parse-forms code {}))
   ([code options]
    (->> (parser/parse-string-all code)
         (:children)

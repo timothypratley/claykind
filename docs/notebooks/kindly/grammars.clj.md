@@ -175,7 +175,7 @@ It is nice to be able to use "send form to Portal" or similar, can this be done 
 ```
 ```
 =>
-BufferedImage@71e89a26: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@4cd9ee2c transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3
+BufferedImage@d2c8c3b: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@519f1a7d transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3
 ```
 
 Users may benefit from a shorthand helper function `(image "claykind.png")`.
