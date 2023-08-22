@@ -10,7 +10,7 @@
           :extra-deps  {org.clojure/tools.cli      {:mvn/version "1.0.219"}
                         djblue/portal              {:mvn/version "0.46.0"}
                         metosin/malli              {:mvn/version "0.11.0"}
-                        org.scicloj/kind-portal    {:mvn/version "1-alpha3"}
+                        org.scicloj/kind-portal    {:mvn/version "1-alpha4"}
                         org.scicloj/kindly-default {:mvn/version "1-alpha10"}}}
   ;; Run tests with `clojure -M:dev:test`
   :test  {:extra-paths ["test"]
