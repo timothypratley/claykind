@@ -81,9 +81,7 @@
     options
     (assoc options :evaluator
                    (if (some-> (first nodes) (babashka?))
-                     (do
-                       (println "Detected Sci")
-                       :sci)
+                     :sci
                      :clojure))))
 
 (defn parse-forms
@@ -93,4 +91,7 @@
    (let [ast (parser/parse-string-all code)
          top-level-nodes (:children ast)
          options (detect-evaluator options top-level-nodes)]
-     (map #(eval-node % options) top-level-nodes))))
+     (map #(eval-node % options)
+          (if (= (:evaluator options) :sci)
+            (rest top-level-nodes)
+            top-level-nodes)))))

@@ -24,7 +24,6 @@
   "Transform the context into a string"
   [context]
   (let [{:keys [code kind value]} context]
-    (prn context)
     (cond
       (= kind :kind/comment) (:kindly/comment context)
       ;; TODO: should always have a form if not a comment
