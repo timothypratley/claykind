@@ -1,7 +1,14 @@
+```clojure
 (ns kindly.grammars
   (:require [clojure.java.io :as io]
             [malli.core :as ma])
   (:import (javax.imageio ImageIO)))
+```
+```
+=>
+
+```
+
 # Kindly grammars
 
 Notebooks and rich REPLs visualize data and objects.
@@ -175,7 +182,7 @@ It is nice to be able to use "send form to Portal" or similar, can this be done 
 ```
 ```
 =>
-BufferedImage@d2c8c3b: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@519f1a7d transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3
+BufferedImage@7e8c465d: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@6d5ef5ee transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3
 ```
 
 Users may benefit from a shorthand helper function `(image "claykind.png")`.

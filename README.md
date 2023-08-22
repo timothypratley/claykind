@@ -1,4 +1,4 @@
-# claykind (or note-kind)
+# claykind (or read-kind) (or note-kind)
 
 <img src="claykind.png" alt="claykind" align="right"/>
 
@@ -186,6 +186,14 @@ Perhaps we can draw inspiration from HTML strategies.
 * adapter to portal
 * portal is not only a tool, it is a specification (could be a kind)
 * notebook writers may wish to configure which viewer to render with
+
+## TODO
+
+* Babashka notebooks
+* Better Markdown
+* Portal
+* Kindly grammars
+
 
 ## License
 

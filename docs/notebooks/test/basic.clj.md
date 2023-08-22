@@ -1,4 +1,22 @@
+```clojure
 (ns test.basic)
+```
+```
+=>
+
+```
+
+```clojure
+^{:kindly/kind :kind/hiccup}
+[:ul
+ [:li "first thing"]
+ [:li "another thing"]]
+```
+```
+=>
+[:ul [:li "first thing"] [:li "another thing"]]
+```
+
 # section 1
 
  hello, welcome to my wonderful test notebook
@@ -81,7 +99,7 @@ Might want to annotate this in the namespace itself somehow,
 perhaps metadata on the `ns` form?
 And even on individual parts? Bringing them to the top or bottom or setting their position.
 
-Here is a markdown table
+Here is a Markdown table
 
 |  |  |  |
 |--|--|--|

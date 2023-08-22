@@ -4,9 +4,12 @@
   This might be useful for generating a test that only cares if the computed result was changed,
   perhaps by an upstream dependency affecting the result we calculated."
   (:require [clojure.tools.cli :as cli]
-            [scicloj.claykind.notes :as notes]))
+            [scicloj.claykind.notes :as notes]
+            [scicloj.kindly-default.v1.api :as kindly]))
 
 (set! *warn-on-reflection* true)
+
+(kindly/setup!)
 
 (def cli-options
   [["-d" "--dirs" :default ["notebooks"]]

@@ -6,27 +6,34 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.tools.cli :as cli]
-            [scicloj.claykind.notes :as notes]))
+            [scicloj.claykind.notes :as notes]
+            [scicloj.claykind.read :as read]
+            [scicloj.kindly-default.v1.api :as kindly]))
+
+(kindly/setup!)
 
 (def cli-options
   [["-d" "--dirs" :default ["notebooks"]]
    ["-o" "--output-dir" :default "docs"]
+   ["-e" "--evaluator" :default :clojure
+    :validate [read/evaluators (str "must be one of " read/evaluators)]]
    ["-v" "--verbose"]
    ["-h" "--help"]])
 
 (defn render-md
   "Transform the context into a string"
   [context]
-  (let [{:keys [code form kind value]} context]
+  (let [{:keys [code kind value]} context]
+    (prn context)
     (cond
-      (= kind :kindly/comment) (:kindly/comment context)
+      (= kind :kind/comment) (:kindly/comment context)
       ;; TODO: should always have a form if not a comment
-      (and form kind value)
+      (contains? context :value)
       (str "```clojure" \newline
            code
            \newline "```" \newline
            "```" \newline "=>" \newline
-           (get context kind)
+           value
            \newline "```" \newline)
       :else code)))
 

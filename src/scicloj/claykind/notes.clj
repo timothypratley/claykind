@@ -7,7 +7,7 @@
   (:import (java.io File)))
 
 (defn join-comment-blocks [comment-blocks]
-  {:kind           :kindly/comment
+  {:kind    :kind/comment
    :kindly/comment (-> (map :kindly/comment comment-blocks)
                        (str/join))})
 
@@ -16,7 +16,7 @@
   (comp
     ;; infer kinds
     (map (fn [context]
-           (if (-> context :kind #{:kindly/comment :kindly/whitespace})
+           (if (-> context :kind #{:kind/comment :kind/whitespace})
              context
              (kinds/infer-kind context))))
     ;; join comment blocks
@@ -26,7 +26,7 @@
                 [(join-comment-blocks part)]
                 part)))
     ;; remove whitespace
-    (remove (comp #{:kindly/whitespace} :kind))))
+    (remove (comp #{:kind/whitespace} :kind))))
 
 (defn eval-notes [code]
   (into [] notebook-xform (read/parse-forms code)))
