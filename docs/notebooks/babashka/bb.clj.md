@@ -1,49 +1,12 @@
-/usr/bin/env bb
-
 # Babashka notebooks
 
 Babashka is, by design, as close to Clojure as possible.
 
-```clojure
-(def now (java.time.ZonedDateTime/now))
-```
-```
-=>
-#'test.basic/now
-```
-
-```clojure
-(def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))
-```
-```
-=>
-#'test.basic/LA-timezone
-```
-
-```clojure
-(def LA-time (.withZoneSameInstant now LA-timezone))
-```
-```
-=>
-#'test.basic/LA-time
-```
-
-```clojure
-(def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
-```
-```
-=>
-#'test.basic/pattern
-```
-
-```clojure
-(println (.format LA-time pattern))
-```
-```
-=>
-
-```
-
+clojure.lang.ExceptionInfo: Could not resolve symbol: java.time.ZonedDateTime/now {:type :sci/error, :line nil, :column nil, :file nil, :phase "analysis"}
+clojure.lang.ExceptionInfo: Could not resolve symbol: java.time.ZoneId/of {:type :sci/error, :line nil, :column nil, :file nil, :phase "analysis"}
+clojure.lang.ExceptionInfo: Method withZoneSameInstant on class sci.impl.vars.SciUnbound not allowed! {:type :sci/error, :line nil, :column nil, :file nil}
+clojure.lang.ExceptionInfo: Could not resolve symbol: java.time.format.DateTimeFormatter/ofPattern {:type :sci/error, :line nil, :column nil, :file nil, :phase "analysis"}
+clojure.lang.ExceptionInfo: Method format on class sci.impl.vars.SciUnbound not allowed! {:type :sci/error, :line nil, :column nil, :file nil}
 The notable differences are:
 
 * Code is evaluated with [Sci](https://github.com/babashka/SCI)

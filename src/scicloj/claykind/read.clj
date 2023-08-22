@@ -21,7 +21,8 @@
                   context
                   ex)))
 
-(def eval-ctx (atom (sci/init {})))
+;; TODO: should only create a sci context when the evaluator is sci
+(def eval-ctx (sci/init {}))
 
 (defn eval-node
   "Given an Abstract Syntax Tree node, returns a context.
@@ -39,8 +40,7 @@
       :comment
       {:code           code
        :kind           :kind/comment
-       ;; remove leading semicolons and one non-newline space if present.
-       ;; TODO: should remove #!, but maybe
+       ;; remove leading semicolons or shebangs, and one non-newline space if present.
        :kindly/comment (str/replace-first code #"^(;|#!)*[^\S\r\n]?" "")}
 
       ;; evaluate for value
@@ -49,7 +49,7 @@
           {:code  code
            :form  form
            :value (if (= evaluator :sci)
-                    (swap! eval-ctx sci/eval-form form)
+                    (sci/eval-form eval-ctx form)
                     ;; TODO: should limit eval of Clojure to a context
                     (eval form))}
           (catch Throwable ex
@@ -74,15 +74,7 @@
 
 (defn babashka? [node]
   (and (= (node/tag node) :comment)
-       (str/starts-with? (node/string node) "/usr/bin/env bb")))
-
-(defn detect-evaluator [options nodes]
-  (if (:evaluator options)
-    options
-    (assoc options :evaluator
-                   (if (some-> (first nodes) (babashka?))
-                     :sci
-                     :clojure))))
+       (str/starts-with? (node/string node) "#!/usr/bin/env bb")))
 
 (defn parse-forms
   ([code] (parse-forms code {}))
@@ -90,8 +82,9 @@
    (validate-options options)
    (let [ast (parser/parse-string-all code)
          top-level-nodes (:children ast)
-         options (detect-evaluator options top-level-nodes)]
+         b (some-> (first top-level-nodes) (babashka?))
+         options (cond-> options b (assoc :evaluator :sci))]
      (map #(eval-node % options)
-          (if (= (:evaluator options) :sci)
+          (if b
             (rest top-level-nodes)
             top-level-nodes)))))

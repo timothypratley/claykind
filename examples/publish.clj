@@ -23,10 +23,10 @@
 (defn render-md
   "Transform the context into a string"
   [context]
-  (let [{:keys [code kind value]} context]
+  (let [{:keys [code kind value error]} context]
     (cond
       (= kind :kind/comment) (:kindly/comment context)
-      ;; TODO: should always have a form if not a comment
+      error (str error)
       (contains? context :value)
       (str "```clojure" \newline
            code
