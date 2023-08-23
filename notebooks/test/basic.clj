@@ -24,6 +24,8 @@
 ^:kind/hiccup
 [:h1 "Hello world"]
 
+[(range 20) (reverse (range 20))]
+
 ;; We can add things that translate to the existing kindly specs...
 ;; But! Now I have this different thing; SVG images, tables that have double rows.
 ;; Pushing handling code out the display tools

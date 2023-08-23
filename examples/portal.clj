@@ -13,9 +13,15 @@
            {:launcher :vs-code})
       {}))
 
-(def portal (swap! kps/*portal-session p/open (portal-options)))
+(def portal
+  (swap! kps/*portal-session p/open (portal-options)))
 
-(def basic-notebook
-  (read-kinds/notebook "notebooks/test/basic.clj"))
+(defn show
+  "Suitable to be bound to a REPL Command that submits the current filename."
+  [filename]
+  (->> (read-kinds/notebook filename)
+       (reverse)
+       (mapv kp/kindly-submit-context)))
 
-(mapv kp/kindly-submit-context (reverse basic-notebook))
+(comment
+  (show "notebooks/test/basic.clj"))

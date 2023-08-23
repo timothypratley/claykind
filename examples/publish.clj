@@ -4,13 +4,11 @@
   You could use this to publish a blog that works with markdown,
   or use Pandoc or Quarto to convert the markdown into HTML."
   (:require [clojure.java.io :as io]
+            [clojure.pprint :as pprint]
             [clojure.string :as str]
             [clojure.tools.cli :as cli]
             [scicloj.claykind.api :as api]
-            [scicloj.claykind.read :as read]
-            [scicloj.kindly-default.v1.api :as kindly]))
-
-(kindly/setup!)
+            [scicloj.claykind.read :as read]))
 
 (def cli-options
   [["-d" "--dirs" :default ["notebooks"]]
@@ -20,20 +18,31 @@
    ["-v" "--verbose"]
    ["-h" "--help"]])
 
+(defn message [msg]
+  (str ">" msg \newline))
+
+(defn clojure-code [{:keys [code error value]}]
+  (str "```clojure" \newline
+       code \newline
+       (when value
+         (str \newline
+              ";=> " (->> (pprint/pprint value)
+                         (with-out-str)
+                         (str/split-lines)
+                         (str/join (str \newline ";   "))) \newline))
+       "```" \newline
+       (when error
+         (str \newline
+              (message error)))))
+
 (defn render-md
-  "Transform the context into a string"
-  [context]
-  (let [{:keys [code kind value error]} context]
+  "Transforms advice into a Markdown string"
+  [advice]
+  (let [{:keys [code kind]} advice]
     (cond
-      (= kind :kind/comment) (:kindly/comment context)
-      error (str error)
-      (contains? context :value)
-      (str "```clojure" \newline
-           code
-           \newline "```" \newline
-           "```" \newline "=>" \newline
-           value
-           \newline "```" \newline)
+      (= kind :kind/comment) (:kindly/comment advice)
+      (or (contains? advice :value)
+          (contains? advice :error)) (clojure-code advice)
       :else code)))
 
 (defn target [source extension {:keys [output-dir]}]

@@ -129,7 +129,7 @@
 ;; Of particular interest is the display of mathematical equations,
 ;; which often require plugin support.
 
-;; $$ f(x) = x^2 $$
+;; $ f(x) = x^2 $
 
 ;; Should render as an equation.
 

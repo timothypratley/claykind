@@ -4,10 +4,6 @@
             [malli.core :as ma])
   (:import (javax.imageio ImageIO)))
 ```
-```
-=>
-
-```
 
 # Kindly grammars
 
@@ -28,10 +24,8 @@ as you can represent pretty much anything that can display in a browser.
   [:table
    [:tr [:td 1] [:td 2]]
    [:tr [:td 3] [:td 4]]])
-```
-```
-=>
-#'kindly.grammars/hiccup-table
+
+;=> #'kindly.grammars/hiccup-table
 ```
 
 The downside of HTML is that users need to expend considerable effort reshaping their data into views.
@@ -51,28 +45,45 @@ Hiccup has a Malli schema that can be used to validate and parse:
                                               [:number number?]
                                               [:text string?]]]]}}
    "hiccup"])
-```
-```
-=>
-#'kindly.grammars/Hiccup
+
+;=> #'kindly.grammars/Hiccup
 ```
 
 Hiccup does not check for the creation of valid HTML; tags and attributes are not checked.
 
 ```clojure
 (def parse-hiccup (ma/parser Hiccup))
-```
-```
-=>
-#'kindly.grammars/parse-hiccup
+
+;=> #'kindly.grammars/parse-hiccup
 ```
 
 ```clojure
 (parse-hiccup hiccup-table)
-```
-```
-=>
-[:node {:name :table, :props nil, :children [[:node {:name :tr, :props nil, :children [[:node {:name :td, :props nil, :children [[:primitive [:number 1]]]}] [:node {:name :td, :props nil, :children [[:primitive [:number 2]]]}]]}] [:node {:name :tr, :props nil, :children [[:node {:name :td, :props nil, :children [[:primitive [:number 3]]]}] [:node {:name :td, :props nil, :children [[:primitive [:number 4]]]}]]}]]}]
+
+;=> [:node
+;    {:name :table,
+;     :props nil,
+;     :children
+;     [[:node
+;       {:name :tr,
+;        :props nil,
+;        :children
+;        [[:node
+;          {:name :td, :props nil, :children [[:primitive [:number 1]]]}]
+;         [:node
+;          {:name :td,
+;           :props nil,
+;           :children [[:primitive [:number 2]]]}]]}]
+;      [:node
+;       {:name :tr,
+;        :props nil,
+;        :children
+;        [[:node
+;          {:name :td, :props nil, :children [[:primitive [:number 3]]]}]
+;         [:node
+;          {:name :td,
+;           :props nil,
+;           :children [[:primitive [:number 4]]]}]]}]]}]
 ```
 
 ## Tables
@@ -84,30 +95,24 @@ vectors of vectors, vectors of maps, Tablecloth datasets, or maybe something els
 ^:kind/table
 {:headers     []
  :row-vectors []}
-```
-```
-=>
-{:headers [], :row-vectors []}
+
+;=> {:headers [], :row-vectors []}
 ```
 
 ```clojure
 ^:kind/table
 {:headers     []
  :row-maps []}
-```
-```
-=>
-{:row-maps [], :headers []}
+
+;=> {:row-maps [], :headers []}
 ```
 
 ```clojure
 ^:kind/table
 [[1 2]
  [3 4]]
-```
-```
-=>
-[[1 2] [3 4]]
+
+;=> [[1 2] [3 4]]
 ```
 
 It would be convenient to allow users several options for table inputs,
@@ -116,18 +121,14 @@ Perhaps this can be achieved with a shorthand helper?
 
 ```clojure
 '(tabulate values)
-```
-```
-=>
-(tabulate values)
+
+;=> (tabulate values)
 ```
 
 ```clojure
 '(tabulate headers values)
-```
-```
-=>
-(tabulate headers values)
+
+;=> (tabulate headers values)
 ```
 
 Possibly a multimethod (with a row multimethod as well).
@@ -138,10 +139,8 @@ Tools should be encouraged to accept a standardized data shape defined by a sche
 (def Table
   [:schema {:registry {"table" ['...]}}
    "table"])
-```
-```
-=>
-#'kindly.grammars/Table
+
+;=> #'kindly.grammars/Table
 ```
 
 ## Plots
@@ -152,10 +151,8 @@ Two popular grammars for plotting are Vega and ggplot2.
 ```clojure
 ^:kind/vega
 {}
-```
-```
-=>
-{}
+
+;=> {}
 ```
 
 Vega has json-schemas available which are comprehensive.
@@ -179,10 +176,8 @@ It is nice to be able to use "send form to Portal" or similar, can this be done 
 
 ```clojure
 (ImageIO/read (io/file "claykind.png"))
-```
-```
-=>
-BufferedImage@3201aadd: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@5b265379 transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3
+
+;=> #object[java.awt.image.BufferedImage 0x69a12179 "BufferedImage@69a12179: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@17c4dcc6 transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3"]
 ```
 
 Users may benefit from a shorthand helper function `(image "claykind.png")`.
@@ -208,7 +203,7 @@ Users probably don't want to have to think too much about this though.
 Of particular interest is the display of mathematical equations,
 which often require plugin support.
 
-$$ f(x) = x^2 $$
+$ f(x) = x^2 $
 
 Should render as an equation.
 
@@ -218,10 +213,8 @@ We might need to construct Markdown programmatically.
 ```clojure
 ^:kindly/markdown
 (str "## This... is... " :Markdown)
-```
-```
-=>
-## This... is... :Markdown
+
+;=> "## This... is... :Markdown"
 ```
 
 ## Data
@@ -231,10 +224,8 @@ No grammar is necessary for primitives and collections.
 ```clojure
 {:this #{"is"}
  'data [1 2 3 nil]}
-```
-```
-=>
-{:this #{"is"}, data [1 2 3 nil]}
+
+;=> {:this #{"is"}, data [1 2 3 nil]}
 ```
 
 One challenge is when the data is very large.

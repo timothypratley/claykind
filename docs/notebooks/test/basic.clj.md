@@ -1,10 +1,6 @@
 ```clojure
 (ns test.basic)
 ```
-```
-=>
-
-```
 
 # section 1
 
@@ -12,10 +8,8 @@
 
 ```clojure
 (+ 1 2 3)
-```
-```
-=>
-6
+
+;=> 6
 ```
 
 ```clojure
@@ -23,18 +17,14 @@
   (+ x                                                      ; let's do some addition
      ;; I like addition
      9))
-```
-```
-=>
-#'test.basic/f
+
+;=> #'test.basic/f
 ```
 
 ```clojure
 (f 20)
-```
-```
-=>
-29
+
+;=> 29
 ```
 
 # section 2
@@ -48,10 +38,15 @@ And that you can do HTML?
 ```clojure
 ^:kind/hiccup
 [:h1 "Hello world"]
+
+;=> [:h1 "Hello world"]
 ```
-```
-=>
-[:h1 "Hello world"]
+
+```clojure
+[(range 20) (reverse (range 20))]
+
+;=> [(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19)
+;    (19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0)]
 ```
 
 We can add things that translate to the existing kindly specs...
