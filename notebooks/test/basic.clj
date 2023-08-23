@@ -1,10 +1,5 @@
 (ns test.basic)
 
-^{:kindly/kind :kind/hiccup}
-[:ul
- [:li "first thing"]
- [:li "another thing"]]
-
 ;; # section 1
 ;;
 ;;  hello, welcome to my wonderful test notebook
@@ -24,17 +19,10 @@
 ;;
 ;;     That codeblocks can exist inside comments?
 ;;
-;; And that tables are tricky
+;; And that you can do HTML?
 
-^:kindly/table
-{:rows [["a" "b" "c"]]}
-
-^:kindly/table
-{:headers  [:a :b]
- :row-maps [{:a "a" :b "b"}]}
-
-^:kindly/table-matrix
-[["a" "b" "c"]]
+^:kind/hiccup
+[:h1 "Hello world"]
 
 ;; We can add things that translate to the existing kindly specs...
 ;; But! Now I have this different thing; SVG images, tables that have double rows.

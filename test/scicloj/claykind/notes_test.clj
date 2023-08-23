@@ -1,8 +1,8 @@
 (ns scicloj.claykind.notes-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.java.io :as io]
+            [clojure.test :refer :all]
             [scicloj.claykind.notes :as notes]))
 
 (deftest safe-eval-notes-test
-  (->> (slurp "notebooks/test/basic.clj")
-       (notes/safe-eval-notes)
+  (->> (notes/safe-read-notes (io/file "notebooks/test/basic.clj"))
        (is)))

@@ -6,17 +6,6 @@
 
 ```
 
-```clojure
-^{:kindly/kind :kind/hiccup}
-[:ul
- [:li "first thing"]
- [:li "another thing"]]
-```
-```
-=>
-[:ul [:li "first thing"] [:li "another thing"]]
-```
-
 # section 1
 
  hello, welcome to my wonderful test notebook
@@ -54,34 +43,15 @@ What if I told you
 
     That codeblocks can exist inside comments?
 
-And that tables are tricky
+And that you can do HTML?
 
 ```clojure
-^:kindly/table
-{:rows [["a" "b" "c"]]}
+^:kind/hiccup
+[:h1 "Hello world"]
 ```
 ```
 =>
-{:rows [["a" "b" "c"]]}
-```
-
-```clojure
-^:kindly/table
-{:headers  [:a :b]
- :row-maps [{:a "a" :b "b"}]}
-```
-```
-=>
-{:row-maps [{:b "b", :a "a"}], :headers [:a :b]}
-```
-
-```clojure
-^:kindly/table-matrix
-[["a" "b" "c"]]
-```
-```
-=>
-[["a" "b" "c"]]
+[:h1 "Hello world"]
 ```
 
 We can add things that translate to the existing kindly specs...

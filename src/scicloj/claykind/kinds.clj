@@ -1,21 +1,12 @@
 (ns scicloj.claykind.kinds
-  "Kinds are advice for how to visualize values that will be passed to downstream tools."
-  (:require [scicloj.kindly.v3.api :as kind]))
+  "Kinds are advice for how to visualize values that will be passed to downstream tools.
+  If no kinds have been configured, uses kindly-default."
+  (:require [scicloj.kindly.v3.api :as kind]
+            [scicloj.kindly-default.v1.api :as kd]))
 
-(comment
-  (require 'scicloj.kindly-default.v1.api)
-  (scicloj.kindly-default.v1.api/setup!)
-  (kind/advice {:value [:ul
-                          [:li "hello"]
-                          [:li "there"]]})
-  (def advices
-    (kind/advice {:value ^{:kindly/kind :kind/hiccup} [:ul
-                                                         [:li "hello"]
-                                                         [:li "there"]]}))
-  (require '[scicloj.kind-portal.v1.api :as kp])
-  (kp/kindly-submit-context (first advices))
-
-  )
+;; If users forget to set up advisors, let's use kindly-default
+(when (empty? @kind/*advisors)
+  (kd/setup!))
 
 (defn infer-kind
   "Provides advice for a context.

@@ -1,35 +1,21 @@
 (ns portal
   "This example demonstrates sending a notebook to Portal"
-  (:require [scicloj.claykind.notes :as notes]
+  (:require [clojure.java.io :as io]
+            [scicloj.claykind.api :as read-kinds]
             [scicloj.kind-portal.v1.api :as kp]
-            [scicloj.kindly.v3.api :as kind]
-            [scicloj.kindly-default.v1.api :as kindly]
+            [scicloj.kind-portal.v1.session :as kps]
             [portal.api :as p]))
 
-(kindly/setup!)
-(kp/open-if-needed)
+(defn portal-options []
+  (or (and (.exists (io/file ".portal" "intellij.edn"))
+           {:launcher :intellij})
+      (and (.exists (io/file ".portal" "vs-code.edn"))
+           {:launcher :vs-code})
+      {}))
 
-;; TODO: support plugins
-(comment
-  (def p (p/open {:launcher :vs-code}))
-  (def p (p/open {:launcher :intellij})))
-
-(add-tap #'p/submit)
-(tap> :hello)
-(p/clear)
+(def portal (swap! kps/*portal-session p/open (portal-options)))
 
 (def basic-notebook
-  (-> (slurp "notebooks/test/basic.clj")
-      (notes/safe-eval-notes)))
+  (read-kinds/notebook "notebooks/test/basic.clj"))
 
-(kp/kindly-submit-context (second basic-notebook))
-
-(run! kp/kindly-submit-context basic-notebook)
-(kp/kindly-submit-context (first (kind/advice {:value basic-notebook})))
-(tap> basic-notebook)
-
-(def md
-  ^{:kindly/kind :kind/md}
-  ["# Header"
-   "some text"])
-(kp/kindly-submit-context (first (kind/advice {:value md})))
+(mapv kp/kindly-submit-context (reverse basic-notebook))

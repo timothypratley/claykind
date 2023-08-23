@@ -6,7 +6,7 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.tools.cli :as cli]
-            [scicloj.claykind.notes :as notes]
+            [scicloj.claykind.api :as api]
             [scicloj.claykind.read :as read]
             [scicloj.kindly-default.v1.api :as kindly]))
 
@@ -45,9 +45,9 @@
 
 (defn notes-to-md
   "Creates a markdown file from a notebook"
-  [{:keys [file contexts]} options]
-  (->> contexts
-       ;; TODO: ways to control order
+  [{:keys [file advices]} options]
+  (->> advices
+       ;; TODO: ways to control order... sort by metadata?
        ;;(reverse)
        (map render-md)
        (str/join \newline)
@@ -60,7 +60,7 @@
         {:keys [dirs help]} options]
     (if help
       (println summary)
-      (doseq [notebook (notes/all-notes dirs)]
+      (doseq [notebook (api/all-notebooks dirs)]
         (notes-to-md notebook options)))))
 
 (comment

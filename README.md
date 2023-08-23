@@ -1,18 +1,19 @@
-# claykind (or read-kind) (or note-kind)
+# read-kinds (or claykind) (or note-kinds)
 
 <img src="claykind.png" alt="claykind" align="right"/>
 
-A tiny library to produce [Kindly](https://scicloj.github.io/kindly/) expressions from Clojure source code.
+A tiny library to produce [Kindly](https://scicloj.github.io/kindly/) advice from notebooks expressed as Clojure namespaces.
+Kindly advice informs visualization tools how to display code and values.
 This library is intended for use by literate programming tools
 such as [Clay](https://github.com/scicloj/clay) which produce documents from code.
 
 ```
-Code -> Kindly-spec (what to display)
+Clojure namespace -> Kindly advice (what to display)
 ```
 
 ## Status
 
-Alpha. Subject to change.
+Pre alpha. Subject to change.
 
 ## Usage
 
@@ -132,6 +133,11 @@ Kindly defines the tool passing shape (which end users don't need to know about)
 and it also defines the user facing grammar of what things can be displayed.
 End users experience Kindly as a schema for creating data structures that can be visualized.
 
+Kindly abstracts inference.
+Kindly abstracts rendering.
+Imagine a blog post without any tool specific annotations,
+that can generate Markdown, HTML, and be viewed in an IDE.
+
 There is a short list of Kindly grammars:
 
 * hiccup
@@ -148,6 +154,13 @@ End users have several options for informing tools which grammar they intend to 
 1. Inference: does the data look like one of these?
 2. Explicitly marking a `kind` via metadata
 3. Using Kindly functions to mark `kind` via metadata.
+
+### The importance of Kindly plugins
+
+Advice in itself may not be enough for the visualization tool to work with,
+as it may not be designed with Kindly in mind.
+In such cases, plugins exist to translate grammars.
+See kind-portal as an example.
 
 ### Composition
 
