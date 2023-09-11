@@ -4,7 +4,7 @@
   This might be useful for generating a test that only cares if the computed result was changed,
   perhaps by an upstream dependency affecting the result we calculated."
   (:require [clojure.tools.cli :as cli]
-            [scicloj.claykind.notes :as notes]))
+            [scicloj.read-kinds.notes :as notes]))
 
 (set! *warn-on-reflection* true)
 

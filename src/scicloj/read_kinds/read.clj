@@ -1,4 +1,4 @@
-(ns scicloj.claykind.read
+(ns scicloj.read-kinds.read
   "Convert code into contexts.
   Contexts are maps that contain top-level forms and their evaluated value,
   which will be further annotated with more information."

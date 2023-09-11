@@ -1,0 +1,39 @@
+<div><pre><code>&quot;(ns test.basic)&quot;</code></pre>nil</div>
+<div><pre><code>nil</code></pre><p># section 1
+
+ hello, welcome to my wonderful test notebook
+</p></div>
+<div><pre><code>&quot;(+ 1 2 3)&quot;</code></pre>6</div>
+<div><pre><code>&quot;(defn f [x]\n  (+ x                                                      ; let&apos;s do some addition\n     ;; I like addition\n     9))&quot;</code></pre><div>VAR#&apos;test.basic/f</div></div>
+<div><pre><code>&quot;(f 20)&quot;</code></pre>29</div>
+<div><pre><code>nil</code></pre><p># section 2
+</p></div>
+<div><pre><code>nil</code></pre><p>What if I told you
+
+    That codeblocks can exist inside comments?
+
+And that you can do HTML?
+</p></div>
+<div><pre><code>&quot;^:kind/hiccup\n[:h1 \&quot;Hello world\&quot;]&quot;</code></pre><div><div>Unimplemented: <code>:kind/hiccup</code></div><pre><code>[:h1 &quot;Hello world&quot;]</code></pre></div></div>
+<div><pre><code>&quot;[(range 20) (reverse (range 20))]&quot;</code></pre><div><>(19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0)</></div></div>
+<div><pre><code>nil</code></pre><p>We can add things that translate to the existing kindly specs...
+But! Now I have this different thing; SVG images, tables that have double rows.
+Pushing handling code out the display tools
+The categories of features
+</p></div>
+<div><pre><code>nil</code></pre><p>Notice that there is only whitespace between this comment and the previous one,
+and that the whitespace was preserved in the markdown. Wonderful!
+</p></div>
+<div><pre><code>nil</code></pre><p>Possible feature: Order of evaluation
+present the last form first!
+Just reverse the contexts.
+Might want to annotate this in the namespace itself somehow,
+perhaps metadata on the `ns` form?
+And even on individual parts? Bringing them to the top or bottom or setting their position.
+
+Here is a Markdown table
+
+|  |  |  |
+|--|--|--|
+| &quot;a&quot; | &quot;b&quot; | &quot;c&quot; |
+</p></div>

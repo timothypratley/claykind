@@ -1,4 +1,4 @@
-(ns publish
+(ns scicloj.clay.publish
   "This example converts any namespace in the `notebooks` directory
   into a markdown file in the `docs` directory.
   You could use this to publish a blog that works with markdown,
@@ -7,8 +7,11 @@
             [clojure.pprint :as pprint]
             [clojure.string :as str]
             [clojure.tools.cli :as cli]
-            [scicloj.claykind.api :as api]
-            [scicloj.claykind.read :as read]))
+            [scicloj.read-kinds.api :as api]
+            [scicloj.read-kinds.read :as read]
+            [scicloj.clay.markdown :as md]
+            [scicloj.clay.html :as html]
+            ))
 
 (def cli-options
   [["-d" "--dirs" :default ["notebooks"]]
@@ -18,33 +21,6 @@
    ["-v" "--verbose"]
    ["-h" "--help"]])
 
-(defn message [msg]
-  (str ">" msg \newline))
-
-(defn clojure-code [{:keys [code error value]}]
-  (str "```clojure" \newline
-       code \newline
-       (when value
-         (str \newline
-              ";=> " (->> (pprint/pprint value)
-                         (with-out-str)
-                         (str/split-lines)
-                         (str/join (str \newline ";   "))) \newline))
-       "```" \newline
-       (when error
-         (str \newline
-              (message error)))))
-
-(defn render-md
-  "Transforms advice into a Markdown string"
-  [advice]
-  (let [{:keys [code kind]} advice]
-    (cond
-      (= kind :kind/comment) (:kindly/comment advice)
-      (or (contains? advice :value)
-          (contains? advice :error)) (clojure-code advice)
-      :else code)))
-
 (defn target [source extension {:keys [output-dir]}]
   (io/file output-dir (str source extension)))
 
@@ -52,13 +28,23 @@
   (io/make-parents file)
   (spit file content))
 
+(defn notes-to-html
+  "Creates a markdown file from a notebook"
+  [{:keys [file advices]} options]
+  (->> advices
+       ;; TODO: ways to control order... sort by metadata?
+       ;;(reverse)
+       (map html/render-html)
+       (str/join \newline)
+       (spit! (target file ".html" options))))
+
 (defn notes-to-md
   "Creates a markdown file from a notebook"
   [{:keys [file advices]} options]
   (->> advices
        ;; TODO: ways to control order... sort by metadata?
        ;;(reverse)
-       (map render-md)
+       (map md/render-md)
        (str/join \newline)
        (spit! (target file ".md" options))))
 
@@ -70,7 +56,8 @@
     (if help
       (println summary)
       (doseq [notebook (api/all-notebooks dirs)]
-        (notes-to-md notebook options)))))
+        (notes-to-md notebook options)
+        (notes-to-html notebook options)))))
 
 (comment
   (-main))

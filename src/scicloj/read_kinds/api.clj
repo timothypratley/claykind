@@ -1,6 +1,6 @@
-(ns scicloj.claykind.api
+(ns scicloj.read-kinds.api
   (:require [clojure.java.io :as io]
-            [scicloj.claykind.notes :as notes]))
+            [scicloj.read-kinds.notes :as notes]))
 
 (defn notebook
   "Reads a notebook (clojure source file) from path and returns a representation.

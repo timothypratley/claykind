@@ -7,10 +7,10 @@
             [portal.api :as p]))
 
 (defn portal-options []
-  (or (and (.exists (io/file ".portal" "intellij.edn"))
-           {:launcher :intellij})
-      (and (.exists (io/file ".portal" "vs-code.edn"))
+  (or (and (.exists (io/file ".portal" "vs-code.edn"))
            {:launcher :vs-code})
+      (and (.exists (io/file ".portal" "intellij.edn"))
+           {:launcher :intellij})
       {}))
 
 (def portal

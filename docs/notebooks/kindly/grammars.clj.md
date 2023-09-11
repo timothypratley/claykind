@@ -177,7 +177,7 @@ It is nice to be able to use "send form to Portal" or similar, can this be done 
 ```clojure
 (ImageIO/read (io/file "claykind.png"))
 
-;=> #object[java.awt.image.BufferedImage 0x69a12179 "BufferedImage@69a12179: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@17c4dcc6 transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3"]
+;=> #object[java.awt.image.BufferedImage 0x34d8a1f1 "BufferedImage@34d8a1f1: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@38cba05 transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3"]
 ```
 
 Users may benefit from a shorthand helper function `(image "claykind.png")`.

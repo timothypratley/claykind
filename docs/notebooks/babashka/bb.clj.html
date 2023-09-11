@@ -1,0 +1,25 @@
+<div><pre><code>nil</code></pre><p># Babashka notebooks
+</p></div>
+<div><pre><code>nil</code></pre><p>Babashka is, by design, as close to Clojure as possible.
+</p></div>
+<div><pre><code>&quot;(def now (java.time.ZonedDateTime/now))&quot;</code></pre>nil</div>
+<div><pre><code>&quot;(def LA-timezone (java.time.ZoneId/of \&quot;America/Los_Angeles\&quot;))&quot;</code></pre>nil</div>
+<div><pre><code>&quot;(def LA-time (.withZoneSameInstant now LA-timezone))&quot;</code></pre>nil</div>
+<div><pre><code>&quot;(def pattern (java.time.format.DateTimeFormatter/ofPattern \&quot;HH:mm\&quot;))&quot;</code></pre>nil</div>
+<div><pre><code>&quot;(println (.format LA-time pattern))&quot;</code></pre>nil</div>
+<div><pre><code>nil</code></pre><p>The notable differences are:
+</p></div>
+<div><pre><code>nil</code></pre><p>* Code is evaluated with [Sci](https://github.com/babashka/SCI)
+* Not all of Clojure is available
+* Files start with a shell directive instead of a namespace
+</p></div>
+<div><pre><code>nil</code></pre><p>Did you know that Clojure treats `#!` as a comment?
+</p></div>
+<div><pre><code>nil</code></pre><p>So you can already create Babashka notebooks if you ignore the differences,
+but this project (claykind) will detect Babashka and use Sci,
+which will make it more directly compatible.
+</p></div>
+<div><pre><code>nil</code></pre><p>Would it be interesting thing to try is running claykind from babashka?
+What possibilities does that open up?
+Faster command-line blog generation?
+</p></div>

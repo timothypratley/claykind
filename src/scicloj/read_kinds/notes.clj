@@ -1,11 +1,11 @@
-(ns scicloj.claykind.notes
+(ns scicloj.read-kinds.notes
   "Notebooks are organized by removing whitespace, joining adjacent comment blocks,
   and converting forms into Kindly advice.
   Advice represents the original code plus aggregated information such as the evaluated value and kind."
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
-            [scicloj.claykind.read :as read]
-            [scicloj.claykind.kinds :as kinds])
+            [scicloj.read-kinds.read :as read]
+            [scicloj.read-kinds.kinds :as kinds])
   (:import (java.io File)))
 
 (defn- join-comment-blocks [comment-blocks]

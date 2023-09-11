@@ -1,4 +1,4 @@
-(ns scicloj.claykind.kinds
+(ns scicloj.read-kinds.kinds
   "Kinds are advice for how to visualize values that will be passed to downstream tools.
   If no kinds have been configured, uses kindly-default."
   (:require [scicloj.kindly.v3.api :as kind]
