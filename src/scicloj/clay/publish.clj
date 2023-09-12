@@ -4,14 +4,11 @@
   You could use this to publish a blog that works with markdown,
   or use Pandoc or Quarto to convert the markdown into HTML."
   (:require [clojure.java.io :as io]
-            [clojure.pprint :as pprint]
-            [clojure.string :as str]
             [clojure.tools.cli :as cli]
             [scicloj.read-kinds.api :as api]
             [scicloj.read-kinds.read :as read]
-            [scicloj.clay.markdown :as md]
             [scicloj.clay.html :as html]
-            ))
+            [scicloj.clay.markdown :as md]))
 
 (def cli-options
   [["-d" "--dirs" :default ["notebooks"]]
@@ -28,26 +25,6 @@
   (io/make-parents file)
   (spit file content))
 
-(defn notes-to-html
-  "Creates a markdown file from a notebook"
-  [{:keys [file advices]} options]
-  (->> advices
-       ;; TODO: ways to control order... sort by metadata?
-       ;;(reverse)
-       (map html/render-html)
-       (str/join \newline)
-       (spit! (target file ".html" options))))
-
-(defn notes-to-md
-  "Creates a markdown file from a notebook"
-  [{:keys [file advices]} options]
-  (->> advices
-       ;; TODO: ways to control order... sort by metadata?
-       ;;(reverse)
-       (map md/render-md)
-       (str/join \newline)
-       (spit! (target file ".md" options))))
-
 (defn -main
   "Invoke with `clojure -M:dev publish --help` to see options"
   [& args]
@@ -55,9 +32,11 @@
         {:keys [dirs help]} options]
     (if help
       (println summary)
-      (doseq [notebook (api/all-notebooks dirs)]
-        (notes-to-md notebook options)
-        (notes-to-html notebook options)))))
+      (doseq [{:keys [file] :as notebook} (api/all-notebooks dirs)]
+        (->> (md/notes-to-md notebook options)
+             (spit! (target file ".md" options)))
+        (->> (html/notes-to-html notebook options)
+             (spit! (target file ".html" options)))))))
 
 (comment
   (-main))

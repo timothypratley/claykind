@@ -1,5 +1,7 @@
 {:deps {org.clojure/clojure             {:mvn/version "1.11.0"}
         org.scicloj/kindly              {:mvn/version "3-alpha8"}
+        org.scicloj/kindly-advice       {:local/root "../kindly-advice"
+                                         #_#_:mvn/version ""}
         rewrite-clj/rewrite-clj         {:mvn/version "1.1.47"}
         io.github.timothypratley/terisk {:mvn/version "1.0.1"}
         ;; TODO: sci and babashka could be optional?

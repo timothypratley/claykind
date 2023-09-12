@@ -4,6 +4,7 @@
   Advice represents the original code plus aggregated information such as the evaluated value and kind."
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
+            [scicloj.kindly-advice.v1.api :as ka]
             [scicloj.read-kinds.read :as read]
             [scicloj.read-kinds.kinds :as kinds])
   (:import (java.io File)))
@@ -21,7 +22,7 @@
     (map (fn [context]
            (if (-> context :kind #{:kind/comment :kind/whitespace :kind/uneval})
              context
-             (kinds/infer-kind context))))
+             (ka/advise context))))
     ;; join comment blocks
     (partition-by (comp some? :kindly/comment))
     (mapcat (fn [part]
@@ -32,7 +33,7 @@
     (remove (comp #{:kind/whitespace} :kind))))
 
 (defn read-notes
-  "Reads a clojure source file and returns advices.
+  "Reads a clojure source file and returns contexts.
   See `read-all-notes` for more information."
   [^File file]
   (into [] notebook-xform (read/read-file file)))
@@ -50,13 +51,13 @@
 
 (defn all-notes
   "Find and read all notebooks in a sequence of directory paths.
-  Notebooks are represented as `{:file f :advices [...]}`,
-  Where advice has the shape `{:code \"(...)\", :form '(...), :value ..., :kind ...}`,
+  Notebooks are represented as `{:file f :contexts [...]}`,
+  Where contexts have the shape `{:code \"(...)\", :form '(...), :value ..., :kind ..., :advice (...)}`,
   representing the original form, evaluated value, and kindly kind.
-  Advices are suitable for passing to visualization tools, or Kindly plugins that talk to visualization tools."
+  Contexts are suitable for passing to visualization tools, or Kindly plugins that talk to visualization tools."
   [dirs]
   (for [dir dirs
         file (file-seq (io/file dir))
         :when (clojure-source? file)]
     {:file     file
-     :advices (safe-read-notes file)}))
+     :contexts (safe-read-notes file)}))

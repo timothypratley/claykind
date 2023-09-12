@@ -1,19 +1,24 @@
 (ns scicloj.clay.markdown
-  (:require [clojure.pprint :as pprint]
-            [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [scicloj.kind-adapters.markdown :as amd]))
 
 (defn message [msg]
   (str ">" msg \newline))
 
-(defn clojure-code [{:keys [code error value]}]
+(defn as-comments [leader s]
+  (str \newline
+       leader (->> (str/split-lines s)
+                   (str/join (str \newline ";   "))) \newline))
+
+(defn clojure-code [{:keys [code error value stdout stderr]}]
   (str "```clojure" \newline
        code \newline
+       (when stdout
+         (as-comments ";OUT " stdout))
+       (when stderr
+         (as-comments ";ERR " stderr))
        (when value
-         (str \newline
-              ";=> " (->> (pprint/pprint value)
-                          (with-out-str)
-                          (str/split-lines)
-                          (str/join (str \newline ";   "))) \newline))
+         (as-comments ";=> " (amd/adapt value)))
        "```" \newline
        (when error
          (str \newline
@@ -28,3 +33,10 @@
       (or (contains? advice :value)
           (contains? advice :error)) (clojure-code advice)
       :else code)))
+
+;; TODO: ways to control order... sort by metadata?
+(defn notes-to-md
+  "Creates a markdown file from a notebook"
+  [{:keys [contexts]} options]
+  (->> (map render-md contexts)
+    (str/join \newline)))
