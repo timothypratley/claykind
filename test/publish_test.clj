@@ -1,6 +1,6 @@
 (ns publish-test
   (:require [clojure.test :refer :all]
-            [publish]))
+            [scicloj.clay.publish :as publish]))
 
 (deftest -main-test
   ;; This test runs the "publish" example to make sure it succeeds.

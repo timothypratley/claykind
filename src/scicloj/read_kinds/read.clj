@@ -2,6 +2,7 @@
   "Convert code into contexts.
   Contexts are maps that contain top-level forms and their evaluated value,
   which will be further annotated with more information."
+  (:refer-clojure :exclude [read-string])
   (:require [clojure.tools.reader]
             [clojure.tools.reader.reader-types]
             [clojure.string :as str]

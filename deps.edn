@@ -1,5 +1,7 @@
 {:deps {org.clojure/clojure             {:mvn/version "1.11.0"}
-        org.scicloj/kindly              {:mvn/version "3-alpha8"}
+        org.scicloj/kindly              {:local/root "../kindly"
+                                         #_#_
+                                         :mvn/version "3-alpha8"}
         org.scicloj/kind-portal         {:local/root "../kind-portal"
                                          #_#_:mvn/version ""}
         org.scicloj/kindly-advice       {:local/root "../kindly-advice"

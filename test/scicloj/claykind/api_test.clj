@@ -1,9 +1,9 @@
 (ns scicloj.claykind.api-test
   (:require [clojure.test :refer :all]
-            [scicloj.claykind.api :as note-kinds]))
+            [scicloj.read-kinds.api :as read-kinds]))
 
 (deftest notebook-test
-  (is (note-kinds/notebook "notebooks/test/basic.clj")))
+  (is (read-kinds/notebook "notebooks/test/basic.clj")))
 
 (deftest all-notebooks-test
-  (is (seq (note-kinds/all-notebooks))))
+  (is (seq (read-kinds/all-notebooks))))

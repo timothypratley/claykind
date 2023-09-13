@@ -1,5 +1,5 @@
 (ns scicloj.kind-adapters.hiccup
-  (:require [scicloj.kindly.v3.api :as kind]))
+  (:require [scicloj.kindly-advice.v1.api :as ka]))
 
 (defmulti adapt :kind)
 
@@ -10,7 +10,7 @@
    [:pre [:code (pr-str value)]]])
 
 (defn adapt-value [v]
-  (adapt (kind/advice {:value v})))
+  (adapt (ka/advise {:value v})))
 
 (defmethod adapt :kind/vector [{:keys [value]}]
   `[:div "[" ~@(map adapt-value value) "]"])

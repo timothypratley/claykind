@@ -1,6 +1,10 @@
-# read-kinds (or claykind) (or note-kinds)
+# Claykind
 
 <img src="claykind.png" alt="claykind" align="right"/>
+
+A proof of concept tying several potential parts together.
+
+read-kinds (or note-kinds)
 
 A tiny library to produce [Kindly](https://scicloj.github.io/kindly/) advice from notebooks expressed as Clojure namespaces.
 Kindly advice informs visualization tools how to display code and values.
