@@ -12,6 +12,7 @@
 (defn adapt-value [v]
   (adapt (ka/advise {:value v})))
 
+;; TODO: make it pretty... grid?
 (defmethod adapt :kind/vector [{:keys [value]}]
   `[:div "[" ~@(map adapt-value value) "]"])
 

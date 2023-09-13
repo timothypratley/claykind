@@ -7,21 +7,34 @@
             [clojure.tools.cli :as cli]
             [scicloj.read-kinds.api :as api]
             [scicloj.read-kinds.read :as read]
-            [scicloj.clay.target.html :as html]
-            [scicloj.clay.target.markdown :as md]
-            [scicloj.clay.target.qmd :as qmd]
-            [scicloj.clay.target.html-portal :as htmlp]))
+            [scicloj.clay-builders.html-plain :as html]
+            [scicloj.clay-builders.markdown-generic :as md]
+            [scicloj.clay-builders.markdown-quarto :as qmd]
+            [scicloj.clay-builders.html-portal :as hp]))
+
+;; TODO: is there a nicer way? Should this be a `format` protocol?
+(def formats
+  {"html" html/notes-to-html
+   "md"   md/notes-to-md
+   "qmd"  qmd/notes-to-md
+   "htm"  hp/notes-to-html-portal})
 
 (def cli-options
-  [["-d" "--dirs" :default ["notebooks"]]
+  [["-i" "--input-file"
+    ;; TODO: work with a single input file
+    :validate [#(-> % (io/file) (.exists)) "file does not exist"]]
+   ["-d" "--dirs" :default ["notebooks"]]
    ["-o" "--output-dir" :default "docs"]
+   ["-f" "--format" :default "all"
+    ;; TODO: Allow collection of formats
+    #_#_:validate [formats (str "must be one or more of: " (cons "all" (keys formats)))]]
    ["-e" "--evaluator" :default :clojure
     :validate [read/evaluators (str "must be one of " read/evaluators)]]
    ["-v" "--verbose"]
    ["-h" "--help"]])
 
 (defn target [source extension {:keys [output-dir]}]
-  (io/file output-dir (str source extension)))
+  (io/file output-dir (str source "." extension)))
 
 (defn spit! [file content]
   (io/make-parents file)
@@ -31,19 +44,19 @@
   "Invoke with `clojure -M:dev publish --help` to see options"
   [& args]
   (let [{:keys [options summary]} (cli/parse-opts args cli-options)
-        {:keys [dirs help]} options]
+        {:keys [help dirs format]} options
+        ;; TODO: take formats from cli
+        #_#_formats (if (= "all" format)
+                  (vals formats)
+                  (if (coll? format)
+                    (mapv formats format)
+                    [(get formats format)]))]
     (if help
       (println summary)
-      (doseq [{:keys [file] :as notebook} (api/all-notebooks dirs)]
-        ;; TODO: use an option to determine output
-        (->> (md/notes-to-md notebook options)
-             (spit! (target file ".md" options)))
-        (->> (html/notes-to-html notebook options)
-             (spit! (target file ".html" options)))
-        (->> (qmd/notes-to-md notebook options)
-             (spit! (target file ".qmd" options)))
-        (->> (htmlp/notes-to-html-portal notebook options)
-             (spit! (target file ".htm" options)))))))
+      (doseq [{:keys [file] :as notebook} (api/all-notebooks dirs)
+              [ext format] formats]
+        (->> (format notebook options)
+             (spit! (target file ext options)))))))
 
 (comment
   (-main))

@@ -1,6 +1,6 @@
-(ns scicloj.clay.target.qmd
+(ns scicloj.clay-builders.markdown-generic
   (:require [clojure.string :as str]
-            [scicloj.kind-adapters.qmd :as qmd]))
+            [scicloj.kind-adapters.markdown :as amd]))
 
 (defn message [msg]
   (str ">" msg \newline))
@@ -18,7 +18,7 @@
        (when stderr
          (as-comments ";ERR " stderr))
        (when (contains? context :value)
-         (as-comments ";=> " (qmd/adapt context)))
+         (as-comments ";=> " (amd/adapt context)))
        "```" \newline
        (when error
          (str \newline
@@ -34,8 +34,9 @@
           (contains? context :error)) (clojure-code context)
       :else code)))
 
+;; TODO: ways to control order... sort by metadata?
 (defn notes-to-md
   "Creates a markdown file from a notebook"
   [{:keys [contexts]} options]
-  (->> (map render-md contexts)
+  (->> (mapv render-md contexts)
        (str/join \newline)))

@@ -1,7 +1,6 @@
-(ns scicloj.clay.target.html-portal
-  (:require [hiccup2.core :as hiccup2]
-            [scicloj.kind-portal.v1.impl :as kpi]
-            [scicloj.clay.target.reagent :as cre]))
+(ns scicloj.clay-builders.html-portal
+  (:require [scicloj.kind-portal.v1.impl :as kpi]
+            [scicloj.clay-builders.html_reagent :as cre]))
 
 (defn pr-str-with-meta [value]
   (binding [*print-meta* true]
@@ -19,8 +18,16 @@
                                      el))}]]))
    {:edn-str (pr-str-with-meta value)}])
 
+(defn expr-result [context]
+  ;; TODO: should handle errors (value is missing)
+  (if-let [c (:kindly/comment context)]
+    [:div c]
+    (if (contains? context :value)
+      (-> (kpi/prepare context)
+          (portal-widget))
+      ;; TODO: maybe error
+      [:div (:code context)])))
 
 (defn notes-to-html-portal [contexts options]
-  (->> (map kpi/prepare contexts)
-       (map portal-widget)
+  (->> (mapv expr-result contexts)
        (cre/page)))

@@ -16,20 +16,19 @@
 (def ^:private notebook-xform
   "Transducer to infer kinds, join comment blocks, and remove unnecessary whitespace."
   (comp
-    (remove (comp #{:kind/uneval} :kind))
     ;; infer kinds
     (map (fn [context]
            (if (-> context :kind #{:kind/comment :kind/whitespace :kind/uneval})
              context
              (ka/advise context))))
-    ;; join comment blocks
+    ;; join comment blocks -- whitespace and uneval still break them
     (partition-by (comp some? :kindly/comment))
     (mapcat (fn [part]
               (if (-> part first :kindly/comment)
                 [(join-comment-blocks part)]
                 part)))
-    ;; remove whitespace
-    (remove (comp #{:kind/whitespace} :kind))))
+    ;; remove uneval and whitespace
+    (remove (comp #{:kind/uneval :kind/whitespace} :kind))))
 
 (defn read-notes
   "Reads a clojure source file and returns contexts.
