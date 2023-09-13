@@ -5,8 +5,7 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [scicloj.kindly-advice.v1.api :as ka]
-            [scicloj.read-kinds.read :as read]
-            [scicloj.read-kinds.kinds :as kinds])
+            [scicloj.read-kinds.read :as read])
   (:import (java.io File)))
 
 (defn- join-comment-blocks [comment-blocks]

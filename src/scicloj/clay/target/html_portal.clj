@@ -23,5 +23,4 @@
 (defn notes-to-html-portal [contexts options]
   (->> (map kpi/prepare contexts)
        (map portal-widget)
-       (cre/page)
-       (hiccup2/html)))
+       (cre/page)))

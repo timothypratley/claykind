@@ -10,15 +10,15 @@
        leader (->> (str/split-lines s)
                    (str/join (str \newline ";   "))) \newline))
 
-(defn clojure-code [{:keys [code error value stdout stderr]}]
+(defn clojure-code [{:keys [code error stdout stderr] :as context}]
   (str "```clojure" \newline
        code \newline
        (when stdout
          (as-comments ";OUT " stdout))
        (when stderr
          (as-comments ";ERR " stderr))
-       (when value
-         (as-comments ";=> " (amd/adapt value)))
+       (when (contains? context :value)
+         (as-comments ";=> " (amd/adapt context)))
        "```" \newline
        (when error
          (str \newline

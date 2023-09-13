@@ -1,108 +1,59 @@
-<div><pre><code>&quot;(ns kindly.grammars\n  (:require [clojure.java.io :as io]\n            [malli.core :as ma])\n  (:import (javax.imageio ImageIO)))&quot;</code></pre>nil</div>
-<div><pre><code>nil</code></pre><p># Kindly grammars
-</p></div>
-<div><pre><code>nil</code></pre><p>Notebooks and rich REPLs visualize data and objects.
+<html><body><div><pre><code>&quot;(ns kindly.grammars\n  (:require [clojure.java.io :as io]\n            [malli.core :as ma])\n  (:import (javax.imageio ImageIO)))&quot;</code></pre><div><pre><code>nil</code></pre></div></div><div><pre><code>nil</code></pre><p># Kindly grammars
+</p></div><div><pre><code>nil</code></pre><p>Notebooks and rich REPLs visualize data and objects.
 Kindly seeks to establish a standard way for users to request visualizations.
-</p></div>
-<div><pre><code>nil</code></pre><p>Nesting is an important consideration.
+</p></div><div><pre><code>nil</code></pre><p>Nesting is an important consideration.
 For example a table might contain an image in a cell.
-</p></div>
-<div><pre><code>nil</code></pre><p>## HTML (hiccup)
-</p></div>
-<div><pre><code>nil</code></pre><p>HTML is the most flexible visualization,
+</p></div><div><pre><code>nil</code></pre><p>## HTML (hiccup)
+</p></div><div><pre><code>nil</code></pre><p>HTML is the most flexible visualization,
 as you can represent pretty much anything that can display in a browser.
-</p></div>
-<div><pre><code>&quot;(def hiccup-table\n  ^:kindly/hiccup\n  [:table\n   [:tr [:td 1] [:td 2]]\n   [:tr [:td 3] [:td 4]]])&quot;</code></pre><div>VAR#&apos;kindly.grammars/hiccup-table</div></div>
-<div><pre><code>nil</code></pre><p>The downside of HTML is that users need to expend considerable effort reshaping their data into views.
-</p></div>
-<div><pre><code>nil</code></pre><p>Hiccup has a Malli schema that can be used to validate and parse:
-</p></div>
-<div><pre><code>&quot;(def Hiccup\n  [:schema {:registry {\&quot;hiccup\&quot; [:orn\n                                 [:node [:catn\n                                         [:name keyword?]\n                                         [:props [:? [:map-of keyword? any?]]]\n                                         [:children [:* [:schema [:ref \&quot;hiccup\&quot;]]]]]]\n                                 [:primitive [:orn\n                                              [:nil nil?]\n                                              [:boolean boolean?]\n                                              [:number number?]\n                                              [:text string?]]]]}}\n   \&quot;hiccup\&quot;])&quot;</code></pre><div>VAR#&apos;kindly.grammars/Hiccup</div></div>
-<div><pre><code>nil</code></pre><p>Hiccup does not check for the creation of valid HTML; tags and attributes are not checked.
-</p></div>
-<div><pre><code>&quot;(def parse-hiccup (ma/parser Hiccup))&quot;</code></pre><div>VAR#&apos;kindly.grammars/parse-hiccup</div></div>
-<div><pre><code>&quot;(parse-hiccup hiccup-table)&quot;</code></pre><div><:node>{:name :table, :props nil, :children [[:node {:name :tr, :props nil, :children [[:node {:name :td, :props nil, :children [[:primitive [:number 1]]]}] [:node {:name :td, :props nil, :children [[:primitive [:number 2]]]}]]}] [:node {:name :tr, :props nil, :children [[:node {:name :td, :props nil, :children [[:primitive [:number 3]]]}] [:node {:name :td, :props nil, :children [[:primitive [:number 4]]]}]]}]]}</:node></div></div>
-<div><pre><code>nil</code></pre><p>## Tables
-</p></div>
-<div><pre><code>nil</code></pre><p>Tables are interesting because one can imagine users with data in many different shapes;
+</p></div><div><pre><code>&quot;(def hiccup-table\n  ^:kindly/hiccup\n  [:table\n   [:tr [:td 1] [:td 2]]\n   [:tr [:td 3] [:td 4]]])&quot;</code></pre><div>VAR#&apos;kindly.grammars/hiccup-table</div></div><div><pre><code>nil</code></pre><p>The downside of HTML is that users need to expend considerable effort reshaping their data into views.
+</p></div><div><pre><code>nil</code></pre><p>Hiccup has a Malli schema that can be used to validate and parse:
+</p></div><div><pre><code>&quot;(def Hiccup\n  [:schema {:registry {\&quot;hiccup\&quot; [:orn\n                                 [:node [:catn\n                                         [:name keyword?]\n                                         [:props [:? [:map-of keyword? any?]]]\n                                         [:children [:* [:schema [:ref \&quot;hiccup\&quot;]]]]]]\n                                 [:primitive [:orn\n                                              [:nil nil?]\n                                              [:boolean boolean?]\n                                              [:number number?]\n                                              [:text string?]]]]}}\n   \&quot;hiccup\&quot;])&quot;</code></pre><div>VAR#&apos;kindly.grammars/Hiccup</div></div><div><pre><code>nil</code></pre><p>Hiccup does not check for the creation of valid HTML; tags and attributes are not checked.
+</p></div><div><pre><code>&quot;(def parse-hiccup (ma/parser Hiccup))&quot;</code></pre><div>VAR#&apos;kindly.grammars/parse-hiccup</div></div><div><pre><code>&quot;(parse-hiccup hiccup-table)&quot;</code></pre><div>[<div><pre><code>nil</code></pre></div><div><pre><code>nil</code></pre></div>]</div></div><div><pre><code>nil</code></pre><p>## Tables
+</p></div><div><pre><code>nil</code></pre><p>Tables are interesting because one can imagine users with data in many different shapes;
 vectors of vectors, vectors of maps, Tablecloth datasets, or maybe something else.
-</p></div>
-<div><pre><code>&quot;^:kind/table\n{:headers     []\n :row-vectors []}&quot;</code></pre><div>TABLE</div></div>
-<div><pre><code>&quot;^:kind/table\n{:headers     []\n :row-maps []}&quot;</code></pre><div>TABLE</div></div>
-<div><pre><code>&quot;^:kind/table\n[[1 2]\n [3 4]]&quot;</code></pre><div>TABLE</div></div>
-<div><pre><code>nil</code></pre><p>It would be convenient to allow users several options for table inputs,
+</p></div><div><pre><code>&quot;^:kind/table\n{:headers     []\n :row-vectors []}&quot;</code></pre><div>TABLE{:headers [], :row-vectors []}</div></div><div><pre><code>&quot;^:kind/table\n{:headers     []\n :row-maps []}&quot;</code></pre><div>TABLE{:row-maps [], :headers []}</div></div><div><pre><code>&quot;^:kind/table\n[[1 2]\n [3 4]]&quot;</code></pre><div>TABLE[[1 2] [3 4]]</div></div><div><pre><code>nil</code></pre><p>It would be convenient to allow users several options for table inputs,
 and some transformations to standardize them for downstream tools.
 Perhaps this can be achieved with a shorthand helper?
-</p></div>
-<div><pre><code>&quot;&apos;(tabulate values)&quot;</code></pre>tabulatevalues</div>
-<div><pre><code>&quot;&apos;(tabulate headers values)&quot;</code></pre>tabulateheadersvalues</div>
-<div><pre><code>nil</code></pre><p>Possibly a multimethod (with a row multimethod as well).
-</p></div>
-<div><pre><code>nil</code></pre><p>Tools should be encouraged to accept a standardized data shape defined by a schema:
-</p></div>
-<div><pre><code>&quot;(def Table\n  [:schema {:registry {\&quot;table\&quot; [&apos;...]}}\n   \&quot;table\&quot;])&quot;</code></pre><div>VAR#&apos;kindly.grammars/Table</div></div>
-<div><pre><code>nil</code></pre><p>## Plots
-</p></div>
-<div><pre><code>nil</code></pre><p>Plots have the richest grammar.
+</p></div><div><pre><code>&quot;&apos;(tabulate values)&quot;</code></pre><div><pre><code>nil</code></pre></div><div><pre><code>nil</code></pre></div></div><div><pre><code>&quot;&apos;(tabulate headers values)&quot;</code></pre><div><pre><code>nil</code></pre></div><div><pre><code>nil</code></pre></div><div><pre><code>nil</code></pre></div></div><div><pre><code>nil</code></pre><p>Possibly a multimethod (with a row multimethod as well).
+</p></div><div><pre><code>nil</code></pre><p>Tools should be encouraged to accept a standardized data shape defined by a schema:
+</p></div><div><pre><code>&quot;(def Table\n  [:schema {:registry {\&quot;table\&quot; [&apos;...]}}\n   \&quot;table\&quot;])&quot;</code></pre><div>VAR#&apos;kindly.grammars/Table</div></div><div><pre><code>nil</code></pre><p>## Plots
+</p></div><div><pre><code>nil</code></pre><p>Plots have the richest grammar.
 Two popular grammars for plotting are Vega and ggplot2.
-</p></div>
-<div><pre><code>&quot;^:kind/vega\n{}&quot;</code></pre><div><div>Unimplemented: <code>:kind/vega</code></div><pre><code>{}</code></pre></div></div>
-<div><pre><code>nil</code></pre><p>Vega has json-schemas available which are comprehensive.
+</p></div><div><pre><code>&quot;^:kind/vega\n{}&quot;</code></pre><div><div>Unimplemented: <code>:kind/vega</code></div><pre><code>{}</code></pre></div></div><div><pre><code>nil</code></pre><p>Vega has json-schemas available which are comprehensive.
 There is not yet a way to create Malli schemas from Vega json-schema.
 We could use a json-schema library instead,
 or improve Malli schema conversion.
-</p></div>
-<div><pre><code>nil</code></pre><p>## Images
-</p></div>
-<div><pre><code>nil</code></pre><p>No grammar is necessary for images.
-</p></div>
-<div><pre><code>nil</code></pre><p>Images can be specified using Markdown syntax:
+</p></div><div><pre><code>nil</code></pre><p>## Images
+</p></div><div><pre><code>nil</code></pre><p>No grammar is necessary for images.
+</p></div><div><pre><code>nil</code></pre><p>Images can be specified using Markdown syntax:
 
     ![a heart](claykind.png)
 
 ![a heart](../../../claykind.png)
 
 Managing the path to images can be challenging for users.
-</p></div>
-<div><pre><code>nil</code></pre><p>It is nice to be able to use &quot;send form to Portal&quot; or similar, can this be done with Markdown?
-</p></div>
-<div><pre><code>&quot;(ImageIO/read (io/file \&quot;claykind.png\&quot;))&quot;</code></pre><div><div>Unimplemented: <code>:kind/buffered-image</code></div><pre><code>#object[java.awt.image.BufferedImage 0x34d8a1f1 &quot;BufferedImage@34d8a1f1: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@38cba05 transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3&quot;]</code></pre></div></div>
-<div><pre><code>nil</code></pre><p>Users may benefit from a shorthand helper function `(image &quot;claykind.png&quot;)`.
-</p></div>
-<div><pre><code>nil</code></pre><p>sometimes the filename will be calculated programmatically,
+</p></div><div><pre><code>nil</code></pre><p>It is nice to be able to use &quot;send form to Portal&quot; or similar, can this be done with Markdown?
+</p></div><div><pre><code>&quot;(ImageIO/read (io/file \&quot;claykind.png\&quot;))&quot;</code></pre><div><div>Unimplemented: <code>:kind/buffered-image</code></div><pre><code>#object[java.awt.image.BufferedImage 0x1582fd4c &quot;BufferedImage@1582fd4c: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@c8175dc transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3&quot;]</code></pre></div></div><div><pre><code>nil</code></pre><p>Users may benefit from a shorthand helper function `(image &quot;claykind.png&quot;)`.
+</p></div><div><pre><code>nil</code></pre><p>sometimes the filename will be calculated programmatically,
 which would be teadious to achieve with markdown.
-</p></div>
-<div><pre><code>nil</code></pre><p>## Reagent components
-</p></div>
-<div><pre><code>nil</code></pre><p>A grammar is not possible for functions, or Reagent components.
-</p></div>
-<div><pre><code>nil</code></pre><p>## Tablecloth datasets
-</p></div>
-<div><pre><code>nil</code></pre><p>Tablecloth datasets are identifiable by their type.
-</p></div>
-<div><pre><code>nil</code></pre><p>## Markdown
-</p></div>
-<div><pre><code>nil</code></pre><p>Markdown comes in different flavours,
+</p></div><div><pre><code>nil</code></pre><p>## Reagent components
+</p></div><div><pre><code>nil</code></pre><p>A grammar is not possible for functions, or Reagent components.
+</p></div><div><pre><code>nil</code></pre><p>## Tablecloth datasets
+</p></div><div><pre><code>nil</code></pre><p>Tablecloth datasets are identifiable by their type.
+</p></div><div><pre><code>nil</code></pre><p>## Markdown
+</p></div><div><pre><code>nil</code></pre><p>Markdown comes in different flavours,
 for example GitHub Markdown and Quarto (qmd).
 Downstream tools may benefit from a hint as to which flavor should be used.
 Users probably don&apos;t want to have to think too much about this though.
-</p></div>
-<div><pre><code>nil</code></pre><p>Of particular interest is the display of mathematical equations,
+</p></div><div><pre><code>nil</code></pre><p>Of particular interest is the display of mathematical equations,
 which often require plugin support.
-</p></div>
-<div><pre><code>nil</code></pre><p>$ f(x) = x^2 $
-</p></div>
-<div><pre><code>nil</code></pre><p>Should render as an equation.
-</p></div>
-<div><pre><code>nil</code></pre><p>Somewhat surprisingly, we cannot rely entirely on comments to represent Markdown.
+</p></div><div><pre><code>nil</code></pre><p>$ f(x) = x^2 $
+</p></div><div><pre><code>nil</code></pre><p>Should render as an equation.
+</p></div><div><pre><code>nil</code></pre><p>Somewhat surprisingly, we cannot rely entirely on comments to represent Markdown.
 We might need to construct Markdown programmatically.
-</p></div>
-<div><pre><code>&quot;^:kindly/markdown\n(str \&quot;## This... is... \&quot; :Markdown)&quot;</code></pre>&quot;## This... is... :Markdown&quot;</div>
-<div><pre><code>nil</code></pre><p>## Data
-</p></div>
-<div><pre><code>nil</code></pre><p>No grammar is necessary for primitives and collections.
-</p></div>
-<div><pre><code>&quot;{:this #{\&quot;is\&quot;}\n &apos;data [1 2 3 nil]}&quot;</code></pre><div :this="#{&quot;is&quot;}" data="[1 2 3 nil]"></div></div>
-<div><pre><code>nil</code></pre><p>One challenge is when the data is very large.
+</p></div><div><pre><code>&quot;^:kindly/markdown\n(str \&quot;## This... is... \&quot; :Markdown)&quot;</code></pre><div><pre><code>&quot;## This... is... :Markdown&quot;</code></pre></div></div><div><pre><code>nil</code></pre><p>## Data
+</p></div><div><pre><code>nil</code></pre><p>No grammar is necessary for primitives and collections.
+</p></div><div><pre><code>&quot;{:this #{\&quot;is\&quot;}\n &apos;data [1 2 3 nil]}&quot;</code></pre><div>{<div><pre><code>nil</code></pre></div><div><pre><code>nil</code></pre></div>}</div></div><div><pre><code>nil</code></pre><p>One challenge is when the data is very large.
 Ideally some preview would be available.
-</p></div>
+</p></div></body></html>
