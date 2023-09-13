@@ -7,8 +7,10 @@
             [clojure.tools.cli :as cli]
             [scicloj.read-kinds.api :as api]
             [scicloj.read-kinds.read :as read]
-            [scicloj.clay.html :as html]
-            [scicloj.clay.markdown :as md]))
+            [scicloj.clay.target.html :as html]
+            [scicloj.clay.target.markdown :as md]
+            [scicloj.clay.target.qmd :as qmd]
+            [scicloj.clay.target.html-portal :as htmlp]))
 
 (def cli-options
   [["-d" "--dirs" :default ["notebooks"]]
@@ -33,10 +35,15 @@
     (if help
       (println summary)
       (doseq [{:keys [file] :as notebook} (api/all-notebooks dirs)]
+        ;; TODO: use an option to determine output
         (->> (md/notes-to-md notebook options)
              (spit! (target file ".md" options)))
         (->> (html/notes-to-html notebook options)
-             (spit! (target file ".html" options)))))))
+             (spit! (target file ".html" options)))
+        (->> (qmd/notes-to-md notebook options)
+             (spit! (target file ".qmd" options)))
+        (->> (htmlp/notes-to-html-portal notebook options)
+             (spit! (target file ".htm" options)))))))
 
 (comment
   (-main))

@@ -1,39 +1,5 @@
 (ns scicloj.kind-adapters.portal)
-
-(defn pr-str-with-meta [value]
-  (binding [*print-meta* true]
-    (pr-str value)))
-
-(defn portal-widget [value]
-  ['(fn [{:keys [edn-str]}]
-      (let [api (js/portal.extensions.vs_code_notebook.activate)]
-        [:div
-         [:div
-          {:ref (fn [el]
-                  (.renderOutputItem api
-                                     (clj->js {:mime "x-application/edn"
-                                               :text (fn [] edn-str)})
-                                     el))}]]))
-   {:edn-str (pr-str-with-meta value)}])
-
-(defn page [widgets]
-  (hiccup.page/html5
-    [:head]
-    (into
-      [:body
-       (hiccup.page/include-js "https://unpkg.com/react@18/umd/react.production.min.js"
-                               "https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
-                               "https://scicloj.github.io/scittle/js/scittle.js"
-                               "https://scicloj.github.io/scittle/js/scittle.reagent.js"
-                               portal-url)
-       (scittle-script '(ns main
-                          (:require [reagent.core :as r]
-                                    [reagent.dom :as dom])))]
-      (->> widgets
-           (map-indexed (fn [i widget]
-                          (div-and-script (str "widget" i)
-                                          widget)))
-           (apply concat)))))
+;; TODO: does kind-portal already do this?
 
 (defn as-portal-hiccup [hiccup]
   (with-meta

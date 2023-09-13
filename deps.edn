@@ -1,5 +1,7 @@
 {:deps {org.clojure/clojure             {:mvn/version "1.11.0"}
         org.scicloj/kindly              {:mvn/version "3-alpha8"}
+        org.scicloj/kind-portal         {:local/root "../kind-portal"
+                                         #_#_:mvn/version ""}
         org.scicloj/kindly-advice       {:local/root "../kindly-advice"
                                          #_#_:mvn/version ""}
         rewrite-clj/rewrite-clj         {:mvn/version "1.1.47"}
@@ -17,9 +19,7 @@
   :dev   {:extra-paths ["notebooks" "test" "examples" "dev"]
           :extra-deps  {org.clojure/tools.cli      {:mvn/version "1.0.219"}
                         djblue/portal              {:mvn/version "0.46.0"}
-                        metosin/malli              {:mvn/version "0.11.0"}
-                        org.scicloj/kind-portal    {:mvn/version "1-alpha4"}
-                        org.scicloj/kindly-default {:mvn/version "1-alpha10"}}}
+                        metosin/malli              {:mvn/version "0.11.0"}}}
   ;; Run tests with `clojure -M:dev:test`
   :test  {:extra-paths ["test"]
           :extra-deps  {io.github.cognitect-labs/test-runner

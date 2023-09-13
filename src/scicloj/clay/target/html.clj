@@ -1,4 +1,4 @@
-(ns scicloj.clay.html
+(ns scicloj.clay.target.html
   (:require [hiccup2.core :as hiccup2]
             [scicloj.kind-adapters.hiccup :as ahiccup]))
 

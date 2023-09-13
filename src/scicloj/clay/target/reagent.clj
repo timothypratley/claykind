@@ -1,4 +1,4 @@
-(ns scicloj.kind-adapters.reagent)
+(ns scicloj.clay.target.reagent)
 
 (defn scittle-script [& cljs-forms]
   [:script {:type "application/x-scittle"}
