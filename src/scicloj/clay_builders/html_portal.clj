@@ -6,18 +6,18 @@
   (binding [*print-meta* true]
     (pr-str value)))
 
+;; TODO: quasi-quasi-quote
+;; `(... ~@()) <- qualifies
+;; '( ~) <- does not work
+;; #'( ~x)  <- without qualifying
+;; We should make this
 (defn portal-widget [value]
-  ['(fn [{:keys [edn-str]}]
-      ;; TODO: this code has not been loaded
-      (let [api (js/portal.extensions.vs_code_notebook.activate)]
-        [:div
-         [:div
-          {:ref (fn [el]
-                  (.renderOutputItem api
-                                     (clj->js {:mime "x-application/edn"
-                                               :text (fn [] edn-str)})
-                                     el))}]]))
-   {:edn-str (pr-str-with-meta value)}])
+  (list 'fn '[id]
+        (list '.renderOutputItem '(js/portal.extensions.vs_code_notebook.activate)
+              ;; Could this come from a file instead for large values?
+              (list 'clj->js {:mime "x-application/edn"
+                              :text (list 'fn [] (pr-str-with-meta value))})
+              '(js/document.getElementById id))))
 
 (defn expr-result [context]
   (if-let [c (:kindly/comment context)]

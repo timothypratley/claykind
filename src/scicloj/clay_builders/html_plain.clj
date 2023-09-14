@@ -14,7 +14,7 @@
 
 (defn page [nodes]
   (hiccup2/html
-    [:html (into [:body]  nodes)]))
+    [:html (into [:body] nodes)]))
 
 ;; TODO: ways to control order... sort by metadata?
 (defn notes-to-html
