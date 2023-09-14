@@ -1,7 +1,6 @@
 {:deps {org.clojure/clojure             {:mvn/version "1.11.0"}
         org.scicloj/kindly              {:local/root "../kindly"
-                                         #_#_
-                                         :mvn/version "3-alpha8"}
+                                         #_#_:mvn/version "3-alpha8"}
         org.scicloj/kind-portal         {:local/root "../kind-portal"
                                          #_#_:mvn/version ""}
         org.scicloj/kindly-advice       {:local/root "../kindly-advice"
@@ -18,18 +17,21 @@
  :aliases
  {
   ;; Run examples with `clojure -M:dev -m publish`
-  :dev   {:extra-paths ["notebooks" "test" "examples" "dev"]
-          :extra-deps  {org.clojure/tools.cli      {:mvn/version "1.0.219"}
-                        djblue/portal              {:mvn/version "0.46.0"}
-                        metosin/malli              {:mvn/version "0.11.0"}}}
+  :dev    {:extra-paths ["notebooks" "test" "examples" "dev"]
+           :extra-deps  {org.clojure/tools.cli {:mvn/version "1.0.219"}
+                         djblue/portal         {:mvn/version "0.46.0"}
+                         metosin/malli         {:mvn/version "0.11.0"}}}
   ;; Run tests with `clojure -M:dev:test`
-  :test  {:extra-paths ["test"]
-          :extra-deps  {io.github.cognitect-labs/test-runner
-                        {:git/tag "v0.5.1" :git/sha "dfb30dd6605cb6c0efc275e1df1736f6e90d4d73"}}
-          :main-opts   ["-m" "cognitect.test-runner"]
-          :exec-fn     cognitect.test-runner.api/test}
+  :test   {:extra-paths ["test"]
+           :extra-deps  {io.github.cognitect-labs/test-runner
+                         {:git/tag "v0.5.1" :git/sha "dfb30dd6605cb6c0efc275e1df1736f6e90d4d73"}}
+           :main-opts   ["-m" "cognitect.test-runner"]
+           :exec-fn     cognitect.test-runner.api/test}
   ;; Run with `clojure -T:build jar` or `clojure -T:build deploy`
-  :build {:extra-paths ["dev"]
-          :deps        {org.clojure/tools.build {:mvn/version "0.9.2"}
-                        slipset/deps-deploy     {:mvn/version "RELEASE"}}
-          :ns-default  build}}}
+  :build  {:extra-paths ["dev"]
+           :deps        {org.clojure/tools.build {:mvn/version "0.9.2"}
+                         slipset/deps-deploy     {:mvn/version "RELEASE"}}
+           :ns-default  build}
+  ;; Run with `clojure -M:cljfmt`
+  :cljfmt {:main-opts  ["-m" "cljfmt.main"]
+           :extra-deps {cljfmt/cljfmt {:mvn/version "0.9.2"}}}}}

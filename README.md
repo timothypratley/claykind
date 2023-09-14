@@ -125,8 +125,8 @@ You can imagine the above representing all the top-level forms in a namespace.
   :value  {...}
   :kindly :kind/vega-lite
   :valid  false
-  :error  {:message "Bad"
-           :line    34}}]
+  :exception  {:message "Bad"
+               :line    34}}]
 ```
 
 ### The role of Kindly

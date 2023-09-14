@@ -10,19 +10,19 @@
        leader (->> (str/split-lines s)
                    (str/join (str \newline ";   "))) \newline))
 
-(defn clojure-code [{:keys [code error stdout stderr] :as context}]
+(defn clojure-code [{:keys [code exception out err] :as context}]
   (str "```clojure" \newline
        code \newline
-       (when stdout
-         (as-comments ";OUT " stdout))
-       (when stderr
-         (as-comments ";ERR " stderr))
+       (when out
+         (as-comments ";OUT " out))
+       (when err
+         (as-comments ";ERR " err))
        (when (contains? context :value)
          (as-comments ";=> " (amd/adapt context)))
        "```" \newline
-       (when error
+       (when exception
          (str \newline
-              (message error)))))
+              (message exception)))))
 
 (defn render-md
   "Transforms advice into a Markdown string"
@@ -31,7 +31,7 @@
     (cond
       (= kind :kind/comment) (:kindly/comment context)
       (or (contains? context :value)
-          (contains? context :error)) (clojure-code context)
+          (contains? context :exception)) (clojure-code context)
       :else code)))
 
 ;; TODO: ways to control order... sort by metadata?

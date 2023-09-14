@@ -8,6 +8,7 @@
 
 (defn portal-widget [value]
   ['(fn [{:keys [edn-str]}]
+      ;; TODO: this code has not been loaded
       (let [api (js/portal.extensions.vs_code_notebook.activate)]
         [:div
          [:div
@@ -19,7 +20,6 @@
    {:edn-str (pr-str-with-meta value)}])
 
 (defn expr-result [context]
-  ;; TODO: should handle errors (value is missing)
   (if-let [c (:kindly/comment context)]
     [:div c]
     (if (contains? context :value)

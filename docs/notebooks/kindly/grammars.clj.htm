@@ -1,2 +1,60 @@
 <!DOCTYPE html>
-<html><head></head><body><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script><script type="application/x-scittle">(ns main (:require [reagent.core :as r] [reagent.dom :as dom]))</script><div id="widget0"></div><script type="application/x-scittle">(dom/render (fn [] [:div nil]) (.getElementById js/document "widget0"))</script><div id="widget1"></div><script type="application/x-scittle">(dom/render (fn [] [:div nil]) (.getElementById js/document "widget1"))</script></body></html>
+<html><head><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script><script src="http://localhost:59822/main.js?59830789-0bfa-4d3f-a49c-14390e78312b" type="text/javascript"></script></head><body><script type="application/x-scittle">(ns main (:require [reagent.core :as r] [reagent.dom :as dom]))</script><div id="widget0"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget0"))</script><div># Kindly grammars
+</div><div>Notebooks and rich REPLs visualize data and objects.
+Kindly seeks to establish a standard way for users to request visualizations.
+</div><div>Nesting is an important consideration.
+For example a table might contain an image in a cell.
+</div><div>## HTML (hiccup)
+</div><div>HTML is the most flexible visualization,
+as you can represent pretty much anything that can display in a browser.
+</div><div id="widget6"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget6"))</script><div>The downside of HTML is that users need to expend considerable effort reshaping their data into views.
+</div><div>Hiccup has a Malli schema that can be used to validate and parse:
+</div><div id="widget9"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget9"))</script><div>Hiccup does not check for the creation of valid HTML; tags and attributes are not checked.
+</div><div id="widget11"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget11"))</script><div id="widget12"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget12"))</script><div>## Tables
+</div><div>Tables are interesting because one can imagine users with data in many different shapes;
+vectors of vectors, vectors of maps, Tablecloth datasets, or maybe something else.
+</div><div id="widget15"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget15"))</script><div id="widget16"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget16"))</script><div id="widget17"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget17"))</script><div>It would be convenient to allow users several options for table inputs,
+and some transformations to standardize them for downstream tools.
+Perhaps this can be achieved with a shorthand helper?
+</div><div id="widget19"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget19"))</script><div id="widget20"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget20"))</script><div>Possibly a multimethod (with a row multimethod as well).
+</div><div>Tools should be encouraged to accept a standardized data shape defined by a schema:
+</div><div id="widget23"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget23"))</script><div>## Plots
+</div><div>Plots have the richest grammar.
+Two popular grammars for plotting are Vega and ggplot2.
+</div><div id="widget26"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget26"))</script><div>Vega has json-schemas available which are comprehensive.
+There is not yet a way to create Malli schemas from Vega json-schema.
+We could use a json-schema library instead,
+or improve Malli schema conversion.
+</div><div>## Images
+</div><div>No grammar is necessary for images.
+</div><div>Images can be specified using Markdown syntax:
+
+    ![a heart](claykind.png)
+
+![a heart](../../../claykind.png)
+
+Managing the path to images can be challenging for users.
+</div><div>It is nice to be able to use "send form to Portal" or similar, can this be done with Markdown?
+</div><div id="widget32"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget32"))</script><div>Users may benefit from a shorthand helper function `(image "claykind.png")`.
+</div><div>sometimes the filename will be calculated programmatically,
+which would be teadious to achieve with markdown.
+</div><div>## Reagent components
+</div><div>A grammar is not possible for functions, or Reagent components.
+</div><div>## Tablecloth datasets
+</div><div>Tablecloth datasets are identifiable by their type.
+</div><div>## Markdown
+</div><div>Markdown comes in different flavours,
+for example GitHub Markdown and Quarto (qmd).
+Downstream tools may benefit from a hint as to which flavor should be used.
+Users probably don't want to have to think too much about this though.
+</div><div>Of particular interest is the display of mathematical equations,
+which often require plugin support.
+</div><div>$ f(x) = x^2 $
+</div><div>Should render as an equation.
+</div><div>Somewhat surprisingly, we cannot rely entirely on comments to represent Markdown.
+We might need to construct Markdown programmatically.
+</div><div id="widget45"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget45"))</script><div>## Data
+</div><div>No grammar is necessary for primitives and collections.
+</div><div id="widget48"></div><script type="application/x-scittle">(dom/render (fn [] [(fn [{:keys [edn-str]}] (let [api (js/portal.extensions.vs_code_notebook.activate)] [:div [:div]])) {}]) (.getElementById js/document "widget48"))</script><div>One challenge is when the data is very large.
+Ideally some preview would be available.
+</div></body></html>

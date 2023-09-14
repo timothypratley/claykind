@@ -8,7 +8,9 @@
             [clojure.string :as str]
             [rewrite-clj.parser :as parser]
             [rewrite-clj.node :as node]
-            [sci.core :as sci]))
+            [sci.core :as sci]
+            [sci.impl.io :as sio])
+  (:import (java.io StringWriter)))
 
 (def evaluators #{:clojure :sci :babashka})
 
@@ -21,7 +23,7 @@
   "By default, eval errors will be rethrown.
   Binding *on-eval-error* to nil will cause the error to pass through instead.
   *on-eval-error* may be bound to a function to provide alternative behavior like warning.
-  When bound to a function the result will be ignored."
+  When bound to a function the result will be ignored, but subsequent exceptions will propagate."
   [context ex]
   (throw (ex-info (str "Eval failed: " (ex-message ex))
                   context
@@ -50,22 +52,31 @@
        ;; remove leading semicolons or shebangs, and one non-newline space if present.
        :kindly/comment (str/replace-first code #"^(;|#!)*[^\S\r\n]?" "")}
 
-      ;; evaluate for value
-      (let [form (node/sexpr node)]
-        (try
-          {:code  code
-           :form  form
-           :value (if (= evaluator :sci)
-                    (sci/eval-form ctx form)
-                    (eval form))}
-          (catch Throwable ex
-            (when *on-eval-error*
-              (*on-eval-error* {:code code
-                                :form form}
-                               ex))
-            {:code  code
-             :form  form
-             :error ex}))))))
+      ;; evaluate for value, taking care to capture stderr/stdout and exceptions
+      (let [form (node/sexpr node)
+            out (new StringWriter)
+            err (new StringWriter)
+            context {:code code
+                     :form form}]
+        (merge context
+               (try
+                 {:value (if (= evaluator :sci)
+                           ;; TODO: binding out/err does not work, not sure why.
+                           ;; maybe try System.setOut(myPrintStream) instead?
+                           (sci/binding [sci/out out
+                                         sci/err err]
+                                        (sci/eval-form ctx form))
+                           (binding [*out* out
+                                     *err* err]
+                             (eval form)))}
+                 (catch Throwable ex
+                   (when *on-eval-error*
+                     (*on-eval-error* context ex))
+                   {:exception ex}))
+               (when (pos? (.length (.getBuffer out)))
+                 {:out (str out)})
+               (when (pos? (.length (.getBuffer err)))
+                 {:err (str err)}))))))
 
 (defn read-string
   "Parse and evaluate the first form in a string.
