@@ -33,7 +33,12 @@
 (def body
   [:body (scittle-script '(ns main
                             (:require [reagent.core :as r]
-                                      [reagent.dom :as dom])))])
+                                      [reagent.dom :as dom]
+                                      [emmy-viewers.sci]))
+                         ;; TODO: EmmyViewers are not loaded...
+                         ;; do we need to make a scittle.emmy?
+                         ;; cljs.pprint plugin
+                         '(emmy-viewers.sci/install!))])
 
 (def as-skittle-xform
   (comp (map-indexed div-and-script) cat))
