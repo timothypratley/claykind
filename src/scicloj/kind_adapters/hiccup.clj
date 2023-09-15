@@ -37,8 +37,10 @@
 (defmethod adapt :kind/seq [{:keys [value]}]
   (map adapt-value value))
 
-;; TODO: include vega
+(defmethod adapt :kind/vega [{:keys [value]}]
+  '(fn [id]
+     (js/vegaEmbed (str "#" id) value)))
+
 (defmethod adapt :kind/vega-lite [{:keys [value]}]
-  (let [id (gensym)]
-    ['(fn []
-        [:div {:id id}])]))
+  '(fn [id]
+     (js/vegaEmbed (str "#" id) value)))

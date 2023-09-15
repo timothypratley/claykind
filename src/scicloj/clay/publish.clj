@@ -53,9 +53,9 @@
                     [(get formats format)]))]
     (if help
       (println summary)
-      (doseq [{:keys [file contexts]} (api/all-notebooks dirs)
+      (doseq [{:keys [file] :as notebook} (api/all-notebooks dirs)
               [ext format] formats]
-        (->> (format contexts options)
+        (->> (format notebook options)
              (spit! (target file ext options)))))))
 
 (comment

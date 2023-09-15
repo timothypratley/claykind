@@ -28,6 +28,6 @@
       ;; TODO: maybe error
       [:div (:code context)])))
 
-(defn notes-to-html-portal [contexts options]
+(defn notes-to-html-portal [{:keys [contexts]} options]
   (->> (mapv expr-result contexts)
        (cre/page)))

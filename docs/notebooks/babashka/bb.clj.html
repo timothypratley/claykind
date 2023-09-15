@@ -1,1 +1,15 @@
-<html><body></body></html>
+<!DOCTYPE html>
+<html><head><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="portal-main.js" type="text/javascript"></script><script src="http://localhost:52509/main.js?" type="text/javascript"></script></head><body><div># Babashka notebooks
+</div><div>Babashka is, by design, as close to Clojure as possible.
+</div><div><pre><code>"(def now (java.time.ZonedDateTime/now))"</code></pre><div>VAR#'scicloj.clay.publish/now</div></div><div><pre><code>"(def LA-timezone (java.time.ZoneId/of \"America/Los_Angeles\"))"</code></pre><div>VAR#'scicloj.clay.publish/LA-timezone</div></div><div><pre><code>"(def LA-time (.withZoneSameInstant now LA-timezone))"</code></pre><div>VAR#'scicloj.clay.publish/LA-time</div></div><div><pre><code>"(def pattern (java.time.format.DateTimeFormatter/ofPattern \"HH:mm\"))"</code></pre><div>VAR#'scicloj.clay.publish/pattern</div></div><div><pre><code>"(println (.format LA-time pattern))"</code></pre><div><pre><code>nil</code></pre></div></div><div>The notable differences are:
+</div><div>* Code is evaluated with [Sci](https://github.com/babashka/SCI)
+* Not all of Clojure is available
+* Files start with a shell directive instead of a namespace
+</div><div>Did you know that Clojure treats `#!` as a comment?
+</div><div>So you can already create Babashka notebooks if you ignore the differences,
+but this project (claykind) will detect Babashka and use Sci,
+which will make it more directly compatible.
+</div><div>Would it be interesting thing to try is running claykind from babashka?
+What possibilities does that open up?
+Faster command-line blog generation?
+</div></body></html>

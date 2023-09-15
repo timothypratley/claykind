@@ -60,7 +60,7 @@
                      :form form}]
         (merge context
                (try
-                 {:value (if (= evaluator :sci)
+                 {:value (if #_(= evaluator :sci) false
                            ;; TODO: binding out/err does not work, not sure why.
                            ;; maybe try System.setOut(myPrintStream) instead?
                            (sci/binding [sci/out out

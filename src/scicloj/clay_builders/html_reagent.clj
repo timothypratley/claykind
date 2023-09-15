@@ -5,12 +5,12 @@
 
 (defn scittle-script [& cljs-forms]
   [:script {:type "application/x-scittle"}
-   (->> cljs-forms
-        (map pr-str)
-        (str/join "\n"))])
+   ;; TODO: maybe we can use cljfmt?
+   (->> (map pr-str cljs-forms)
+        (str/join \newline))])
 
 (defn div-and-script [idx widget]
-  (if (keyword? (first widget))
+  (if (vector? widget)
     [widget]
     (let [id (str "widget" idx)]
       [[:div {:id id}]
