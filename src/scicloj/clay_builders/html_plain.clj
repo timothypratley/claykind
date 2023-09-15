@@ -7,11 +7,14 @@
   ;; TODO: handle error
   (if-let [c (:kindly/comment context)]
     [:div c]
-    [:div
-     ;; code
-     [:pre [:code (pr-str code)]]
-     ;; value
-     (ahiccup/adapt context)]))
+    (ahiccup/adapt context)
+    ;; TODO: need to show these and create the scittle
+    #_(let [x ]
+      [:div
+       ;; code
+       [:pre [:code (pr-str code)]]
+       ;; value
+       (cre/div-and-script idx)])))
 
 ;; using reagent for some cases still
 #_

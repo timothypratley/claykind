@@ -161,11 +161,66 @@ Plots have the richest grammar.
 Two popular grammars for plotting are Vega and ggplot2.
 
 ```clojure
-^:kind/vega
-{}
+(defn vega-lite-point-plot [data]
+  ^:kind/vega-lite
+  {:data {:values data},
+   :mark "point"
+   :encoding
+   {:size {:field "w" :type "quantitative"}
+    :x    {:field "x", :type "quantitative"},
+    :y    {:field "y", :type "quantitative"},
+    :fill {:field "z", :type "nominal"}}})
 
-;=> Unimplemented: :kind/vega
-;   {}
+;=> Unimplemented: :kind/var
+;   #'kindly.grammars/vega-lite-point-plot
+```
+
+```clojure
+(defn random-data [n]
+  (->> (repeatedly n #(- (rand) 0.5))
+       (reductions +)
+       (map-indexed (fn [x y]
+                      {:w (rand-int 9)
+                       :z (rand-int 9)
+                       :x x
+                       :y y}))))
+
+;=> Unimplemented: :kind/var
+;   #'kindly.grammars/random-data
+```
+
+```clojure
+(defn random-vega-lite-plot [n]
+  (-> n
+      random-data
+      vega-lite-point-plot))
+
+;=> Unimplemented: :kind/var
+;   #'kindly.grammars/random-vega-lite-plot
+```
+
+```clojure
+^:kind/vega-lite
+(random-vega-lite-plot 9)
+
+;=> Unimplemented: :kind/vega-lite
+;   {:encoding
+;    {:y {:field "y", :type "quantitative"},
+;     :fill {:field "z", :type "nominal"},
+;     :size {:field "w", :type "quantitative"},
+;     :x {:field "x", :type "quantitative"}},
+;    :mark "point",
+;    :data
+;    {:values
+;     ({:y -0.4275751678440296, :w 2, :z 3, :x 0}
+;      {:y 0.03798066856106774, :w 4, :z 8, :x 1}
+;      {:y 0.03116107075061325, :w 0, :z 7, :x 2}
+;      {:y 0.29780079004265714, :w 8, :z 1, :x 3}
+;      {:y 0.6401328373088503, :w 7, :z 5, :x 4}
+;      {:y 0.532597441774286, :w 1, :z 5, :x 5}
+;      {:y 0.13005293287901254, :w 1, :z 8, :x 6}
+;      {:y 0.19810803073784322, :w 2, :z 0, :x 7}
+;      {:y 0.6779143736640543, :w 6, :z 4, :x 8})}}
 ```
 
 Vega has json-schemas available which are comprehensive.
@@ -191,7 +246,7 @@ It is nice to be able to use "send form to Portal" or similar, can this be done 
 (ImageIO/read (io/file "claykind.png"))
 
 ;=> Unimplemented: :kind/image
-;   #object[java.awt.image.BufferedImage 0x23e89f0e "BufferedImage@23e89f0e: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@46f20caa transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3"]
+;   #object[java.awt.image.BufferedImage 0x43a08b91 "BufferedImage@43a08b91: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@46f20caa transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3"]
 ```
 
 Users may benefit from a shorthand helper function `(image "claykind.png")`.

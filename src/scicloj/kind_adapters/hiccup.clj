@@ -35,12 +35,13 @@
   [:div "TABLE" (pr-str value)])
 
 (defmethod adapt :kind/seq [{:keys [value]}]
-  (map adapt-value value))
+  (into [:div] (map adapt-value value)))
 
 (defmethod adapt :kind/vega [{:keys [value]}]
-  '(fn [id]
-     (js/vegaEmbed (str "#" id) value)))
+  (list 'fn '[id]
+        (list 'js/vegaEmbed '(str "#" id) (list 'clj->js (list 'quote value)))))
 
 (defmethod adapt :kind/vega-lite [{:keys [value]}]
-  '(fn [id]
-     (js/vegaEmbed (str "#" id) value)))
+  ;; TODO: it would be nice if we had id passed in and didn't need a lambda
+  (list 'fn '[id]
+        (list 'js/vegaEmbed '(str "#" id) (list 'clj->js (list 'quote value)))))
