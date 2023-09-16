@@ -1,5 +1,6 @@
 (ns scicloj.kind-adapters.hiccup
-  (:require [scicloj.kindly-advice.v1.api :as ka]))
+  (:require [clojure.data.json :as json]
+            [scicloj.kindly-advice.v1.api :as ka]))
 
 (defmulti adapt :kind)
 
@@ -37,11 +38,13 @@
 (defmethod adapt :kind/seq [{:keys [value]}]
   (into [:div] (map adapt-value value)))
 
-(defmethod adapt :kind/vega [{:keys [value]}]
-  (list 'fn '[id]
-        (list 'js/vegaEmbed '(str "#" id) (list 'clj->js (list 'quote value)))))
+(defn- vega [value]
+  [:div
+   [:script (str "vegaEmbed(document.currentScript.parentElement, " (json/write-str value) ");")]])
 
+(defmethod adapt :kind/vega [{:keys [value]}]
+  (vega value))
+
+;; TODO: it would be nice if we had id passed in and didn't need a lambda
 (defmethod adapt :kind/vega-lite [{:keys [value]}]
-  ;; TODO: it would be nice if we had id passed in and didn't need a lambda
-  (list 'fn '[id]
-        (list 'js/vegaEmbed '(str "#" id) (list 'clj->js (list 'quote value)))))
+  (vega value))

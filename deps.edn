@@ -14,13 +14,17 @@
         io.github.escherize/huff        {:mvn/version "0.1.0"}
         hiccup/hiccup                   {:mvn/version "2.0.0-RC1"}
         org.clojars.daslu/portal        {:mvn/version "0.46.0-experimental"}
+        backtick/backtick               {:mvn/version "0.3.5"}
+        zprint/zprint                   {:mvn/version "1.2.7"}
+        cljfmt/cljfmt                   {:mvn/version "0.9.2"}
+        org.clojure/data.json           {:mvn/version "2.4.0"}
         }
  :aliases
  {
   ;; Run examples with `clojure -M:dev -m publish`
   :dev    {:extra-paths ["notebooks" "test" "examples" "dev"]
            :extra-deps  {org.clojure/tools.cli {:mvn/version "1.0.219"}
-                         #_#_djblue/portal         {:mvn/version "0.46.0"}
+                         #_#_djblue/portal {:mvn/version "0.46.0"}
                          metosin/malli         {:mvn/version "0.11.0"}}}
   ;; Run tests with `clojure -M:dev:test`
   :test   {:extra-paths ["test"]

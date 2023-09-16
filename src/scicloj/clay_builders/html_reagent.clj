@@ -1,25 +1,20 @@
 (ns scicloj.clay-builders.html_reagent
   (:require [clojure.string :as str]
-            [hiccup.page :as page]
-            [portal.api :as portal]))
+            [hiccup.page :as page]))
 
-(defn scittle-script [& cljs-forms]
+;; This scittle macro is cool, but overkill
+
+;;[backtick :as bt]
+;;[zprint.core :as zp]
+
+#_(defn fmt [x]
+  (with-out-str (zp/zprint x)))
+
+#_(defmacro scittle [& body]
   [:script {:type "application/x-scittle"}
-   ;; TODO: maybe we can use cljfmt?
-   (->> (map pr-str cljs-forms)
-        (str/join \newline))])
-
-(defn div-and-script [idx widget]
-  (if (vector? widget)
-    [widget]
-    (let [id (str "widget" idx)]
-      [[:div {:id id}]
-       (scittle-script (list widget id))])))
-
-;; TODO: don't do this
-(defonce portal-dev (portal/url (portal/start {})))
-(def portal-url (let [[host query] (str/split portal-dev #"\?")]
-                  (str host "/main.js?" query)))
+   `(->> ~(mapv bt/template-fn body)
+         (map fmt)
+         (str/join \newline))])
 
 ;; TODO: how do we want to consume dependencies?
 ;;
@@ -53,21 +48,13 @@
                           "https://cdn.jsdelivr.net/npm/vega@5"
                           "https://cdn.jsdelivr.net/npm/vega-lite@5"
                           "https://cdn.jsdelivr.net/npm/vega-embed@6"
-                          "portal-main.js"
-                          portal-url)])
+                          "portal-main.js")])
 
 (def body
-  [:body #_(scittle-script '(ns main
-                            (:require [reagent.core :as r]
-                                      [reagent.dom :as dom]
-                                      [emmy-viewers.sci]))
-                         ;; TODO: EmmyViewers are not loaded...
-                         ;; do we need to make a scittle.emmy?
-                         ;; cljs.pprint plugin
-                         '(emmy-viewers.sci/install!))])
-
-(def as-skittle-xform
-  (comp (map-indexed div-and-script) cat))
+  [:body [:script {:type "application/x-scittle"}
+"(ns main
+  (:require [reagent.core :as r]
+            [reagent.dom :as dom]))"]])
 
 (defn page [widgets]
-  (page/html5 head (into body as-skittle-xform widgets)))
+  (page/html5 head (into body widgets)))
