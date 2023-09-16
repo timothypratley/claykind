@@ -14,16 +14,15 @@
                 , document.currentScript.parentElement);")]])
 
 (defn expr-result [{:keys [code] :as context}]
-  (if-let [c (:kindly/comment context)]
-    [:div c]
-    (if (contains? context :value)
-      [:div
-       ;; code
-       [:pre [:code code]]
-       ;; value
-       (portal-widget (kpi/prepare context))]
-      ;; TODO: maybe error
-      [:div (:code context)])))
+  ;; TODO: kpi/prepare should handle missing value
+  (if (contains? context :value)
+    [:div
+     ;; code
+     [:pre [:code code]]
+     ;; value
+     (portal-widget (kpi/prepare context))]
+    ;; TODO: maybe error
+    [:div (:code context)]))
 
 (defn notes-to-html-portal [{:keys [contexts]} options]
   (->> (mapv expr-result contexts)

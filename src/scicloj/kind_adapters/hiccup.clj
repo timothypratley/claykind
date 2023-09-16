@@ -6,23 +6,36 @@
 (defmulti adapt :kind)
 
 (defmethod adapt :default [{:keys [value kind]}]
-  [:div
-   (when kind
-     [:div "Unimplemented: " [:code (pr-str kind)]])
-   [:pre [:code (pr-str value)]]])
+  (if kind
+    [:div
+     [:div "Unimplemented: " [:code (pr-str kind)]]
+     [:code (pr-str value)]]
+    [:code (pr-str value)]))
 
 (defn adapt-value [v]
   (adapt (ka/advise {:value v})))
 
-;; TODO: make it pretty... grid?
+(defn grid [n vs color]
+  (into [:div {:style {:display               "grid"
+                       :grid-template-columns (str "repeat(" n ", auto)")
+                       :gap                   10
+                       :align-items           "center"
+                       :justify-content       "center"
+                       :text-align            "center"
+                       :border                "solid 1px lightgray"
+                       :background            color}}]
+        (for [v vs]
+          (adapt-value v))))
+
+;; TODO: make it pretty... grid? grid sux
 (defmethod adapt :kind/vector [{:keys [value]}]
-  `[:div "[" ~@(map adapt-value value) "]"])
+  (grid 1 value "lightblue"))
 
 (defmethod adapt :kind/map [{:keys [value]}]
-  `[:div "{" ~@(map adapt-value value) "}"])
+  (grid 2 (apply concat value) "lightgreen"))
 
 (defmethod adapt :kind/set [{:keys [value]}]
-  `[:div "#{" ~@(map adapt-value value) "}"])
+  (grid 1 value "lightyellow"))
 
 (defmethod adapt :kind/image [{:keys [value]}]
   [:img {:src value}])
