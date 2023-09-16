@@ -212,15 +212,15 @@ Two popular grammars for plotting are Vega and ggplot2.
 ;    :mark "point",
 ;    :data
 ;    {:values
-;     ({:y 0.1928835177440794, :w 4, :z 2, :x 0}
-;      {:y 0.6307190452411674, :w 0, :z 3, :x 1}
-;      {:y 1.1166012093596054, :w 3, :z 5, :x 2}
-;      {:y 1.078364176516005, :w 2, :z 8, :x 3}
-;      {:y 0.6639055121923864, :w 0, :z 3, :x 4}
-;      {:y 0.19993739076167993, :w 4, :z 1, :x 5}
-;      {:y -0.1620654923385697, :w 2, :z 0, :x 6}
-;      {:y 0.1379622812865754, :w 5, :z 3, :x 7}
-;      {:y 0.5335090060449843, :w 4, :z 7, :x 8})}}
+;     ({:y 0.28236976901999866, :w 0, :z 4, :x 0}
+;      {:y 0.515660027677136, :w 6, :z 5, :x 1}
+;      {:y 0.04706167923354265, :w 2, :z 7, :x 2}
+;      {:y -0.24156977629270948, :w 2, :z 8, :x 3}
+;      {:y -0.3106086945567229, :w 6, :z 1, :x 4}
+;      {:y -0.7324286112893555, :w 5, :z 3, :x 5}
+;      {:y -0.641615093125577, :w 0, :z 7, :x 6}
+;      {:y -0.6933732060121094, :w 8, :z 7, :x 7}
+;      {:y -0.8185333203429527, :w 0, :z 0, :x 8})}}
 ```
 
 Vega has json-schemas available which are comprehensive.
@@ -246,7 +246,7 @@ It is nice to be able to use "send form to Portal" or similar, can this be done 
 (ImageIO/read (io/file "claykind.png"))
 
 ;=> Unimplemented: :kind/image
-;   #object[java.awt.image.BufferedImage 0x3f789162 "BufferedImage@3f789162: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@66ac88df transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3"]
+;   #object[java.awt.image.BufferedImage 0x38ded75e "BufferedImage@38ded75e: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@45833d0f transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3"]
 ```
 
 Users may benefit from a shorthand helper function `(image "claykind.png")`.

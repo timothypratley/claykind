@@ -1,6 +1,7 @@
 (ns scicloj.kind-adapters.hiccup
   (:require [clojure.data.json :as json]
-            [scicloj.kindly-advice.v1.api :as ka]))
+            [scicloj.kindly-advice.v1.api :as ka]
+            [scicloj.clay.markdown :as md]))
 
 (defmulti adapt :kind)
 
@@ -26,8 +27,13 @@
 (defmethod adapt :kind/image [{:keys [value]}]
   [:img {:src value}])
 
-(defmethod adapt :kind/comment [{:kindly/keys [comment]}]
-  [:p comment])
+;; TODO: comments are currently handled higher, should we handle them here or there??
+;; probably here, because kind/md exists also
+(defmethod adapt :kind/comment [context]
+  (md/render (:kindly/comment context)))
+
+(defmethod adapt :kind/md [{:keys [value]}]
+  (md/render value))
 
 (defmethod adapt :kind/var [{:keys [value]}]
   [:div "VAR" (str value)])

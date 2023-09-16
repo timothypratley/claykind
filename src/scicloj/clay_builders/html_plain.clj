@@ -4,14 +4,12 @@
             [scicloj.kind-adapters.hiccup :as ahiccup]))
 
 (defn expr-result [{:keys [code] :as context}]
-  ;; TODO: handle error
-  (if-let [c (:kindly/comment context)]
-    [:div c]
-    [:div
-     ;; code
-     [:pre [:code code]]
-     ;; value
-     (ahiccup/adapt context)]))
+  ;; TODO: handle errors (in adapter???)
+  [:div
+   ;; code
+   [:pre [:code code]]
+   ;; value
+   (ahiccup/adapt context)])
 
 ;; using reagent for some cases still
 #_
