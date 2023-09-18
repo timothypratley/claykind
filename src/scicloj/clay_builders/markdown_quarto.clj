@@ -6,21 +6,16 @@
 (defn message [msg]
   (str ">" msg \newline))
 
-(defn as-comments [leader s]
-  (str \newline
-       leader (->> (str/split-lines s)
-                   (str/join (str \newline ";   "))) \newline))
-
 (defn clojure-code [{:keys [code exception out err] :as context}]
   (str "```clojure" \newline
        code \newline
-       (when out
-         (as-comments ";OUT " out))
-       (when err
-         (as-comments ";ERR " err))
-       (when (contains? context :value)
-         (as-comments ";=> " (qmd/adapt context)))
        "```" \newline
+       (when out
+         (qmd/as-printed-clj #_";OUT " out)) ; TODO: a separate box?
+       (when err
+         (qmd/as-printed-clj #_";ERR " err)) ; TODO: a separate box?
+       (when (contains? context :value)
+         (qmd/adapt context))
        (when exception
          (str \newline
               (message exception)))))
@@ -35,11 +30,22 @@
           (contains? context :exception)) (clojure-code context)
       :else code)))
 
+(def styles
+  "
+<style>
+.printedClojure .sourceCode {
+  background-color: transparent;
+  border-style: none;
+}
+</style>
+")
+
 (defn notes-to-md
   "Creates a markdown file from a notebook"
   [{:keys [contexts]} options]
-  (format "---\n%s\n---\n%s"
+  (format "---\n%s\n---\n%s%s"
           (yaml/generate-string options)
+          styles
           (->> contexts
                (map render-md )
                (str/join \newline))))

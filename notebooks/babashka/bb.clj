@@ -10,6 +10,12 @@
 
 {:x (range 3)}
 
+;; ## Hiccup
+
+^:kind/hiccup
+[:div {:style {:background-color "#effeef"}}
+ [:big [:big 3]]]
+
 ;; ## Time
 (def now (java.time.ZonedDateTime/now))
 (def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))
