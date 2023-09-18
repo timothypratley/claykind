@@ -60,3 +60,27 @@
 
 (comment
   (-main))
+
+(defn render [clj-path qmd-path]
+  (->> clj-path
+       api/notebook
+       (#(qmd/notes-to-md
+          {:contexts %}
+          {:format
+           {:html {:toc true
+                   :theme :spacelab}
+            ;; :revealjs {:theme :serif
+            ;;            :navigation-mode :vertical
+            ;;            :transition :slide
+            ;;            :background-transition :fade
+            ;;            :incremental true}
+            }
+           :highlight-style :solarized}))
+       (spit qmd-path)))
+
+(defn run! []
+  (render "notebooks/babashka/bb.clj" "book/chapters/bb.qmd")
+  (render "notebooks/babashka/bb1.clj" "book/chapters/bb1.qmd"))
+
+(comment
+  (run!))
