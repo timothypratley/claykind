@@ -33,7 +33,7 @@ Babashka is, by design, as close to Clojure as possible.
 ```clojure
 (println (.format LA-time pattern))
 
-;OUT 22:48
+;OUT 19:01
 
 ;=> nil
 ```

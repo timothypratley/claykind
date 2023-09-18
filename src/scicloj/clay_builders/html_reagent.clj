@@ -8,13 +8,13 @@
 ;;[zprint.core :as zp]
 
 #_(defn fmt [x]
-  (with-out-str (zp/zprint x)))
+    (with-out-str (zp/zprint x)))
 
 #_(defmacro scittle [& body]
-  [:script {:type "application/x-scittle"}
-   `(->> ~(mapv bt/template-fn body)
-         (map fmt)
-         (str/join \newline))])
+    [:script {:type "application/x-scittle"}
+     `(->> ~(mapv bt/template-fn body)
+           (map fmt)
+           (str/join \newline))])
 
 ;; TODO: how do we want to consume dependencies?
 ;;
@@ -40,21 +40,23 @@
 ;; Not solved by Clay/Clerk
 
 (def head
-  [:head (page/include-js "https://unpkg.com/react@18/umd/react.production.min.js"
-                          "https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
-                          "https://scicloj.github.io/scittle/js/scittle.js"
-                          "https://scicloj.github.io/scittle/js/scittle.reagent.js"
-                          ;; TODO: these aren't really reagent
-                          "https://cdn.jsdelivr.net/npm/vega@5"
-                          "https://cdn.jsdelivr.net/npm/vega-lite@5"
-                          "https://cdn.jsdelivr.net/npm/vega-embed@6"
-                          "portal-main.js")])
+  [:head
+   (page/include-css "style.css")
+   (page/include-js "https://unpkg.com/react@18/umd/react.production.min.js"
+                    "https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+                    "https://scicloj.github.io/scittle/js/scittle.js"
+                    "https://scicloj.github.io/scittle/js/scittle.reagent.js"
+                    ;; TODO: these aren't really reagent
+                    "https://cdn.jsdelivr.net/npm/vega@5"
+                    "https://cdn.jsdelivr.net/npm/vega-lite@5"
+                    "https://cdn.jsdelivr.net/npm/vega-embed@6"
+                    "portal-main.js")])
 
 (def body
   [:body [:script {:type "application/x-scittle"}
-"(ns main
-  (:require [reagent.core :as r]
-            [reagent.dom :as dom]))"]])
+          "(ns main
+            (:require [reagent.core :as r]
+                      [reagent.dom :as dom]))"]])
 
 (defn page [widgets]
   (page/html5 head (into body widgets)))

@@ -15,27 +15,24 @@
 (defn adapt-value [v]
   (adapt (ka/advise {:value v})))
 
-(defn grid [n vs color]
-  (into [:div {:style {:display               "grid"
-                       :grid-template-columns (str "repeat(" n ", auto)")
-                       :gap                   10
-                       :align-items           "center"
-                       :justify-content       "center"
-                       :text-align            "center"
-                       :border                "solid 1px lightgray"
-                       :background            color}}]
+(defn grid [props n vs]
+  (into [:div (merge-with merge
+                          {}
+                          props)]
+        ;; TODO: adapt outside! not a grid except by css
         (for [v vs]
-          (adapt-value v))))
+          [:div {:style {:border "1px solid grey"
+                         :padding "2px"}}
+           (adapt-value v)])))
 
-;; TODO: make it pretty... grid? grid sux
 (defmethod adapt :kind/vector [{:keys [value]}]
-  (grid 1 value "lightblue"))
+  (grid {:class "kind_vector"} 2 (apply concat (zipmap (range) value))))
 
 (defmethod adapt :kind/map [{:keys [value]}]
-  (grid 2 (apply concat value) "lightgreen"))
+  (grid {:class "kind_map"} 2 (apply concat value)))
 
 (defmethod adapt :kind/set [{:keys [value]}]
-  (grid 1 value "lightyellow"))
+  (grid {:class "kind_set"} 1 value))
 
 (defmethod adapt :kind/image [{:keys [value]}]
   [:img {:src value}])

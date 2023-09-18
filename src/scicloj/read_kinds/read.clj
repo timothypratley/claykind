@@ -129,3 +129,5 @@
              *unchecked-math* *unchecked-math*]
      (-> (parser/parse-file-all file)
          (eval-ast options)))))
+
+(load)

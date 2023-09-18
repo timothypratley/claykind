@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html><head><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="portal-main.js" type="text/javascript"></script></head><body><script type="application/x-scittle">(ns main
-  (:require [reagent.core :as r]
-            [reagent.dom :as dom]))</script><div><pre><code>(ns test.basic)</code></pre><div><script>portal.extensions.vs_code_notebook.activate().renderOutputItem(
+<html><head><link href="style.css" rel="stylesheet" type="text/css"><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="portal-main.js" type="text/javascript"></script></head><body><script type="application/x-scittle">(ns main
+            (:require [reagent.core :as r]
+                      [reagent.dom :as dom]))</script><div><pre><code>(ns test.basic)</code></pre><div><script>portal.extensions.vs_code_notebook.activate().renderOutputItem(
                 {"mime": "x-application/edn",
                  "text": (() => "^#:portal.viewer{:default :portal.viewer/hiccup} [:div nil [:portal.viewer/inspector nil]]")}
                 , document.currentScript.parentElement);</script></div></div><div></div><div><pre><code>(+ 1 2 3)</code></pre><div><script>portal.extensions.vs_code_notebook.activate().renderOutputItem(
@@ -12,7 +12,7 @@
      ;; I like addition
      9))</code></pre><div><script>portal.extensions.vs_code_notebook.activate().renderOutputItem(
                 {"mime": "x-application/edn",
-                 "text": (() => "^#:portal.viewer{:default :portal.viewer/hiccup} [:div [:p \"unimplemented kind\" [:code \":kind/var\"]] [:portal.viewer/inspector ^{:arglists ([x]), :line 1, :column 1, :file \"/private/var/folders/8r/y2d3thln6s3fyrl_s6vknb440000gn/T/form-init10530333755705590957.clj\", :name f, :ns #object[clojure.lang.Namespace 0x153e3db8 \"test.basic\"]} #'test.basic/f]]")}
+                 "text": (() => "^#:portal.viewer{:default :portal.viewer/hiccup} [:div [:p \"unimplemented kind\" [:code \":kind/var\"]] [:portal.viewer/inspector ^{:arglists ([x]), :line 1, :column 1, :file \"/private/var/folders/8r/y2d3thln6s3fyrl_s6vknb440000gn/T/form-init11597926465484582051.clj\", :name f, :ns #object[clojure.lang.Namespace 0x44646868 \"test.basic\"]} #'test.basic/f]]")}
                 , document.currentScript.parentElement);</script></div></div><div><pre><code>(f 20)</code></pre><div><script>portal.extensions.vs_code_notebook.activate().renderOutputItem(
                 {"mime": "x-application/edn",
                  "text": (() => "^#:portal.viewer{:default :portal.viewer/hiccup} [:div nil [:portal.viewer/inspector 29]]")}
