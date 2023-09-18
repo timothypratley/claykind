@@ -64,3 +64,6 @@
 ;; TODO: it would be nice if we had id passed in and didn't need a lambda
 (defmethod adapt :kind/vega-lite [{:keys [value]}]
   (vega value))
+
+(defmethod adapt :kind/hiccup [{:keys [value]}]
+  value)
