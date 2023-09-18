@@ -1,6 +1,7 @@
 (ns scicloj.clay-builders.markdown-quarto
   (:require [clojure.string :as str]
-            [scicloj.kind-adapters.qmd :as qmd]))
+            [scicloj.kind-adapters.qmd :as qmd]
+            [clj-yaml.core :as yaml]))
 
 (defn message [msg]
   (str ">" msg \newline))
@@ -37,5 +38,8 @@
 (defn notes-to-md
   "Creates a markdown file from a notebook"
   [{:keys [contexts]} options]
-  (->> (map render-md contexts)
-       (str/join \newline)))
+  (format "---\n%s\n---\n%s"
+          (yaml/generate-string options)
+          (->> contexts
+               (map render-md )
+               (str/join \newline))))
