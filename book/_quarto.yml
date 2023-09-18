@@ -1,0 +1,17 @@
+
+project:
+  type: book
+
+format:
+  html:
+    theme: cosmo
+
+book:
+  title: "book"
+  chapters:
+    - index.qmd
+    - chapters/bb.qmd
+    - chapters/bb1.qmd
+
+
+   
