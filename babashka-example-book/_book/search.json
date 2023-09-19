@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "book",
+    "section": "",
+    "text": "1 Preface\nHello"
+  },
+  {
+    "objectID": "chapters/bb.html#basic-examples",
+    "href": "chapters/bb.html#basic-examples",
+    "title": "2  Babashka notebooks",
+    "section": "2.1 Basic Examples",
+    "text": "2.1 Basic Examples\n(+ 1 2)\n\n3\n\n{:x (range 3)}\n\n{:x (0 1 2)}"
+  },
+  {
+    "objectID": "chapters/bb.html#hiccup",
+    "href": "chapters/bb.html#hiccup",
+    "title": "2  Babashka notebooks",
+    "section": "2.2 Hiccup",
+    "text": "2.2 Hiccup\n^:kind/hiccup\n[:div {:style {:background-color \"#effeef\"}}\n [:big [:big 3]]]\n\n3"
+  },
+  {
+    "objectID": "chapters/bb.html#time",
+    "href": "chapters/bb.html#time",
+    "title": "2  Babashka notebooks",
+    "section": "2.3 Time",
+    "text": "2.3 Time\n(def now (java.time.ZonedDateTime/now))\n\nVAR#’scicloj.clay.publish/now\n\n(def LA-timezone (java.time.ZoneId/of \"America/Los_Angeles\"))\n\nVAR#’scicloj.clay.publish/LA-timezone\n\n(def LA-time (.withZoneSameInstant now LA-timezone))\n\nVAR#’scicloj.clay.publish/LA-time\n\n(def pattern (java.time.format.DateTimeFormatter/ofPattern \"HH:mm\"))\n\nVAR#’scicloj.clay.publish/pattern\n\n(.format LA-time pattern)\n\n\"10:27\""
+  },
+  {
+    "objectID": "chapters/bb.html#babashka-vs-clojure",
+    "href": "chapters/bb.html#babashka-vs-clojure",
+    "title": "2  Babashka notebooks",
+    "section": "2.4 Babashka vs clojure",
+    "text": "2.4 Babashka vs clojure"
+  },
+  {
+    "objectID": "chapters/bb.html#section",
+    "href": "chapters/bb.html#section",
+    "title": "2  Babashka notebooks",
+    "section": "2.5 ",
+    "text": "2.5 \nThe notable differences are:\n\nCode is evaluated with Sci\nNot all of Clojure is available\nFiles start with a shell directive instead of a namespace"
+  },
+  {
+    "objectID": "chapters/bb.html#section-1",
+    "href": "chapters/bb.html#section-1",
+    "title": "2  Babashka notebooks",
+    "section": "2.6 ",
+    "text": "2.6 \nDid you know that Clojure treats #! as a comment?"
+  },
+  {
+    "objectID": "chapters/bb.html#section-2",
+    "href": "chapters/bb.html#section-2",
+    "title": "2  Babashka notebooks",
+    "section": "2.7 ",
+    "text": "2.7 \nSo you can already create Babashka notebooks if you ignore the differences, but this project (claykind) will detect Babashka and use Sci, which will make it more directly compatible."
+  },
+  {
+    "objectID": "chapters/bb.html#section-3",
+    "href": "chapters/bb.html#section-3",
+    "title": "2  Babashka notebooks",
+    "section": "2.8 ",
+    "text": "2.8 \nWould it be interesting thing to try is running claykind from babashka? What possibilities does that open up? Faster command-line blog generation?"
+  },
+  {
+    "objectID": "chapters/bb1.html",
+    "href": "chapters/bb1.html",
+    "title": "3  More experiments",
+    "section": "",
+    "text": "(range 9)\n\n(0 1 2 3 4 5 6 7 8)\n\n{:x (range 3)}\n\n{:x (0 1 2)}"
+  }
+]
