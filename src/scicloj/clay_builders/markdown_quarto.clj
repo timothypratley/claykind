@@ -42,9 +42,9 @@
 
 (defn notes-to-md
   "Creates a markdown file from a notebook"
-  [{:keys [contexts]} options]
+  [{:keys [contexts]} {:keys [quarto]}]
   (format "---\n%s\n---\n%s%s"
-          (yaml/generate-string options)
+          (yaml/generate-string quarto)
           styles
           (->> contexts
                (map render-md )

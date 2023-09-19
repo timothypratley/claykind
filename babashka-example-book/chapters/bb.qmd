@@ -1,8 +1,8 @@
 ---
-dirs: [notebooks]
-output-dir: docs
-format: all
-evaluator: clojure
+quarto:
+  format:
+    html: {toc: true, theme: spacelab}
+  highlight-style: solarized
 
 ---
 
@@ -69,7 +69,7 @@ Babashka is, by design, as close to Clojure as possible.
 ```
 <div class="printedClojure">
 ```clojure
-"10:49"
+"12:14"
 
 ```
 </div>

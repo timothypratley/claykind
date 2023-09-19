@@ -3,14 +3,18 @@
   Contexts are maps that contain top-level forms and their evaluated value,
   which will be further annotated with more information."
   (:refer-clojure :exclude [read-string])
-  (:require [clojure.tools.reader]
+  (:require [clojure.java.io :as io]
+            [clojure.tools.reader]
             [clojure.tools.reader.reader-types]
             [clojure.string :as str]
             [rewrite-clj.parser :as parser]
             [rewrite-clj.node :as node]
             [sci.core :as sci]
-            [sci.impl.io :as sio])
-  (:import (java.io StringWriter)))
+            [nrepl.core :as nrepl]
+            [sci.impl.io :as sio]
+            #_[babashka.main :as bb])
+  (:import (clojure.lang LineNumberingPushbackReader)
+           (java.io StringWriter)))
 
 (def evaluators #{:clojure :sci :babashka})
 
@@ -130,4 +134,33 @@
      (-> (parser/parse-file-all file)
          (eval-ast options)))))
 
-(load)
+(comment
+
+  ;; this doesn't seem to work...
+  (require '[babashka.main :as bb])
+  (bb/-main)
+
+  ;; prepl seems like a perfect thing to try but I'm not sure how to make it work
+  ;; this hangs the REPL and nothing happens...
+  (let [file "notebooks/babashka/bb.clj"
+        in-reader (clojure.lang.LineNumberingPushbackReader. (io/reader file))
+        out-fn (fn [x]
+                 (prn "BB" x))]
+    (clojure.core.server/prepl in-reader out-fn))
+
+  (import (java.net Socket))
+  (import (java.io DataInputStream DataOutputStream))
+
+  (require '[nrepl.core :as nrepl])
+  (with-open [conn (nrepl/connect :port 1667)]
+    (-> (nrepl/client conn 1000)                            ; message receive timeout required
+        (nrepl/message {:op "eval" :code "^:kind/hiccup [:div]"})
+
+        ;;(nrepl/response-values)
+        (nrepl/combine-responses)
+        ))
+
+  ;; we could make `read-kinds` babashka compatible (it probably already is!) and spit out the values.edn file
+  ;; then use that for the notebook tooling
+
+  )

@@ -2,6 +2,34 @@
 
 Babashka is, by design, as close to Clojure as possible.
 
+## Basic Examples
+
+```clojure
+(+ 1 2)
+
+;=> 3
+```
+
+```clojure
+{:x (range 3)}
+
+;=> Unimplemented: :kind/map
+;   {:x (0 1 2)}
+```
+
+## Hiccup
+
+```clojure
+^:kind/hiccup
+[:div {:style {:background-color "#effeef"}}
+ [:big [:big 3]]]
+
+;=> Unimplemented: :kind/hiccup
+;   [:div {:style {:background-color "#effeef"}} [:big [:big 3]]]
+```
+
+## Time
+
 ```clojure
 (def now (java.time.ZonedDateTime/now))
 
@@ -31,12 +59,14 @@ Babashka is, by design, as close to Clojure as possible.
 ```
 
 ```clojure
-(println (.format LA-time pattern))
+(.format LA-time pattern)
 
-;OUT 19:01
-
-;=> nil
+;=> "10:49"
 ```
+
+## Babashka vs clojure
+
+##
 
 The notable differences are:
 
@@ -44,11 +74,17 @@ The notable differences are:
 * Not all of Clojure is available
 * Files start with a shell directive instead of a namespace
 
+##
+
 Did you know that Clojure treats `#!` as a comment?
+
+##
 
 So you can already create Babashka notebooks if you ignore the differences,
 but this project (claykind) will detect Babashka and use Sci,
 which will make it more directly compatible.
+
+##
 
 Would it be interesting thing to try is running claykind from babashka?
 What possibilities does that open up?

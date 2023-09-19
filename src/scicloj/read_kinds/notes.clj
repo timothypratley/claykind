@@ -42,10 +42,16 @@
   (binding [read/*on-eval-error* nil]
     (read-notes file)))
 
+(def clojure-file-ext-regex
+  #"\.clj[cx]?$")
+
 (defn- clojure-source? [^File file]
   (boolean
     (and (.isFile file)
-         (re-matches #".*\.clj[cx]?$" (.getName file)))))
+         (re-find clojure-file-ext-regex (.getName file)))))
+(comment
+  (re-find clojure-file-ext-regex "foo.clj") ".clj"
+  (re-find clojure-file-ext-regex "baz.html") nil)
 
 (defn all-notes
   "Find and read all notebooks in a sequence of directory paths.
