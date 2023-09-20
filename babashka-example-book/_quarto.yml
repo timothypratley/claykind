@@ -12,3 +12,4 @@ book:
     - index.qmd
     - chapters/bb.qmd
     - chapters/bb1.qmd
+    - chapters/git-log-analysis.qmd

@@ -10,7 +10,7 @@
   Contexts contains the original code, the evaluated value, the kind, and advice."
   ([path] (notebook path {}))
   ([path options]
-   (notes/safe-read-notes (io/file path) options)))
+   (notes/read-notes (io/file path) options)))
 
 (defn all-notebooks
   "Finds all notebooks in dirs (or [\"notebooks\"])
