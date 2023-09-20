@@ -26,7 +26,8 @@
            (adapt-value v)])))
 
 (defmethod adapt :kind/vector [{:keys [value]}]
-  (grid {:class "kind_vector"} 2 (apply concat (zipmap (range) value))))
+  (grid {:class "kind_set"} 1 value)
+  #_(grid {:class "kind_vector"} 2 (apply concat (zipmap (range) value))))
 
 (defmethod adapt :kind/map [{:keys [value]}]
   (grid {:class "kind_map"} 2 (apply concat value)))
@@ -55,7 +56,7 @@
   (into [:div] (map adapt-value value)))
 
 (defn- vega [value]
-  [:div
+  [:div {:style {:width "100%"}}
    [:script (str "vegaEmbed(document.currentScript.parentElement, " (json/write-str value) ");")]])
 
 (defmethod adapt :kind/vega [{:keys [value]}]

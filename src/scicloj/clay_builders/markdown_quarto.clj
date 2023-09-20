@@ -1,7 +1,9 @@
 (ns scicloj.clay-builders.markdown-quarto
   (:require [clojure.string :as str]
             [scicloj.kind-adapters.qmd :as qmd]
-            [clj-yaml.core :as yaml]))
+            [clj-yaml.core :as yaml]
+            [hiccup.core :as hiccup]
+            [hiccup.page :as page]))
 
 (defn message [msg]
   (str ">" msg \newline))
@@ -43,9 +45,15 @@
 (defn notes-to-md
   "Creates a markdown file from a notebook"
   [{:keys [contexts]} {:keys [quarto]}]
-  (format "---\n%s\n---\n%s%s"
+  (format "---\n%s\n---\n%s\n%s\n%s"
           (yaml/generate-string quarto)
           styles
+          (hiccup/html
+           (page/include-js
+            "https://cdn.jsdelivr.net/npm/vega@5"
+            "https://cdn.jsdelivr.net/npm/vega-lite@5"
+            "https://cdn.jsdelivr.net/npm/vega-embed@6"
+            "portal-main.js"))
           (->> contexts
                (map render-md )
                (str/join \newline))))
