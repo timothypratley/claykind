@@ -25,7 +25,7 @@
     "href": "chapters/bb.html#time",
     "title": "2  Babashka notebooks",
     "section": "2.3 Time",
-    "text": "2.3 Time\n(def now (java.time.ZonedDateTime/now))\n\n\"#'user/now\"\n\n(def LA-timezone (java.time.ZoneId/of \"America/Los_Angeles\"))\n\n\"#'user/LA-timezone\"\n\n(def LA-time (.withZoneSameInstant now LA-timezone))\n\n\"#'user/LA-time\"\n\n(def pattern (java.time.format.DateTimeFormatter/ofPattern \"HH:mm\"))\n\n\"#'user/pattern\"\n\n(.format LA-time pattern)\n\n\"15:04\""
+    "text": "2.3 Time\n(def now (java.time.ZonedDateTime/now))\n\n\"#'user/now\"\n\n(def LA-timezone (java.time.ZoneId/of \"America/Los_Angeles\"))\n\n\"#'user/LA-timezone\"\n\n(def LA-time (.withZoneSameInstant now LA-timezone))\n\n\"#'user/LA-time\"\n\n(def pattern (java.time.format.DateTimeFormatter/ofPattern \"HH:mm\"))\n\n\"#'user/pattern\"\n\n(.format LA-time pattern)\n\n\"15:07\""
   },
   {
     "objectID": "chapters/bb.html#babashka-vs-clojure",
