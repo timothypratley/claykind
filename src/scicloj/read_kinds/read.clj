@@ -68,9 +68,9 @@
                      (*on-eval-error* context ex))
                    {:exception ex}))
                (when false #_(pos? (.length (.getBuffer out)))
-                 {:out (str out)})
+                     {:out (str out)})
                (when false #_(pos? (.length (.getBuffer err)))
-                 {:err (str err)}))))))
+                     {:err (str err)}))))))
 
 (defn read-string
   "Parse and evaluate the first form in a string.

@@ -59,21 +59,25 @@
 (defn babashka-safe-read-notes
   "Like `read-notes` but stores errors in the advice."
   [{:keys [filename options]}]
-  (prn (safe-read-notes (io/file filename) options)))
+  (binding [*ns* (find-ns 'user)]
+    (prn (safe-read-notes (io/file filename) options))))
 
 (defn bb-read-notes
   [^File file options]
-  (-> (sh/sh "bb"
-             "-Sdeps" (pr-str '{:deps {claykind/claykind {#_#_:mvn/version ""
-                                                          :local/root "."}}})
-             "--exec" "scicloj.read-kinds.notes/babashka-safe-read-notes"
-             (str :filename)
-             (str file)
-             (str :options)
-             (pr-str options))
-      ;; TODO: handle errors
-      :out
-      edn/read-string))
+  (let [{:keys [out err]}
+        (sh/sh "bb"
+               "-Sdeps" (pr-str '{:deps {claykind/claykind {#_#_:mvn/version ""
+                                                            :local/root "."}}})
+               "--exec" "scicloj.read-kinds.notes/babashka-safe-read-notes"
+               (str :filename)
+               (str file)
+               (str :options)
+               (pr-str options))]
+    (println err)
+    (->
+     ;; TODO: handle errors
+     out
+     edn/read-string)))
 
 (defn read-notes
   "Read a single notebook.
