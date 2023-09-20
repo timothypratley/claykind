@@ -52,7 +52,7 @@ Babashka is, by design, as close to Clojure as possible.
 ```
 <div class="printedClojure">
 ```clojure
-"#'scicloj.clay.publish/now"
+"#'user/now"
 
 ```
 </div>
@@ -62,7 +62,7 @@ Babashka is, by design, as close to Clojure as possible.
 ```
 <div class="printedClojure">
 ```clojure
-"#'scicloj.clay.publish/LA-timezone"
+"#'user/LA-timezone"
 
 ```
 </div>
@@ -72,7 +72,7 @@ Babashka is, by design, as close to Clojure as possible.
 ```
 <div class="printedClojure">
 ```clojure
-"#'scicloj.clay.publish/LA-time"
+"#'user/LA-time"
 
 ```
 </div>
@@ -82,7 +82,7 @@ Babashka is, by design, as close to Clojure as possible.
 ```
 <div class="printedClojure">
 ```clojure
-"#'scicloj.clay.publish/pattern"
+"#'user/pattern"
 
 ```
 </div>
@@ -92,7 +92,7 @@ Babashka is, by design, as close to Clojure as possible.
 ```
 <div class="printedClojure">
 ```clojure
-"12:35"
+"13:27"
 
 ```
 </div>

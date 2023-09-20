@@ -96,8 +96,12 @@
 
 ;; Hard coding some things for now...
 (defn render-babashka-example-book []
-  (render "babashka-example-book/notebooks/bb.clj" "babashka-example-book/chapters/bb.qmd")
-  (render "babashka-example-book/notebooks/bb1.clj" "babashka-example-book/chapters/bb1.qmd"))
+  (render "babashka-example-book/notebooks/bb.clj"
+          "babashka-example-book/chapters/bb.qmd")
+  (render "babashka-example-book/notebooks/bb1.clj"
+          "babashka-example-book/chapters/bb1.qmd")
+  (render "babashka-example-book/notebooks/git_log_analysis.clj"
+          "babashka-example-book/chapters/git-log-analysis.qmd"))
 
 (comment
   (render-babashka-example-book))

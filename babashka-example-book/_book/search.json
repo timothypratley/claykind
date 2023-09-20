@@ -25,7 +25,7 @@
     "href": "chapters/bb.html#time",
     "title": "2  Babashka notebooks",
     "section": "2.3 Time",
-    "text": "2.3 Time\n(def now (java.time.ZonedDateTime/now))\n\nVAR#’scicloj.clay.publish/now\n\n(def LA-timezone (java.time.ZoneId/of \"America/Los_Angeles\"))\n\nVAR#’scicloj.clay.publish/LA-timezone\n\n(def LA-time (.withZoneSameInstant now LA-timezone))\n\nVAR#’scicloj.clay.publish/LA-time\n\n(def pattern (java.time.format.DateTimeFormatter/ofPattern \"HH:mm\"))\n\nVAR#’scicloj.clay.publish/pattern\n\n(.format LA-time pattern)\n\n\"10:27\""
+    "text": "2.3 Time\n(def now (java.time.ZonedDateTime/now))\n\n\"#'user/now\"\n\n(def LA-timezone (java.time.ZoneId/of \"America/Los_Angeles\"))\n\n\"#'user/LA-timezone\"\n\n(def LA-time (.withZoneSameInstant now LA-timezone))\n\n\"#'user/LA-time\"\n\n(def pattern (java.time.format.DateTimeFormatter/ofPattern \"HH:mm\"))\n\n\"#'user/pattern\"\n\n(.format LA-time pattern)\n\n\"13:27\""
   },
   {
     "objectID": "chapters/bb.html#babashka-vs-clojure",
@@ -68,5 +68,26 @@
     "title": "3  More experiments",
     "section": "",
     "text": "(range 9)\n\n(0 1 2 3 4 5 6 7 8)\n\n{:x (range 3)}\n\n{:x (0 1 2)}"
+  },
+  {
+    "objectID": "chapters/git-log-analysis.html",
+    "href": "chapters/git-log-analysis.html",
+    "title": "4  Analysing git logs",
+    "section": "",
+    "text": "hello1"
+  },
+  {
+    "objectID": "chapters/git-log-analysis.html#setup",
+    "href": "chapters/git-log-analysis.html#setup",
+    "title": "4  Analysing git logs",
+    "section": "4.1 Setup",
+    "text": "4.1 Setup\n(+ 1 2)\n\n3\n\n(require '[scicloj.kindly.v4.kind :as kind])\n\nnil"
+  },
+  {
+    "objectID": "chapters/git-log-analysis.html#data-preparation",
+    "href": "chapters/git-log-analysis.html#data-preparation",
+    "title": "4  Analysing git logs",
+    "section": "4.2 Data preparation",
+    "text": "4.2 Data preparation\n(str *ns*)\n\n\"user\"\n\n(-> \"asaaajjjhsahah\"\n    (str/split #\"a\")\n    kind/pprint)\n\n[\"\" \"s\" \"\" \"\" \"jjjhs\" \"h\" \"h\"]"
   }
 ]
