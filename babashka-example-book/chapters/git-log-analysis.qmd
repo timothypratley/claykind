@@ -1,0 +1,60 @@
+---
+format:
+  html: {toc: true, theme: spacelab}
+highlight-style: solarized
+
+---
+
+<style>
+.printedClojure .sourceCode {
+  background-color: transparent;
+  border-style: none;
+}
+</style>
+# Analysing git logs
+
+## Setup
+
+```clojure
+(+ 1 2)
+```
+<div class="printedClojure">
+```clojure
+3
+
+```
+</div>
+
+```clojure
+(require '[scicloj.kindly.v4.kind :as kind])
+```
+<div class="printedClojure">
+```clojure
+nil
+
+```
+</div>
+
+## Data preparation
+
+```clojure
+(str *ns*)
+```
+<div class="printedClojure">
+```clojure
+"user"
+
+```
+</div>
+
+```clojure
+(-> "asaaajjjhsahah"
+    (str/split #"a")
+    kind/pprint)
+```
+<div class="printedClojure">
+```clojure
+["" "s" "" "" "jjjhs" "h" "h"]
+
+```
+</div>
