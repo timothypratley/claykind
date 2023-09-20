@@ -4,9 +4,6 @@
         org.scicloj/kindly-advice         {:mvn/version "1-alpha3"}
         rewrite-clj/rewrite-clj           {:mvn/version "1.1.47"}
         io.github.timothypratley/terisk   {:mvn/version "1.0.1"}
-        ;; TODO: sci and babashka could be optional?
-        org.babashka/sci                  {:mvn/version "0.8.40"}
-        ;; TODO: babashka requires more setup
         io.github.escherize/huff          {:mvn/version "0.1.0"}
         hiccup/hiccup                     {:mvn/version "2.0.0-RC1"}
         org.clojars.daslu/portal          {:mvn/version "0.46.0-experimental"}
@@ -16,11 +13,7 @@
         org.clojure/data.json             {:mvn/version "2.4.0"}
         com.vladsch.flexmark/flexmark-all {:mvn/version "0.64.8"}
         clj-commons/clj-yaml              {:mvn/version "1.0.27"}
-
-        babashka/babashka                 {:mvn/version "1.3.184"}
-        nrepl/nrepl                       {:mvn/version "1.0.0"}
-
-        }
+        nrepl/nrepl                       {:mvn/version "1.0.0"}}
  :aliases
  {
   ;; Run examples with `clojure -M:dev -m publish`

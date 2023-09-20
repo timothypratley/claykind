@@ -49,8 +49,8 @@
 
 ;; TODO: needs to handle relative paths better
 (defn render!
-  ([{:keys [dirs format] :as options}]
-   (doseq [{:keys [file] :as notebook} (api/all-notebooks dirs)
+  ([{:keys [format] :as options}]
+   (doseq [{:keys [file] :as notebook} (api/all-notebooks options)
            [ext format] (if (= format "all")
                           formats
                           (select-keys formats [format]))]
@@ -80,21 +80,19 @@
   (-main))
 
 (defn render [clj-path qmd-path]
-    (->> clj-path
-         api/notebook
-         (#(qmd/notes-to-md
-             {:contexts %}
-             {:quarto {:format
-                       {:html {:toc   true
-                               :theme :spacelab}
-                        ;; :revealjs {:theme :serif
-                        ;;            :navigation-mode :vertical
-                        ;;            :transition :slide
-                        ;;            :background-transition :fade
-                        ;;            :incremental true}
-                        }
-                       :highlight-style :solarized}}))
-         (spit! qmd-path)))
+  (let [options {:evaluator :babashka
+                 :quarto    {:format
+                             {:html {:toc   true
+                                     :theme :spacelab}
+                              ;; :revealjs {:theme :serif
+                              ;;            :navigation-mode :vertical
+                              ;;            :transition :slide
+                              ;;            :background-transition :fade
+                              ;;            :incremental true}
+                              }
+                             :highlight-style :solarized}}]
+    (->> (qmd/notes-to-md {:contexts (api/notebook clj-path options)} options)
+         (spit! qmd-path))))
 
 ;; Hard coding some things for now...
 (defn render-babashka-example-book []
@@ -110,21 +108,21 @@
 
 ;; TODO: needs to handle relative paths better
 #_(defn render-babashka-example-book []
-  (render! {:dirs       ["babashka-example-book/notebooks"]
-            :output-dir "babashka-example-book/chapters"
-            :format     "qmd"
-            ;; TODO: probably we want this data to live somewhere else (maybe a config file)
-            ;; and it should be the default, so we don't need to specify it
-            :quarto     {:format
-                         {:html {:toc   true
-                                 :theme :spacelab}
-                          ;; :revealjs {:theme :serif
-                          ;;            :navigation-mode :vertical
-                          ;;            :transition :slide
-                          ;;            :background-transition :fade
-                          ;;            :incremental true}
-                          }
-                         :highlight-style :solarized}}))
+    (render! {:dirs       ["babashka-example-book/notebooks"]
+              :output-dir "babashka-example-book/chapters"
+              :format     "qmd"
+              ;; TODO: probably we want this data to live somewhere else (maybe a config file)
+              ;; and it should be the default, so we don't need to specify it
+              :quarto     {:format
+                           {:html {:toc   true
+                                   :theme :spacelab}
+                            ;; :revealjs {:theme :serif
+                            ;;            :navigation-mode :vertical
+                            ;;            :transition :slide
+                            ;;            :background-transition :fade
+                            ;;            :incremental true}
+                            }
+                           :highlight-style :solarized}}))
 
 
 ;; We can control selecting the input files and output directory (and one day format)

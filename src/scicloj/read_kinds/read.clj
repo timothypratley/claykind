@@ -3,20 +3,12 @@
   Contexts are maps that contain top-level forms and their evaluated value,
   which will be further annotated with more information."
   (:refer-clojure :exclude [read-string])
-  (:require [clojure.java.io :as io]
-            [clojure.tools.reader]
-            [clojure.tools.reader.reader-types]
-            [clojure.string :as str]
+  (:require [clojure.string :as str]
             [rewrite-clj.parser :as parser]
-            [rewrite-clj.node :as node]
-            [sci.core :as sci]
-            [nrepl.core :as nrepl]
-            [sci.impl.io :as sio]
-            #_[babashka.main :as bb])
-  (:import (clojure.lang LineNumberingPushbackReader)
-           (java.io StringWriter)))
+            [rewrite-clj.node :as node])
+  (:import (java.io StringWriter)))
 
-(def evaluators #{:clojure :sci :babashka})
+(def evaluators #{:clojure :babashka})
 
 (defn- validate-options [{:keys [evaluator]}]
   (when evaluator
@@ -64,22 +56,20 @@
                      :form form}]
         (merge context
                (try
-                 {:value (if #_(= evaluator :sci) false
-                           ;; TODO: binding out/err does not work, not sure why.
-                           ;; maybe try System.setOut(myPrintStream) instead?
-                           (sci/binding [sci/out out
-                                         sci/err err]
-                                        (sci/eval-form ctx form))
-                           (binding [*out* out
-                                     *err* err]
-                             (eval form)))}
+                 ;; TODO: tap
+                 (let [x (binding [*out* out
+                                   *err* err]
+                           (eval form))]
+                   {:value (if (var? x)
+                             (str x)
+                             x)})
                  (catch Throwable ex
                    (when *on-eval-error*
                      (*on-eval-error* context ex))
                    {:exception ex}))
-               (when (pos? (.length (.getBuffer out)))
+               (when false #_(pos? (.length (.getBuffer out)))
                  {:out (str out)})
-               (when (pos? (.length (.getBuffer err)))
+               (when false #_(pos? (.length (.getBuffer err)))
                  {:err (str err)}))))))
 
 (defn read-string
@@ -94,20 +84,19 @@
   (-> (node/string node)
       (str/starts-with? "#!/usr/bin/env bb")))
 
-(defn- init-babashka []
-  ;; TODO: babashka needs more complicated options, which I'm not sure how to replicate
-  (sci/init {}))
-
-(defn- eval-ast [ast options]
+(defn- eval-ast [ast {:keys [evaluator] :as options}]
   "Given the root Abstract Syntax Tree node,
   returns a vector of contexts that represent evaluation"
   (let [top-level-nodes (node/children ast)
-        b (some-> (first top-level-nodes) (babashka?))
-        options (cond-> options b (assoc :evaluator :sci
-                                         :ctx (init-babashka)))
-        nodes (if b
+        ;; TODO: maybe some people want to include the header?
+        babashka (some-> (first top-level-nodes) (babashka?))
+        nodes (if babashka
                 (rest top-level-nodes)
                 top-level-nodes)]
+    ;; Babashka and Clojure can evaluate files with or without the header present,
+    ;; it is up to the user to specify which evaluator to use in the options.
+    #_(when (and babashka (not= evaluator :babashka))
+      (println "Warning: Babashka header detected while evaluating in Clojure"))
     ;; must be eager to restore current bindings
     (mapv #(eval-node % options) nodes)))
 
@@ -125,42 +114,10 @@
   "Similar to `clojure.core/load-file`,
   but returns a representation of the forms and results of evaluation.
   Suitable for processing an entire namespace."
-  ([file] (read-file file {}))
-  ([file options]
-   ;; preserve current ns bindings
-   (binding [*ns* *ns*
-             *warn-on-reflection* *warn-on-reflection*
-             *unchecked-math* *unchecked-math*]
-     (-> (parser/parse-file-all file)
-         (eval-ast options)))))
-
-(comment
-
-  ;; this doesn't seem to work...
-  (require '[babashka.main :as bb])
-  (bb/-main)
-
-  ;; prepl seems like a perfect thing to try but I'm not sure how to make it work
-  ;; this hangs the REPL and nothing happens...
-  (let [file "notebooks/babashka/bb.clj"
-        in-reader (clojure.lang.LineNumberingPushbackReader. (io/reader file))
-        out-fn (fn [x]
-                 (prn "BB" x))]
-    (clojure.core.server/prepl in-reader out-fn))
-
-  (import (java.net Socket))
-  (import (java.io DataInputStream DataOutputStream))
-
-  (require '[nrepl.core :as nrepl])
-  (with-open [conn (nrepl/connect :port 1667)]
-    (-> (nrepl/client conn 1000)                            ; message receive timeout required
-        (nrepl/message {:op "eval" :code "^:kind/hiccup [:div]"})
-
-        ;;(nrepl/response-values)
-        (nrepl/combine-responses)
-        ))
-
-  ;; we could make `read-kinds` babashka compatible (it probably already is!) and spit out the values.edn file
-  ;; then use that for the notebook tooling
-
-  )
+  [file options]
+  ;; preserve current bindings (they will be reset to original)
+  (binding [*ns* *ns*
+            *warn-on-reflection* *warn-on-reflection*
+            *unchecked-math* *unchecked-math*]
+    (-> (parser/parse-file-all file)
+        (eval-ast options))))

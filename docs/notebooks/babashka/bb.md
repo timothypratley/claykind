@@ -1,16 +1,3 @@
----
-format:
-  html: {toc: true, theme: spacelab}
-highlight-style: solarized
-
----
-
-<style>
-.printedClojure .sourceCode {
-  background-color: transparent;
-  border-style: none;
-}
-</style>
 # Babashka notebooks
 
 Babashka is, by design, as close to Clojure as possible.
@@ -19,23 +6,16 @@ Babashka is, by design, as close to Clojure as possible.
 
 ```clojure
 (+ 1 2)
-```
-<div class="printedClojure">
-```clojure
-3
 
+;=> 3
 ```
-</div>
 
 ```clojure
 {:x (range 3)}
-```
-<div class="printedClojure">
-```clojure
-{:x (0 1 2)}
 
+;=> Unimplemented: :kind/map
+;   {:x (0 1 2)}
 ```
-</div>
 
 ## Hiccup
 
@@ -43,59 +23,46 @@ Babashka is, by design, as close to Clojure as possible.
 ^:kind/hiccup
 [:div {:style {:background-color "#effeef"}}
  [:big [:big 3]]]
+
+;=> Unimplemented: :kind/hiccup
+;   [:div {:style {:background-color "#effeef"}} [:big [:big 3]]]
 ```
-<div style="background-color:#effeef;"><big><big>3</big></big></div>
+
 ## Time
 
 ```clojure
 (def now (java.time.ZonedDateTime/now))
-```
-<div class="printedClojure">
-```clojure
-"#'scicloj.clay.publish/now"
 
+;=> Unimplemented: :kind/var
+;   #'scicloj.clay.publish/now
 ```
-</div>
 
 ```clojure
 (def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))
-```
-<div class="printedClojure">
-```clojure
-"#'scicloj.clay.publish/LA-timezone"
 
+;=> Unimplemented: :kind/var
+;   #'scicloj.clay.publish/LA-timezone
 ```
-</div>
 
 ```clojure
 (def LA-time (.withZoneSameInstant now LA-timezone))
-```
-<div class="printedClojure">
-```clojure
-"#'scicloj.clay.publish/LA-time"
 
+;=> Unimplemented: :kind/var
+;   #'scicloj.clay.publish/LA-time
 ```
-</div>
 
 ```clojure
 (def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
-```
-<div class="printedClojure">
-```clojure
-"#'scicloj.clay.publish/pattern"
 
+;=> Unimplemented: :kind/var
+;   #'scicloj.clay.publish/pattern
 ```
-</div>
 
 ```clojure
 (.format LA-time pattern)
-```
-<div class="printedClojure">
-```clojure
-"12:35"
 
+;=> "11:25"
 ```
-</div>
 
 ## Babashka vs clojure
 

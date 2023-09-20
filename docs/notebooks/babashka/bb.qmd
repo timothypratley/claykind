@@ -1,7 +1,5 @@
 ---
-format:
-  html: {toc: true, theme: spacelab}
-highlight-style: solarized
+null
 
 ---
 
@@ -50,49 +48,25 @@ Babashka is, by design, as close to Clojure as possible.
 ```clojure
 (def now (java.time.ZonedDateTime/now))
 ```
-<div class="printedClojure">
-```clojure
-"#'scicloj.clay.publish/now"
-
-```
-</div>
-
+<div>VAR#'scicloj.clay.publish/now</div>
 ```clojure
 (def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))
 ```
-<div class="printedClojure">
-```clojure
-"#'scicloj.clay.publish/LA-timezone"
-
-```
-</div>
-
+<div>VAR#'scicloj.clay.publish/LA-timezone</div>
 ```clojure
 (def LA-time (.withZoneSameInstant now LA-timezone))
 ```
-<div class="printedClojure">
-```clojure
-"#'scicloj.clay.publish/LA-time"
-
-```
-</div>
-
+<div>VAR#'scicloj.clay.publish/LA-time</div>
 ```clojure
 (def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
 ```
-<div class="printedClojure">
-```clojure
-"#'scicloj.clay.publish/pattern"
-
-```
-</div>
-
+<div>VAR#'scicloj.clay.publish/pattern</div>
 ```clojure
 (.format LA-time pattern)
 ```
 <div class="printedClojure">
 ```clojure
-"12:35"
+"11:25"
 
 ```
 </div>
