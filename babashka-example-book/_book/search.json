@@ -25,7 +25,7 @@
     "href": "chapters/bb.html#time",
     "title": "2  Babashka notebooks",
     "section": "2.3 Time",
-    "text": "2.3 Time\n(def now (java.time.ZonedDateTime/now))\n\n\"#'user/now\"\n\n(def LA-timezone (java.time.ZoneId/of \"America/Los_Angeles\"))\n\n\"#'user/LA-timezone\"\n\n(def LA-time (.withZoneSameInstant now LA-timezone))\n\n\"#'user/LA-time\"\n\n(def pattern (java.time.format.DateTimeFormatter/ofPattern \"HH:mm\"))\n\n\"#'user/pattern\"\n\n(.format LA-time pattern)\n\n\"14:26\""
+    "text": "2.3 Time\n(def now (java.time.ZonedDateTime/now))\n\n\"#'user/now\"\n\n(def LA-timezone (java.time.ZoneId/of \"America/Los_Angeles\"))\n\n\"#'user/LA-timezone\"\n\n(def LA-time (.withZoneSameInstant now LA-timezone))\n\n\"#'user/LA-time\"\n\n(def pattern (java.time.format.DateTimeFormatter/ofPattern \"HH:mm\"))\n\n\"#'user/pattern\"\n\n(.format LA-time pattern)\n\n\"15:04\""
   },
   {
     "objectID": "chapters/bb.html#babashka-vs-clojure",
@@ -95,7 +95,7 @@
     "href": "chapters/git-log-analysis.html#data-exploration",
     "title": "4  Analysing git logs in babashka",
     "section": "4.3 Data exploration",
-    "text": "4.3 Data exploration\n(-> dates-and-freqs\n(with-meta {:portal.viewer/default\n            :portal.viewer/table})\nportal-widget)"
+    "text": "4.3 Data exploration\n(-> dates-and-freqs\n    (with-meta {:portal.viewer/default\n                :portal.viewer/table})\n    portal-widget)"
   },
   {
     "objectID": "chapters/git-log-analysis.html#data-plotting",
@@ -109,6 +109,6 @@
     "href": "chapters/git-log-analysis.html#plotting",
     "title": "4  Analysing git logs in babashka",
     "section": "4.4 Plotting",
-    "text": "4.4 Plotting\n(def freqs-plot\n(kind/vega-lite\n {:data {:values dates-and-freqs}\n  :mark :bar\n  :encoding {:x {:field :date\n                 :type :temporal}\n             :y {:field :freq\n                 :type :quantitative}}\n  :width :container\n  :height 200\n  :background :floralwhite}))\n\n\"#'user/freqs-plot\"\n\n(portal-widget freqs-plot)\n\n\n\nfreqs-plot"
+    "text": "4.4 Plotting\n(def freqs-plot\n  (kind/vega-lite\n   {:data {:values dates-and-freqs}\n    :mark :bar\n    :encoding {:x {:field :date\n                   :type :temporal}\n               :y {:field :freq\n                   :type :quantitative}}\n    :width :container\n    :height 200\n    :background :floralwhite}))\n\n\"#'user/freqs-plot\"\n\nfreqs-plot\n\n\n\n(portal-widget freqs-plot)"
   }
 ]

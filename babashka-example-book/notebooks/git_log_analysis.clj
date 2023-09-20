@@ -62,24 +62,29 @@
 
 
 (-> dates-and-freqs
-(with-meta {:portal.viewer/default
-            :portal.viewer/table})
-portal-widget)
+    (with-meta {:portal.viewer/default
+                :portal.viewer/table})
+    portal-widget)
 
 ;; ## Plotting
 
 (def freqs-plot
-(kind/vega-lite
- {:data {:values dates-and-freqs}
-  :mark :bar
-  :encoding {:x {:field :date
-                 :type :temporal}
-             :y {:field :freq
-                 :type :quantitative}}
-  :width :container
-  :height 200
-  :background :floralwhite}))
+  (kind/vega-lite
+   {:data {:values dates-and-freqs}
+    :mark :bar
+    :encoding {:x {:field :date
+                   :type :temporal}
+               :y {:field :freq
+                   :type :quantitative}}
+    :width :container
+    :height 200
+    :background :floralwhite}))
+
+freqs-plot
 
 (portal-widget freqs-plot)
 
-freqs-plot
+;; ![babashka](https://avatars.githubusercontent.com/u/64927540?s=200&v=4){height=128}
+;; ![claykind](https://raw.githubusercontent.com/scicloj/graphic-design/live/icons/Clay.svg){height=128}
+;; ![portal](https://raw.githubusercontent.com/djblue/portal/master/resources/splash.svg){height=128}
+;; ![quarto](https://avatars.githubusercontent.com/u/67437475?s=200&v=4){height=128}
