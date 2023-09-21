@@ -53,24 +53,25 @@
             out (new StringWriter)
             err (new StringWriter)
             context {:code code
-                     :form form}]
-        (merge context
-               (try
-                 ;; TODO: tap
-                 (let [x (binding [*out* out
-                                   *err* err]
-                           (eval form))]
-                   {:value (if (var? x)
-                             (str x)
-                             x)})
-                 (catch Throwable ex
-                   (when *on-eval-error*
-                     (*on-eval-error* context ex))
-                   {:exception ex}))
-               (when false #_(pos? (.length (.getBuffer out)))
-                     {:out (str out)})
-               (when false #_(pos? (.length (.getBuffer err)))
-                     {:err (str err)}))))))
+                     :form form}
+            result (try
+                     ;; TODO: tap
+                     (let [x (binding [*out* out
+                                       *err* err]
+                               (eval form))]
+                       ;; TODO: vars cannot be sent across the babashka/clojure boundary
+                       {:value (if (var? x)
+                                 (str x)
+                                 x)})
+                     (catch Throwable ex
+                       (when *on-eval-error*
+                         (*on-eval-error* context ex))
+                       {:exception ex}))
+            out-str (str out)
+            err-str (str err)]
+        (merge context result
+               (when (seq out-str) {:out out-str})
+               (when (seq err-str) {:err err-str}))))))
 
 (defn read-string
   "Parse and evaluate the first form in a string.

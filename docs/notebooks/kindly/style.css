@@ -4,13 +4,6 @@
   grid-template-columns: repeat(2, auto);
   justify-content:       center;
   text-align:            right;
-//  --mask:
-//    radial-gradient(1.12em at 1.50em 50%,#000 99%,#0000 101%) 0 calc(50% - 1em)/51% 2em repeat-y,
-//    radial-gradient(1.12em at -1em 50%,#0000 99%,#000 101%) 0.5em 50%/calc(51% - 0.5em) 2em repeat-y,
-//		radial-gradient(1.12em at calc(100% - 1.50em) 50%,#000 99%,#0000 101%) 100% calc(50% - 1em)/51% 2em repeat-y,
-//    radial-gradient(1.12em at calc(100% + 1.00em) 50%,#0000 99%,#000 101%) calc(100% - 0.5em) 50%/calc(51% - 0.5em) 2em repeat-y;
-//  -webkit-mask: var(--mask);
-//          mask: var(--mask);
   border: solid 1px black;
   border-radius: 10px;
 }

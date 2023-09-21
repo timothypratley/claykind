@@ -15,7 +15,7 @@
 (defn adapt-value [v]
   (adapt (ka/advise {:value v})))
 
-(defn grid [props n vs]
+(defn grid [props vs]
   (into [:div (merge-with merge
                           {}
                           props)]
@@ -26,14 +26,13 @@
            (adapt-value v)])))
 
 (defmethod adapt :kind/vector [{:keys [value]}]
-  (grid {:class "kind_set"} 1 value)
-  #_(grid {:class "kind_vector"} 2 (apply concat (zipmap (range) value))))
+  (grid {:class "kind_set"} value))
 
 (defmethod adapt :kind/map [{:keys [value]}]
-  (grid {:class "kind_map"} 2 (apply concat value)))
+  (grid {:class "kind_map"} (apply concat value)))
 
 (defmethod adapt :kind/set [{:keys [value]}]
-  (grid {:class "kind_set"} 1 value))
+  (grid {:class "kind_set"} value))
 
 (defmethod adapt :kind/image [{:keys [value]}]
   [:img {:src value}])
