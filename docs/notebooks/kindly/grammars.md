@@ -27,8 +27,7 @@ as you can represent pretty much anything that can display in a browser.
    [:tr [:td 1] [:td 2]]
    [:tr [:td 3] [:td 4]]])
 
-;=> Unimplemented: :kind/var
-;   #'kindly.grammars/hiccup-table
+;=> "#'kindly.grammars/hiccup-table"
 ```
 
 The downside of HTML is that users need to expend considerable effort reshaping their data into views.
@@ -49,8 +48,7 @@ Hiccup has a Malli schema that can be used to validate and parse:
                                               [:text string?]]]]}}
    "hiccup"])
 
-;=> Unimplemented: :kind/var
-;   #'kindly.grammars/Hiccup
+;=> "#'kindly.grammars/Hiccup"
 ```
 
 Hiccup does not check for the creation of valid HTML; tags and attributes are not checked.
@@ -58,8 +56,7 @@ Hiccup does not check for the creation of valid HTML; tags and attributes are no
 ```clojure
 (def parse-hiccup (ma/parser Hiccup))
 
-;=> Unimplemented: :kind/var
-;   #'kindly.grammars/parse-hiccup
+;=> "#'kindly.grammars/parse-hiccup"
 ```
 
 ```clojure
@@ -151,8 +148,7 @@ Tools should be encouraged to accept a standardized data shape defined by a sche
   [:schema {:registry {"table" ['...]}}
    "table"])
 
-;=> Unimplemented: :kind/var
-;   #'kindly.grammars/Table
+;=> "#'kindly.grammars/Table"
 ```
 
 ## Plots
@@ -171,8 +167,7 @@ Two popular grammars for plotting are Vega and ggplot2.
     :y    {:field "y", :type "quantitative"},
     :fill {:field "z", :type "nominal"}}})
 
-;=> Unimplemented: :kind/var
-;   #'kindly.grammars/vega-lite-point-plot
+;=> "#'kindly.grammars/vega-lite-point-plot"
 ```
 
 ```clojure
@@ -185,8 +180,7 @@ Two popular grammars for plotting are Vega and ggplot2.
                        :x x
                        :y y}))))
 
-;=> Unimplemented: :kind/var
-;   #'kindly.grammars/random-data
+;=> "#'kindly.grammars/random-data"
 ```
 
 ```clojure
@@ -195,8 +189,7 @@ Two popular grammars for plotting are Vega and ggplot2.
       random-data
       vega-lite-point-plot))
 
-;=> Unimplemented: :kind/var
-;   #'kindly.grammars/random-vega-lite-plot
+;=> "#'kindly.grammars/random-vega-lite-plot"
 ```
 
 ```clojure
@@ -212,15 +205,15 @@ Two popular grammars for plotting are Vega and ggplot2.
 ;    :mark "point",
 ;    :data
 ;    {:values
-;     ({:y 0.006407619278022247, :w 1, :z 1, :x 0}
-;      {:y 0.264037741807858, :w 0, :z 0, :x 1}
-;      {:y -0.01794952968917296, :w 0, :z 5, :x 2}
-;      {:y 0.15672648885791185, :w 6, :z 7, :x 3}
-;      {:y 0.5047430097582131, :w 1, :z 2, :x 4}
-;      {:y 0.28508763903176637, :w 3, :z 5, :x 5}
-;      {:y 0.4524401936638903, :w 6, :z 7, :x 6}
-;      {:y 0.782391686661657, :w 8, :z 1, :x 7}
-;      {:y 0.8095301175171528, :w 6, :z 5, :x 8})}}
+;     ({:y -0.23870171446962463, :w 2, :z 2, :x 0}
+;      {:y -0.6375279841272652, :w 2, :z 5, :x 1}
+;      {:y -0.16152245642553376, :w 2, :z 2, :x 2}
+;      {:y 0.09054289833566298, :w 3, :z 6, :x 3}
+;      {:y -0.28753808836172534, :w 4, :z 7, :x 4}
+;      {:y -0.6183020237404696, :w 6, :z 6, :x 5}
+;      {:y -0.8611185395855587, :w 6, :z 1, :x 6}
+;      {:y -0.8615222842198386, :w 5, :z 7, :x 7}
+;      {:y -1.0686819958488156, :w 8, :z 0, :x 8})}}
 ```
 
 Vega has json-schemas available which are comprehensive.
@@ -246,7 +239,7 @@ It is nice to be able to use "send form to Portal" or similar, can this be done 
 (ImageIO/read (io/file "claykind.png"))
 
 ;=> Unimplemented: :kind/image
-;   #object[java.awt.image.BufferedImage 0x2b908326 "BufferedImage@2b908326: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@44ad57bc transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3"]
+;   #object[java.awt.image.BufferedImage 0x7d1f60cf "BufferedImage@7d1f60cf: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@2d7e6c8c transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3"]
 ```
 
 Users may benefit from a shorthand helper function `(image "claykind.png")`.

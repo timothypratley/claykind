@@ -4,6 +4,7 @@
   This might be useful for generating a test that only cares if the computed result was changed,
   perhaps by an upstream dependency affecting the result we calculated."
   (:require [clojure.tools.cli :as cli]
+            [scicloj.clay.io :as clay.io]
             [scicloj.read-kinds.notes :as notes]))
 
 (set! *warn-on-reflection* true)
@@ -28,10 +29,11 @@
 
 (defn note-to-values
   "Saves all the values into an edn file"
-  [{:keys [dirs]}]
-  (doseq [{:keys [file contexts]} (notes/all-notes dirs)]
-    (spit (str file "-values.edn")
-          (into [] values-xform contexts))))
+  [{:keys [paths] :as options}]
+  (doseq [path (clay.io/clojure-files paths)
+          {:keys [file contexts]} (notes/read-notes path options)]
+    (clay.io/spit! (clay.io/target file "edn" options)
+                   (into [] values-xform contexts))))
 
 (defn -main [& args]
   (let [{:keys [options summary]} (cli/parse-opts args cli-options)

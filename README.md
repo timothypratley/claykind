@@ -23,6 +23,59 @@ Pre alpha. Subject to change.
 
 [![Clojars Project](https://img.shields.io/clojars/v/org.scicloj/read-kindly.svg)](https://clojars.org/org.scicloj/read-kindly)
 
+No releases are provided yet.
+Please add Claykind as a [git dependency](https://clojure.org/news/2018/01/05/git-deps) to your project if you would like to try it out.
+
+Claykind can be invoked from the commandline (see `scicloj.clay.main/-main`)
+or the REPL (see `scicloj.clay.api/render!`).
+
+### Command line
+
+```sh
+clojure -M:dev -m scicloj.clay.main --help
+
+Claykind
+ Version:  0.1.62-alpha
+ Description: Claykind evaluates Clojure namespaces into Markdown
+ Options:
+  -f, --formats FORMATS
+  -p, --paths PATHS
+  -t, --target-dir DIR
+      --evaluator [:clojure|:babashka]
+      --verbose
+      --quiet
+  -h, --help
+  -v, --version
+```
+
+
+### REPL
+
+```clojure
+(require '[scicloj.clay.api :as clay])
+
+;; render the entire project
+(clay/render!)
+
+;; render the current file being edited
+(clay/render! "notebooks/test/basic.clj" {:verbose true})
+```
+
+### Options
+
+Options can be supplied by a file `claykind.edn` in the root of your project,
+passed from the commandline, or passed as an argument when calling `clay/render`.
+Options are the result of merging the defaults, config file, and arguments.
+See `scicloj.clay.main/cli-options` for an overview of options available.
+
+By default, Claykind will look for source files in a `notebooks` directory (`:paths ["notebooks"]`),
+and produce output to a `docs` directory (`:target-dir "docs"`).
+See `scicloj.clay.api/default-options` for a full list of default options.
+
+Markdown front-matter is useful when using publishing tools like Quarto.
+A map argument will be converted to YAML markdown.
+(`:front-matter {:highlight-style :solarized}`)
+
 ## Rational
 
 A glue library can be made use of in more contexts.
@@ -32,6 +85,8 @@ Clay does quite a lot of things, and has undesirable dependencies.
 We want to attempt to build something even simpler.
 Something that emphasizes the evaluation and preparation.
 Leaving downstream tools to perform rendering and display or test for changes.
+
+Focusing on generating Markdown gives users more flexibility in selecting complementary publishing tools.
 
 ## Design
 

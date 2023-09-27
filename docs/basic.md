@@ -1,0 +1,136 @@
+<style>
+.printedClojure .sourceCode {
+  background-color: transparent;
+  border-style: none;
+}
+
+.kind_map {
+  background:            lightgreen;
+  display:               grid;
+  grid-template-columns: repeat(2, auto);
+  justify-content:       center;
+  text-align:            right;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+
+.kind_vector {
+  background:            lightblue;
+  display:               grid;
+  grid-template-columns: repeat(1, auto);
+  align-items:           center;
+  justify-content:       center;
+  text-align:            center;
+  border:                solid 2px black;
+  padding:               10px;
+}
+
+.kind_set {
+  background:            lightyellow;
+  display:               grid;
+  grid-template-columns: repeat(auto-fit, minmax(auto, max-content));
+  align-items:           center;
+  justify-content:       center;
+  text-align:            center;
+  border:                solid 1px black;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="portal-main.js" type="text/javascript"></script>
+
+```clojure
+(ns test.basic)
+```
+
+<div class="printedClojure">
+
+```clojure
+nil
+```
+
+</div>
+
+# section 1
+
+ hello, welcome to my wonderful test notebook
+
+```clojure
+(+ 1 2 3)
+```
+
+<div class="printedClojure">
+
+```clojure
+6
+```
+
+</div>
+
+```clojure
+(defn f [x]
+  (+ x                                                      ; let's do some addition
+     ;; I like addition
+     9))
+```
+
+<div class="printedClojure">
+
+```clojure
+"#'test.basic/f"
+```
+
+</div>
+
+```clojure
+(f 20)
+```
+
+<div class="printedClojure">
+
+```clojure
+29
+```
+
+</div>
+
+# section 2
+
+What if I told you
+
+    That codeblocks can exist inside comments?
+
+And that you can do HTML?
+
+```clojure
+^:kind/hiccup
+[:h1 "Hello world"]
+```
+
+<h1>Hello world</h1>
+
+```clojure
+[(range 20) (reverse (range 20))]
+```
+
+<div class="kind_set"><div style="border:1px solid grey;padding:2px;"><div><code>0</code><code>1</code><code>2</code><code>3</code><code>4</code><code>5</code><code>6</code><code>7</code><code>8</code><code>9</code><code>10</code><code>11</code><code>12</code><code>13</code><code>14</code><code>15</code><code>16</code><code>17</code><code>18</code><code>19</code></div></div><div style="border:1px solid grey;padding:2px;"><div><code>19</code><code>18</code><code>17</code><code>16</code><code>15</code><code>14</code><code>13</code><code>12</code><code>11</code><code>10</code><code>9</code><code>8</code><code>7</code><code>6</code><code>5</code><code>4</code><code>3</code><code>2</code><code>1</code><code>0</code></div></div></div>
+
+We can add things that translate to the existing kindly specs...
+But! Now I have this different thing; SVG images, tables that have double rows.
+Pushing handling code out the display tools
+The categories of features
+
+Notice that there is only whitespace between this comment and the previous one,
+and that the whitespace was preserved in the markdown. Wonderful!
+
+Possible feature: Order of evaluation
+present the last form first!
+Just reverse the contexts.
+Might want to annotate this in the namespace itself somehow,
+perhaps metadata on the `ns` form?
+And even on individual parts? Bringing them to the top or bottom or setting their position.
+
+Here is a Markdown table
+
+|  |  |  |
+|--|--|--|
+| "a" | "b" | "c" |

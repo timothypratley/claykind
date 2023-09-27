@@ -1,4 +1,4 @@
-(ns scicloj.claykind.read-test
+(ns scicloj.read-kinds.read-test
   (:require [clojure.test :refer :all]
             [scicloj.read-kinds.read :as read]))
 

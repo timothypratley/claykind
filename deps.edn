@@ -1,38 +1,36 @@
-{:deps {org.clojure/clojure               {:mvn/version "1.11.0"}
-        org.scicloj/kindly                {:mvn/version "4-alpha4"}
-        org.scicloj/kind-portal           {:mvn/version "1-alpha7"}
-        org.scicloj/kindly-advice         {:mvn/version "1-alpha3"}
-        rewrite-clj/rewrite-clj           {:mvn/version "1.1.47"}
-        io.github.timothypratley/terisk   {:mvn/version "1.0.1"}
-        io.github.escherize/huff          {:mvn/version "0.1.0"}
-        hiccup/hiccup                     {:mvn/version "2.0.0-RC1"}
-        org.clojars.daslu/portal          {:mvn/version "0.46.0-experimental"}
-        backtick/backtick                 {:mvn/version "0.3.5"}
-        zprint/zprint                     {:mvn/version "1.2.7"}
-        cljfmt/cljfmt                     {:mvn/version "0.9.2"}
-        org.clojure/data.json             {:mvn/version "2.4.0"}
-        com.vladsch.flexmark/flexmark-all {:mvn/version "0.64.8"}
-        clj-commons/clj-yaml              {:mvn/version "1.0.27"}
-        nrepl/nrepl                       {:mvn/version "1.0.0"}}
+{:deps {org.clojure/clojure       {:mvn/version "1.11.0"}
+        org.clojure/data.json     {:mvn/version "2.4.0"}
+        org.clojure/tools.cli     {:mvn/version "1.0.219"}
+        org.scicloj/kindly        {:mvn/version "4-alpha4"}
+        org.scicloj/kind-portal   {:mvn/version "1-alpha7"}
+        org.scicloj/kindly-advice {:mvn/version "1-alpha3"}
+        rewrite-clj/rewrite-clj   {:mvn/version "1.1.47"}
+        io.github.escherize/huff  {:mvn/version "0.1.0"}
+        hiccup/hiccup             {:mvn/version "2.0.0-RC1"}
+
+        ;; TODO: we don't want dependencies that don't work in babashka
+        ;; but at the same time, it might be nice?
+        ;;com.vladsch.flexmark/flexmark-all {:mvn/version "0.64.8"}
+
+
+        ;; TODO: clj-yaml is not up to date with the Clojure version
+        clj-commons/clj-yaml      {:mvn/version "1.0.27"}}
+
  :aliases
  {
-  ;; Run examples with `clojure -M:dev -m publish`
-  :dev    {:extra-paths ["notebooks" "test" "examples" "dev"
-                         "babashka-example-book/notebooks"]
-           :extra-deps  {org.clojure/tools.cli {:mvn/version "1.0.219"}
+  ;; Build with `clojure -T:dev build/jar` and `clojure -T:dev build/deploy`
+  ;; Run example with `clojure -M:dev -m changed`
+  :dev    {:extra-paths ["notebooks" "test" "examples" "dev"]
+           :extra-deps  {org.clojure/tools.build {:mvn/version "0.9.2"}
+                         slipset/deps-deploy     {:mvn/version "RELEASE"}
                          #_#_djblue/portal {:mvn/version "0.46.0"}
-                         metosin/malli         {:mvn/version "0.11.0"}}}
+                         metosin/malli           {:mvn/version "0.11.0"}}}
   ;; Run tests with `clojure -M:dev:test`
   :test   {:extra-paths ["test"]
            :extra-deps  {io.github.cognitect-labs/test-runner
                          {:git/tag "v0.5.1" :git/sha "dfb30dd6605cb6c0efc275e1df1736f6e90d4d73"}}
            :main-opts   ["-m" "cognitect.test-runner"]
            :exec-fn     cognitect.test-runner.api/test}
-  ;; Run with `clojure -T:build jar` or `clojure -T:build deploy`
-  :build  {:extra-paths ["dev"]
-           :deps        {org.clojure/tools.build {:mvn/version "0.9.2"}
-                         slipset/deps-deploy     {:mvn/version "RELEASE"}}
-           :ns-default  build}
-  ;; Run with `clojure -M:cljfmt`
+  ;; Format the code with `clojure -M:cljfmt`
   :cljfmt {:main-opts  ["-m" "cljfmt.main"]
            :extra-deps {cljfmt/cljfmt {:mvn/version "0.9.2"}}}}}

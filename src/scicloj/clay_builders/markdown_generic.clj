@@ -39,4 +39,4 @@
   "Creates a markdown file from a notebook"
   [{:keys [contexts]} options]
   (->> (mapv render-md contexts)
-       (str/join \newline)))
+       (str/join (str \newline \newline))))

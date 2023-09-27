@@ -1,7 +1,6 @@
 (ns scicloj.kind-adapters.hiccup
   (:require [clojure.data.json :as json]
-            [scicloj.kindly-advice.v1.api :as ka]
-            [scicloj.clay.markdown :as md]))
+            [scicloj.kindly-advice.v1.api :as ka]))
 
 (defmulti adapt :kind)
 
@@ -34,16 +33,22 @@
 (defmethod adapt :kind/set [{:keys [value]}]
   (grid {:class "kind_set"} value))
 
+;; TODO: :kind/seq
+
 (defmethod adapt :kind/image [{:keys [value]}]
   [:img {:src value}])
 
+;; TODO: is there a nice way to be able to render markdown by adding an adapter?
+;; because we don't want flexmark or nextjournal dependencies in this project
 ;; TODO: comments are currently handled higher, should we handle them here or there??
 ;; probably here, because kind/md exists also
 (defmethod adapt :kind/comment [context]
-  (md/render (:kindly/comment context)))
+  [:p (:kindly/comment context)]
+  #_ (md/render (:kindly/comment context)))
 
 (defmethod adapt :kind/md [{:keys [value]}]
-  (md/render value))
+  [:p value]
+  #_(md/render value))
 
 (defmethod adapt :kind/var [{:keys [value]}]
   [:div "VAR" (str value)])

@@ -1,0 +1,8 @@
+{:paths ["src"]
+ :deps {}
+ :aliases
+ ;; Build with `clojure -M:dev -m scicloj.clay.main`
+ {:dev {:extra-paths ["dev"]
+        :extra-deps {org.scicloj/claykind {:local/root ".."}}}
+  ;; Build with clojure -M:clay
+  :clay {:main-opts ["-m" "scicloj.clay.main"]}}}

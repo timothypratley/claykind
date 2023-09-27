@@ -2,6 +2,8 @@
   (:require [clojure.pprint :as pprint]
             [clojure.string :as str]))
 
+;; TODO: try using QMD for Github Flavored... maybe convert with pandoc
+
 ;; Adapters take a context and produce a representation,
 ;; for example hiccup, markdown, or portal-annotated values.
 

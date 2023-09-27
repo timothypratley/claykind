@@ -1,0 +1,5 @@
+{:deps  {}
+ :aliases
+ ;; Build with `clojure -M:dev -m scicloj.clay.main`
+ {:dev {:extra-paths ["notebooks"]
+        :extra-deps {org.scicloj/claykind {:local/root ".."}}}}}

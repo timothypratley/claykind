@@ -20,8 +20,7 @@
      ;; I like addition
      9))
 
-;=> Unimplemented: :kind/var
-;   #'test.basic/f
+;=> "#'test.basic/f"
 ```
 
 ```clojure

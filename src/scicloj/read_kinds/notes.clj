@@ -10,17 +10,6 @@
             [scicloj.read-kinds.read :as read])
   (:import (java.io File)))
 
-(def clojure-file-ext-regex
-  #"\.clj[cx]?$")
-
-(defn clojure-source? [^File file]
-  (boolean
-    (and (.isFile file)
-         (re-find clojure-file-ext-regex (.getName file)))))
-(comment
-  (re-find clojure-file-ext-regex "foo.clj") ".clj"
-  (re-find clojure-file-ext-regex "baz.html") nil)
-
 (defn join-comment-blocks [comment-blocks]
   {:kind           :kind/comment
    :kindly/comment (-> (map :kindly/comment comment-blocks)
@@ -44,40 +33,42 @@
     (remove (comp #{:kind/uneval :kind/whitespace} :kind))))
 
 (defn read-file-as-notes
-  "Reads a clojure source file and returns contexts.
-  See `read-all-notes` for more information."
+  "Reads a clojure source file and returns contexts."
   [^File file options]
   (into [] notebook-xform (read/read-file file options)))
 
 (defn safe-read-notes
   "Like `read-notes` but stores errors in the advice."
-  [^File file options]
-  (binding [read/*on-eval-error* nil]
+  [^File file {:keys [verbose] :as options}]
+  (binding [*ns* (find-ns 'user)
+            read/*on-eval-error* (when verbose
+                                   (fn [ex]
+                                     (println (str "ERROR rendering " file))
+                                     (println (str "  " (ex-message ex)))))]
     (read-file-as-notes file options)))
 
 ;; This is a wrapper to handle invoking from bb command line
 (defn babashka-safe-read-notes
   "Like `read-notes` but stores errors in the advice."
   [{:keys [filename options]}]
-  (binding [*ns* (find-ns 'user)]
-    (prn (safe-read-notes (io/file filename) options))))
+  (prn (safe-read-notes (io/file filename) options)))
 
+;; TODO: we probably don't really need this, users can just invoke claykind from bb instead
 (defn bb-read-notes
   [^File file options]
   (let [{:keys [out err]}
         (sh/sh "bb"
-               "-Sdeps" (pr-str '{:deps {claykind/claykind {#_#_:mvn/version ""
-                                                            :local/root "."}}})
+               "-Sdeps" (pr-str '{:deps {org.scicloj/claykind {#_#_:mvn/version ""
+                                                               :local/root ".."}}})
                "--exec" "scicloj.read-kinds.notes/babashka-safe-read-notes"
                (str :filename)
                (str file)
                (str :options)
                (pr-str options))]
-    (println err)
-    (->
-     ;; TODO: handle errors
-     out
-     edn/read-string)))
+    (when err
+      (println err))
+    (when out
+      (edn/read-string out))))
 
 (defn read-notes
   "Read a single notebook.
@@ -87,21 +78,11 @@
   Contexts are suitable for passing to visualization tools,
   or Kindly plugins that talk to visualization tools."
   [^File file {:keys [evaluator] :as options}]
-  (if (= evaluator :babashka)
-    (bb-read-notes file options)
-    (safe-read-notes file options)))
+  {:file     file
+   :contexts (if (= evaluator :babashka)
+               (bb-read-notes file options)
+               (safe-read-notes file options))})
 
 (comment
   (read-notes (io/file "notebooks/babashka/bb.clj")
               {:evaluator :babashka}))
-
-(defn all-notes
-  "Given options `{:dirs [\"dir1\" \"dir2\"]}`,
-  finds and reads all notebooks in those paths.
-  See details about notebooks in `read-notes`."
-  [{:keys [dirs] :as options}]
-  (for [dir dirs
-        file (file-seq (io/file dir))
-        :when (clojure-source? file)]
-    {:file     file
-     :contexts (read-notes file options)}))

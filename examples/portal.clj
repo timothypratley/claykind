@@ -1,10 +1,10 @@
 (ns portal
   "This example demonstrates sending a notebook to Portal"
   (:require [clojure.java.io :as io]
-            [scicloj.claykind.api :as read-kinds]
             [scicloj.kind-portal.v1.api :as kp]
             [scicloj.kind-portal.v1.session :as kps]
-            [portal.api :as p]))
+            [portal.api :as p]
+            [scicloj.read-kinds.api :as read-kinds]))
 
 (defn portal-options []
   (or (and (.exists (io/file ".portal" "vs-code.edn"))

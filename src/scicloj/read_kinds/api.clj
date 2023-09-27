@@ -11,12 +11,3 @@
   ([path] (notebook path {}))
   ([path options]
    (notes/read-notes (io/file path) options)))
-
-(defn all-notebooks
-  "Finds all notebooks in dirs (or [\"notebooks\"])
-  and returns a lazy sequence of `{:file ..., :contexts ...}`,
-  where contexts represent the contents of the notebook after evaluation and advice.
-  Contexts contain the original code, the evaluated value, and the kind."
-  ;; TODO: not sure this makes sense
-  ([] (notes/all-notes {:dirs ["notebooks"]}))
-  ([options] (notes/all-notes options)))

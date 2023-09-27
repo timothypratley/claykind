@@ -17,7 +17,8 @@
 
 (defn ^:dynamic *on-eval-error*
   "By default, eval errors will be rethrown.
-  Binding *on-eval-error* to nil will cause the error to pass through instead.
+  When *on-eval-error* is bound to nil or a function,
+  The exception will be added to the context as an `:error` instead.
   *on-eval-error* may be bound to a function to provide alternative behavior like warning.
   When bound to a function the result will be ignored, but subsequent exceptions will propagate."
   [context ex]

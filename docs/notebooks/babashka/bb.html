@@ -8,21 +8,17 @@
 </div><div><pre><code>^:kind/hiccup
 [:div {:style {:background-color "#effeef"}}
  [:big [:big 3]]]</code></pre><div style="background-color:#effeef;"><big><big>3</big></big></div></div><div><pre><code></code></pre><h2>Time</h2>
-</div><div><pre><code>(def now (java.time.ZonedDateTime/now))</code></pre><div>VAR#'scicloj.clay.publish/now</div></div><div><pre><code>(def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))</code></pre><div>VAR#'scicloj.clay.publish/LA-timezone</div></div><div><pre><code>(def LA-time (.withZoneSameInstant now LA-timezone))</code></pre><div>VAR#'scicloj.clay.publish/LA-time</div></div><div><pre><code>(def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))</code></pre><div>VAR#'scicloj.clay.publish/pattern</div></div><div><pre><code>(.format LA-time pattern)</code></pre><code>"11:25"</code></div><div><pre><code></code></pre><h2>Babashka vs clojure</h2>
-</div><div><pre><code></code></pre><h2></h2>
+</div><div><pre><code>(def now (java.time.ZonedDateTime/now))</code></pre><code>"#'user/now"</code></div><div><pre><code>(def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))</code></pre><code>"#'user/LA-timezone"</code></div><div><pre><code>(def LA-time (.withZoneSameInstant now LA-timezone))</code></pre><code>"#'user/LA-time"</code></div><div><pre><code>(def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))</code></pre><code>"#'user/pattern"</code></div><div><pre><code>(.format LA-time pattern)</code></pre><code>"12:10"</code></div><div><pre><code></code></pre><h2>Babashka vs clojure</h2>
 </div><div><pre><code></code></pre><p>The notable differences are:</p>
 </div><div><pre><code></code></pre><ul>
 <li>Code is evaluated with <a href="https://github.com/babashka/SCI">Sci</a></li>
 <li>Not all of Clojure is available</li>
 <li>Files start with a shell directive instead of a namespace</li>
 </ul>
-</div><div><pre><code></code></pre><h2></h2>
 </div><div><pre><code></code></pre><p>Did you know that Clojure treats <code>#!</code> as a comment?</p>
-</div><div><pre><code></code></pre><h2></h2>
 </div><div><pre><code></code></pre><p>So you can already create Babashka notebooks if you ignore the differences,
 but this project (claykind) will detect Babashka and use Sci,
 which will make it more directly compatible.</p>
-</div><div><pre><code></code></pre><h2></h2>
 </div><div><pre><code></code></pre><p>Would it be interesting thing to try is running claykind from babashka?
 What possibilities does that open up?
 Faster command-line blog generation?</p>

@@ -2,39 +2,41 @@
   (:require [clojure.string :as str]
             [scicloj.kind-adapters.qmd :as qmd]
             [clj-yaml.core :as yaml]
-            [hiccup.core :as hiccup]
+            [hiccup2.core :as hiccup2]
             [hiccup.page :as page]))
 
-(defn message [msg]
-  (str ">" msg \newline))
+;; Markdown is sensitive to whitespace (especially newlines).
+;; fragments like blocks must be separated by a blank line.
+;; These markdown producing functions return strings with no trailing newline,
+;; which are combined with double newline.
 
-(defn clojure-code [{:keys [code exception out err] :as context}]
-  (str "```clojure" \newline
-       code \newline
-       "```" \newline
-       (when out
-         (qmd/as-printed-clj #_";OUT " out)) ; TODO: a separate box?
-       (when err
-         (qmd/as-printed-clj #_";ERR " err)) ; TODO: a separate box?
-       (when (contains? context :value)
-         (qmd/adapt context))
-       (when exception
-         (str \newline
-              (message exception)))))
+(defn join [a b]
+  (str a \newline \newline b))
 
-(defn render-md
+(defn render-eval [{:keys [code exception out err] :as context}]
+  (cond-> (qmd/block code "clojure")
+          out (join (qmd/message out "stdout"))
+          err (join (qmd/message err "stderr"))
+          (contains? context :value) (join (qmd/adapt context))
+          exception (join (qmd/message (ex-message exception) "exception"))))
+
+(defn render-md-fragment
   "Transforms advice into a Markdown string"
   [context]
-  (let [{:keys [code kind]} context]
-    (cond
-      (= kind :kind/comment) (:kindly/comment context)
-      (or (contains? context :value)
-          (contains? context :exception)) (clojure-code context)
-      :else code)))
+  (str/trim-newline
+    (let [{:keys [code kind]} context]
+      (cond
+        (= kind :kind/comment) (:kindly/comment context)
+        (or (contains? context :value)
+            (contains? context :exception)) (render-eval context)
+        :else code))))
+
+(defn all-fragments [contexts]
+  (->> (mapv render-md-fragment contexts)
+       (str/join (str \newline \newline))))
 
 (def styles
-  "
-<style>
+  "<style>
 .printedClojure .sourceCode {
   background-color: transparent;
   border-style: none;
@@ -70,21 +72,23 @@
   text-align:            center;
   border:                solid 1px black;
 }
-</style>
-")
+</style>")
+
+(defn page-setup [{:keys [front-matter]}]
+  (str
+    (when front-matter
+      (str "---"
+           (str/trim-newline (yaml/generate-string front-matter)) \newline
+           "---" \newline \newline))
+    styles \newline \newline
+    (hiccup2/html
+      (page/include-js "https://cdn.jsdelivr.net/npm/vega@5"
+                       "https://cdn.jsdelivr.net/npm/vega-lite@5"
+                       "https://cdn.jsdelivr.net/npm/vega-embed@6"
+                       "portal-main.js"))))
 
 (defn notes-to-md
   "Creates a markdown file from a notebook"
-  [{:keys [contexts]} {:keys [quarto]}]
-  (format "---\n%s\n---\n%s\n%s\n%s"
-          (yaml/generate-string quarto)
-          styles
-          (hiccup/html
-           (page/include-js
-            "https://cdn.jsdelivr.net/npm/vega@5"
-            "https://cdn.jsdelivr.net/npm/vega-lite@5"
-            "https://cdn.jsdelivr.net/npm/vega-embed@6"
-            "portal-main.js"))
-          (->> contexts
-               (map render-md )
-               (str/join \newline))))
+  [{:keys [contexts]} options]
+  (str (page-setup options) \newline \newline
+       (all-fragments contexts) \newline))
