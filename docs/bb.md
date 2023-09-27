@@ -135,7 +135,7 @@ Babashka is, by design, as close to Clojure as possible.
 <div class="printedClojure">
 
 ```clojure
-"20:38"
+"15:31"
 ```
 
 </div>

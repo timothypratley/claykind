@@ -1,4 +1,4 @@
-(ns scicloj.clay-builders.markdown-quarto
+(ns scicloj.clay-builders.markdown-page
   (:require [clojure.string :as str]
             [scicloj.kind-adapters.qmd :as qmd]
             [clj-yaml.core :as yaml]
@@ -77,7 +77,7 @@
 (defn page-setup [{:keys [front-matter]}]
   (str
     (when front-matter
-      (str "---"
+      (str "---" \newline
            (str/trim-newline (yaml/generate-string front-matter)) \newline
            "---" \newline \newline))
     styles \newline \newline

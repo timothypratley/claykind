@@ -1,4 +1,5 @@
----format:
+---
+format:
   html: {toc: true, theme: spacelab}
 highlight-style: solarized
 ---

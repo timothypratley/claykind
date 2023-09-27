@@ -4,7 +4,6 @@
   You could use this to publish a blog that works with markdown,
   or use Pandoc or Quarto to convert the markdown into HTML."
   (:require [clojure.edn :as edn]
-            [clojure.java.io :as io]
             [clojure.tools.cli :as cli]
             [scicloj.clay.api :as api]
             [scicloj.clay.version :as version]

@@ -1,4 +1,5 @@
----format:
+---
+format:
   html: {toc: true, theme: spacelab}
 highlight-style: solarized
 ---
@@ -140,7 +141,7 @@ Babashka is, by design, as close to Clojure as possible.
 <div class="printedClojure">
 
 ```clojure
-"20:49"
+"15:32"
 ```
 
 </div>

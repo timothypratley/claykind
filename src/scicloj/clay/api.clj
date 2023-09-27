@@ -3,8 +3,7 @@
     ;; TODO: abstract builders as write?
             [scicloj.clay-builders.html-plain :as html]
             [scicloj.clay-builders.html-portal :as hp]
-            [scicloj.clay-builders.markdown-generic :as md]
-            [scicloj.clay-builders.markdown-quarto :as qmd]
+            [scicloj.clay-builders.markdown-page :as md]
             [scicloj.clay.io :as io]
             [scicloj.clay.io :as clay.io]
             [scicloj.clay.version :as version]
@@ -22,17 +21,13 @@
    ;; TODO: allow users to choose the flavor of markdown
    ;; maybe pandoc can convert between flavors?
    "md"   md/notes-to-md
-   "qmd"  qmd/notes-to-md
    "htm"  hp/notes-to-html-portal})
-
-(defn spy [x]
-  (prn "X" x)
-  x)
 
 (defn- render* [path {:keys [verbose] :as options}]
   (when verbose
     (println "Rendering" (str path)))
-  (let [builder qmd/notes-to-md #_(get formats format)]
+  ;; TODO: handle formats properly
+  (let [builder md/notes-to-md #_(get formats format)]
     (-> (read-kinds/notebook path options)
         (builder options)
         (->> (clay.io/spit! (clay.io/target path "md" options))))))
