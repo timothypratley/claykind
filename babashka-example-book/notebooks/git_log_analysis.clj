@@ -26,36 +26,40 @@
 (require '[scicloj.kindly.v4.kind :as kind])
 
 (defn pr-str-with-meta [value]
-(binding [*print-meta* true]
-  (pr-str value)))
+  (binding [*print-meta* true]
+    (pr-str value)))
 
+;; TODO: do we need a portal kind?
+;; TODO: scripts should be raw
 (defn portal-widget [value]
-(kind/hiccup
- [:div
-  [:script (str "portal.extensions.vs_code_notebook.activate().renderOutputItem(
+  (kind/hiccup
+    [:div
+     [:script
+      [:hiccup/raw-html
+       (str "portal.extensions.vs_code_notebook.activate().renderOutputItem(
                 {\"mime\": \"x-application/edn\",
                  \"text\": (() => " (pr-str (pr-str-with-meta value)) ")}
-                , document.currentScript.parentElement);")]]))
+                , document.currentScript.parentElement);")]]]))
 
 ;; ## Data preparation
 
 (def git-log
-(-> (shell/sh "git" "log" "--date=format:%Y-%m-%d")
-    :out
-    (str/split #"\n")
-    kind/pprint))
+  (-> (shell/sh "git" "log" "--date=format:%Y-%m-%d")
+      :out
+      (str/split #"\n")
+      kind/pprint))
 
 (def dates-and-freqs
-(->> git-log
-     (filter (partial re-matches #"^Date:.*"))
-     (map (fn [line]
-            (-> line
-                (str/replace #"Date:   " ""))))
-     frequencies
-     (map (fn [[date freq]]
-            {:date date
-             :freq freq}))
-     (sort-by :date)))
+  (->> git-log
+       (filter (partial re-matches #"^Date:.*"))
+       (map (fn [line]
+              (-> line
+                  (str/replace #"Date:   " ""))))
+       frequencies
+       (map (fn [[date freq]]
+              {:date date
+               :freq freq}))
+       (sort-by :date)))
 
 ;; ## Data exploration
 
@@ -70,15 +74,15 @@
 
 (def freqs-plot
   (kind/vega-lite
-   {:data {:values dates-and-freqs}
-    :mark :bar
-    :encoding {:x {:field :date
-                   :type :temporal}
-               :y {:field :freq
-                   :type :quantitative}}
-    :width :container
-    :height 200
-    :background :floralwhite}))
+    {:data       {:values dates-and-freqs}
+     :mark       :bar
+     :encoding   {:x {:field :date
+                      :type  :temporal}
+                  :y {:field :freq
+                      :type  :quantitative}}
+     :width      :container
+     :height     200
+     :background :floralwhite}))
 
 freqs-plot
 

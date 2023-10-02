@@ -2,7 +2,7 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "book",
+    "title": "Babashka Example Book",
     "section": "",
     "text": "1 Preface\nThis is a Babashka Kindly notebook\nthat gets rendered in Claykind\nas a Quarto document\nwith embedded Portal viewers."
   },
@@ -18,14 +18,14 @@
     "href": "chapters/bb.html#hiccup",
     "title": "2  Babashka notebooks",
     "section": "2.2 Hiccup",
-    "text": "2.2 Hiccup\n^:kind/hiccup\n[:div {:style {:background-color \"#effeef\"}}\n [:big [:big 3]]]\n\n3"
+    "text": "2.2 Hiccup\n^:kind/hiccup\n[:div {:style {:background-color \"#effeef\"}}\n [:big [:big 3]]]\n\n{:style {:background-color \"#effeef\"}}3"
   },
   {
     "objectID": "chapters/bb.html#time",
     "href": "chapters/bb.html#time",
     "title": "2  Babashka notebooks",
     "section": "2.3 Time",
-    "text": "2.3 Time\n(def now (java.time.ZonedDateTime/now))\n\n\"#'user/now\"\n\n(def LA-timezone (java.time.ZoneId/of \"America/Los_Angeles\"))\n\n\"#'user/LA-timezone\"\n\n(def LA-time (.withZoneSameInstant now LA-timezone))\n\n\"#'user/LA-time\"\n\n(def pattern (java.time.format.DateTimeFormatter/ofPattern \"HH:mm\"))\n\n\"#'user/pattern\"\n\n(.format LA-time pattern)\n\n\"15:07\""
+    "text": "2.3 Time\n(def now (java.time.ZonedDateTime/now))\n\n\"#'user/now\"\n\n(def LA-timezone (java.time.ZoneId/of \"America/Los_Angeles\"))\n\n\"#'user/LA-timezone\"\n\n(def LA-time (.withZoneSameInstant now LA-timezone))\n\n\"#'user/LA-time\"\n\n(def pattern (java.time.format.DateTimeFormatter/ofPattern \"HH:mm\"))\n\n\"#'user/pattern\"\n\n(.format LA-time pattern)\n\n\"21:10\""
   },
   {
     "objectID": "chapters/bb.html#babashka-vs-clojure",
@@ -70,45 +70,31 @@
     "text": "(range 9)\n\n(0 1 2 3 4 5 6 7 8)\n\n{:x (range 3)}\n\n{:x (0 1 2)}"
   },
   {
-    "objectID": "chapters/git-log-analysis.html",
-    "href": "chapters/git-log-analysis.html",
-    "title": "4  Analysing git logs",
-    "section": "",
-    "text": "hello1"
-  },
-  {
     "objectID": "chapters/git-log-analysis.html#setup",
     "href": "chapters/git-log-analysis.html#setup",
     "title": "4  Analysing git logs in babashka",
     "section": "4.1 Setup",
-    "text": "4.1 Setup\nThis is a Babashka Kindly notebook\nthat gets rendered in Claykind\nas a Quarto document\nwith embedded Portal viewers.\n(require '[scicloj.kindly.v4.kind :as kind])\n\nnil\n\n(defn pr-str-with-meta [value]\n(binding [*print-meta* true]\n  (pr-str value)))\n\n\"#'user/pr-str-with-meta\"\n\n(defn portal-widget [value]\n(kind/hiccup\n [:div\n  [:script (str \"portal.extensions.vs_code_notebook.activate().renderOutputItem(\n                {\\\"mime\\\": \\\"x-application/edn\\\",\n                 \\\"text\\\": (() => \" (pr-str (pr-str-with-meta value)) \")}\n                , document.currentScript.parentElement);\")]]))\n\n\"#'user/portal-widget\""
+    "text": "4.1 Setup\nThis is a Babashka Kindly notebook\nthat gets rendered in Claykind\nas a Quarto document\nwith embedded Portal viewers.\n(require '[scicloj.kindly.v4.kind :as kind])\n\nnil\n\n(defn pr-str-with-meta [value]\n  (binding [*print-meta* true]\n    (pr-str value)))\n\n\"#'user/pr-str-with-meta\"\n\nTODO: do we need a portal kind? TODO: scripts should be raw\n(defn portal-widget [value]\n  (kind/hiccup\n    [:div\n     [:script\n      [:hiccup/raw-html\n       (str \"portal.extensions.vs_code_notebook.activate().renderOutputItem(\n                {\\\"mime\\\": \\\"x-application/edn\\\",\n                 \\\"text\\\": (() =&gt; \" (pr-str (pr-str-with-meta value)) \")}\n                , document.currentScript.parentElement);\")]]]))\n\n\"#'user/portal-widget\""
   },
   {
     "objectID": "chapters/git-log-analysis.html#data-preparation",
     "href": "chapters/git-log-analysis.html#data-preparation",
     "title": "4  Analysing git logs in babashka",
     "section": "4.2 Data preparation",
-    "text": "4.2 Data preparation\n(def git-log\n(-> (shell/sh \"git\" \"log\" \"--date=format:%Y-%m-%d\")\n    :out\n    (str/split #\"\\n\")\n    kind/pprint))\n\n\"#'user/git-log\"\n\n(def dates-and-freqs\n(->> git-log\n     (filter (partial re-matches #\"^Date:.*\"))\n     (map (fn [line]\n            (-> line\n                (str/replace #\"Date:   \" \"\"))))\n     frequencies\n     (map (fn [[date freq]]\n            {:date date\n             :freq freq}))\n     (sort-by :date)))\n\n\"#'user/dates-and-freqs\""
+    "text": "4.2 Data preparation\n(def git-log\n  (-&gt; (shell/sh \"git\" \"log\" \"--date=format:%Y-%m-%d\")\n      :out\n      (str/split #\"\\n\")\n      kind/pprint))\n\n\"#'user/git-log\"\n\n(def dates-and-freqs\n  (-&gt;&gt; git-log\n       (filter (partial re-matches #\"^Date:.*\"))\n       (map (fn [line]\n              (-&gt; line\n                  (str/replace #\"Date:   \" \"\"))))\n       frequencies\n       (map (fn [[date freq]]\n              {:date date\n               :freq freq}))\n       (sort-by :date)))\n\n\"#'user/dates-and-freqs\""
   },
   {
     "objectID": "chapters/git-log-analysis.html#data-exploration",
     "href": "chapters/git-log-analysis.html#data-exploration",
     "title": "4  Analysing git logs in babashka",
     "section": "4.3 Data exploration",
-    "text": "4.3 Data exploration\n(-> dates-and-freqs\n    (with-meta {:portal.viewer/default\n                :portal.viewer/table})\n    portal-widget)"
-  },
-  {
-    "objectID": "chapters/git-log-analysis.html#data-plotting",
-    "href": "chapters/git-log-analysis.html#data-plotting",
-    "title": "4  Analysing git logs",
-    "section": "4.4 Data plotting",
-    "text": "4.4 Data plotting\n(def freqs-plot\n  (kind/vega-lite\n   {:data {:values dates-and-freqs}\n    :mark :bar\n    :encoding {:x {:field :date\n                   :type :temporal}\n               :y {:field :freq\n                   :type :quantitative}}\n    :width :container\n    :height 200\n    :background :floralwhite}))\n\n\"#'user/freqs-plot\"\n\n(portal-widget freqs-plot)\n\n\n\nfreqs-plot"
+    "text": "4.3 Data exploration\n(-&gt; dates-and-freqs\n    (with-meta {:portal.viewer/default\n                :portal.viewer/table})\n    portal-widget)"
   },
   {
     "objectID": "chapters/git-log-analysis.html#plotting",
     "href": "chapters/git-log-analysis.html#plotting",
     "title": "4  Analysing git logs in babashka",
     "section": "4.4 Plotting",
-    "text": "4.4 Plotting\n(def freqs-plot\n  (kind/vega-lite\n   {:data {:values dates-and-freqs}\n    :mark :bar\n    :encoding {:x {:field :date\n                   :type :temporal}\n               :y {:field :freq\n                   :type :quantitative}}\n    :width :container\n    :height 200\n    :background :floralwhite}))\n\n\"#'user/freqs-plot\"\n\nfreqs-plot\n\n\n\n(portal-widget freqs-plot)"
+    "text": "4.4 Plotting\n(def freqs-plot\n  (kind/vega-lite\n    {:data       {:values dates-and-freqs}\n     :mark       :bar\n     :encoding   {:x {:field :date\n                      :type  :temporal}\n                  :y {:field :freq\n                      :type  :quantitative}}\n     :width      :container\n     :height     200\n     :background :floralwhite}))\n\n\"#'user/freqs-plot\"\n\nfreqs-plot\n\n{:style {:width \"100%\"}}\n\n\n(portal-widget freqs-plot)"
   }
 ]

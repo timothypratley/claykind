@@ -1,6 +1,6 @@
 (ns main-test
   (:require [clojure.test :refer :all]
-            [scicloj.clay.main :as main]))
+            [scicloj.claykind.main :as main]))
 
 (deftest -main-test
   ;; This test runs the "publish" example to make sure it succeeds.

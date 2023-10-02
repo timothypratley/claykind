@@ -1,12 +1,12 @@
-(ns scicloj.clay.main
+(ns scicloj.claykind.main
   "This example converts any namespace in the `notebooks` directory
   into a markdown file in the `docs` directory.
   You could use this to publish a blog that works with markdown,
   or use Pandoc or Quarto to convert the markdown into HTML."
   (:require [clojure.edn :as edn]
             [clojure.tools.cli :as cli]
-            [scicloj.clay.api :as api]
-            [scicloj.clay.version :as version]
+            [scicloj.claykind.api :as api]
+            [scicloj.claykind.version :as version]
             [scicloj.read-kinds.read :as read]))
 
 (set! *warn-on-reflection* true)
@@ -33,7 +33,7 @@
      ["-v" "--version"]]))
 
 (defn -main
-  "Invoke with `clojure -M:dev -m scicloj.clay.main --help` to see options"
+  "Invoke with `clojure -M:dev -m scicloj.claykind.main --help` to see options"
   [& args]
   (let [{:keys [options summary arguments errors]} (cli/parse-opts args cli-options)
         {:keys [help version]} options]

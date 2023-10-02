@@ -1,6 +1,7 @@
-(ns scicloj.kind-adapters.hiccup
+(ns scicloj.kind-adapters.to-hiccup
   (:require [clojure.data.json :as json]
-            [scicloj.kindly-advice.v1.api :as ka]))
+            [scicloj.kindly-advice.v1.api :as ka]
+            [hiccup.util :as hiccup.util]))
 
 (defmulti adapt :kind)
 
@@ -61,7 +62,9 @@
 
 (defn- vega [value]
   [:div {:style {:width "100%"}}
-   [:script (str "vegaEmbed(document.currentScript.parentElement, " (json/write-str value) ");")]])
+   [:script
+    [:hiccup/raw-html
+     (str "vegaEmbed(document.currentScript.parentElement, " (json/write-str value) ");")]]])
 
 (defmethod adapt :kind/vega [{:keys [value]}]
   (vega value))

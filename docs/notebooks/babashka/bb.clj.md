@@ -34,28 +34,28 @@ Babashka is, by design, as close to Clojure as possible.
 (def now (java.time.ZonedDateTime/now))
 
 ;=> Unimplemented: :kind/var
-;   #'scicloj.clay.publish/now
+;   #'scicloj.claykind.publish/now
 ```
 
 ```clojure
 (def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))
 
 ;=> Unimplemented: :kind/var
-;   #'scicloj.clay.publish/LA-timezone
+;   #'scicloj.claykind.publish/LA-timezone
 ```
 
 ```clojure
 (def LA-time (.withZoneSameInstant now LA-timezone))
 
 ;=> Unimplemented: :kind/var
-;   #'scicloj.clay.publish/LA-time
+;   #'scicloj.claykind.publish/LA-time
 ```
 
 ```clojure
 (def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
 
 ;=> Unimplemented: :kind/var
-;   #'scicloj.clay.publish/pattern
+;   #'scicloj.claykind.publish/pattern
 ```
 
 ```clojure

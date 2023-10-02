@@ -8,7 +8,7 @@
 </div><div><pre><code>^:kind/hiccup
 [:div {:style {:background-color "#effeef"}}
  [:big [:big 3]]]</code></pre><div style="background-color:#effeef;"><big><big>3</big></big></div></div><div><pre><code></code></pre><h2>Time</h2>
-</div><div><pre><code>(def now (java.time.ZonedDateTime/now))</code></pre><div>VAR#'scicloj.clay.publish/now</div></div><div><pre><code>(def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))</code></pre><div>VAR#'scicloj.clay.publish/LA-timezone</div></div><div><pre><code>(def LA-time (.withZoneSameInstant now LA-timezone))</code></pre><div>VAR#'scicloj.clay.publish/LA-time</div></div><div><pre><code>(def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))</code></pre><div>VAR#'scicloj.clay.publish/pattern</div></div><div><pre><code>(.format LA-time pattern)</code></pre><code>"10:49"</code></div><div><pre><code></code></pre><h2>Babashka vs clojure</h2>
+</div><div><pre><code>(def now (java.time.ZonedDateTime/now))</code></pre><div>VAR#'scicloj.claykind.publish/now</div></div><div><pre><code>(def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))</code></pre><div>VAR#'scicloj.claykind.publish/LA-timezone</div></div><div><pre><code>(def LA-time (.withZoneSameInstant now LA-timezone))</code></pre><div>VAR#'scicloj.claykind.publish/LA-time</div></div><div><pre><code>(def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))</code></pre><div>VAR#'scicloj.claykind.publish/pattern</div></div><div><pre><code>(.format LA-time pattern)</code></pre><code>"10:49"</code></div><div><pre><code></code></pre><h2>Babashka vs clojure</h2>
 </div><div><pre><code></code></pre><h2></h2>
 </div><div><pre><code></code></pre><p>The notable differences are:</p>
 </div><div><pre><code></code></pre><ul>

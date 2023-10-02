@@ -2,20 +2,6 @@
   (:require [clojure.string :as str]
             [hiccup.page :as page]))
 
-;; This scittle macro is cool, but overkill
-
-;;[backtick :as bt]
-;;[zprint.core :as zp]
-
-#_(defn fmt [x]
-    (with-out-str (zp/zprint x)))
-
-#_(defmacro scittle [& body]
-    [:script {:type "application/x-scittle"}
-     `(->> ~(mapv bt/template-fn body)
-           (map fmt)
-           (str/join \newline))])
-
 ;; TODO: how do we want to consume dependencies?
 ;;
 ;; Serving dependencies:

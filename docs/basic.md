@@ -106,13 +106,13 @@ And that you can do HTML?
 [:h1 "Hello world"]
 ```
 
-<h1>Hello world</h1>
+<code>{:allow-raw true}</code>
 
 ```clojure
 [(range 20) (reverse (range 20))]
 ```
 
-<div class="kind_set"><div style="border:1px solid grey;padding:2px;"><div><code>0</code><code>1</code><code>2</code><code>3</code><code>4</code><code>5</code><code>6</code><code>7</code><code>8</code><code>9</code><code>10</code><code>11</code><code>12</code><code>13</code><code>14</code><code>15</code><code>16</code><code>17</code><code>18</code><code>19</code></div></div><div style="border:1px solid grey;padding:2px;"><div><code>19</code><code>18</code><code>17</code><code>16</code><code>15</code><code>14</code><code>13</code><code>12</code><code>11</code><code>10</code><code>9</code><code>8</code><code>7</code><code>6</code><code>5</code><code>4</code><code>3</code><code>2</code><code>1</code><code>0</code></div></div></div>
+<code>{:allow-raw true}</code>
 
 We can add things that translate to the existing kindly specs...
 But! Now I have this different thing; SVG images, tables that have double rows.

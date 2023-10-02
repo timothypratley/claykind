@@ -1,7 +1,6 @@
 (ns build
   (:require [clojure.tools.build.api :as b]
-            [deps-deploy.deps-deploy :as dd]
-            [scicloj.clay.api :as clay]))
+            [deps-deploy.deps-deploy :as dd]))
 
 (def lib 'org.scicloj/claykind)
 (def version (format "0.1.%s-alpha" (b/git-count-revs nil)))
@@ -12,13 +11,10 @@
 (defn clean [_]
   (b/delete {:path "target"}))
 
-(defn build [_]
-  (clay/render!))
-
 (defn jar [_]
-  (spit "src/scicloj/clay/version.clj"
-        (str ";; Generated from dev/build.clj"
-             "(ns scicloj.clay.version)" \newline \newline
+  (spit "src/scicloj/claykind/version.clj"
+        (str ";; Generated from dev/build.clj" \newline
+             "(ns scicloj.claykind.version)" \newline \newline
              "(def version " (pr-str version) ")" \newline))
   (b/write-pom {:class-dir class-dir
                 :lib       lib

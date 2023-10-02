@@ -26,13 +26,13 @@ Pre alpha. Subject to change.
 No releases are provided yet.
 Please add Claykind as a [git dependency](https://clojure.org/news/2018/01/05/git-deps) to your project if you would like to try it out.
 
-Claykind can be invoked from the commandline (see `scicloj.clay.main/-main`)
-or the REPL (see `scicloj.clay.api/render!`).
+Claykind can be invoked from the commandline (see `scicloj.claykind.main/-main`)
+or the REPL (see `scicloj.claykind.api/render!`).
 
 ### Command line
 
 ```sh
-clojure -M:dev -m scicloj.clay.main --help
+clojure -M:dev -m scicloj.claykind.main --help
 
 Claykind
  Version:  0.1.62-alpha
@@ -52,7 +52,7 @@ Claykind
 ### REPL
 
 ```clojure
-(require '[scicloj.clay.api :as clay])
+(require '[scicloj.claykind.api :as clay])
 
 ;; render the entire project
 (clay/render!)
@@ -66,11 +66,11 @@ Claykind
 Options can be supplied by a file `claykind.edn` in the root of your project,
 passed from the commandline, or passed as an argument when calling `clay/render`.
 Options are the result of merging the defaults, config file, and arguments.
-See `scicloj.clay.main/cli-options` for an overview of options available.
+See `scicloj.claykind.main/cli-options` for an overview of options available.
 
 By default, Claykind will look for source files in a `notebooks` directory (`:paths ["notebooks"]`),
 and produce output to a `docs` directory (`:target-dir "docs"`).
-See `scicloj.clay.api/default-options` for a full list of default options.
+See `scicloj.claykind.api/default-options` for a full list of default options.
 
 Markdown front-matter is useful when using publishing tools like Quarto.
 A map argument will be converted to YAML markdown.

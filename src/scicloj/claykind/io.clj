@@ -1,4 +1,4 @@
-(ns scicloj.clay.io
+(ns scicloj.claykind.io
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
             [clojure.string :as str])
@@ -18,8 +18,14 @@
     (and (.isFile file)
          (re-find clojure-file-ext-regex (.getName file)))))
 
+(defn kebab
+  "Markdown filenames replace underscores with hyphens (https://docs.github.com/en/contributing/syntax-and-versioning-for-github-docs/using-yaml-frontmatter#filenames)"
+  [s]
+  (str/replace s "_" "-"))
+
 (defn as [s extension]
-  (str/replace s clojure-file-ext-regex (str "." extension)))
+  (-> (kebab s)
+      (str/replace clojure-file-ext-regex (str "." extension))))
 
 (defn target
   "Given a clojure source file, constructs a file for output relative to target-dir if it exists."

@@ -8,10 +8,12 @@
 
 (defn portal-widget [value]
   [:div
-   [:script (str "portal.extensions.vs_code_notebook.activate().renderOutputItem(
-                {\"mime\": \"x-application/edn\",
-                 \"text\": (() => " (pr-str (pr-str-with-meta value)) ")}
-                , document.currentScript.parentElement);")]])
+   [:script
+    [:hiccup/raw-html
+     (str "portal.extensions.vs_code_notebook.activate().renderOutputItem(
+  {\"mime\": \"x-application/edn\",
+   \"text\": (() => " (pr-str (pr-str-with-meta value)) ")},
+  document.currentScript.parentElement);")]]])
 
 (defn expr-result [{:keys [code] :as context}]
   ;; TODO: kpi/prepare should handle missing value

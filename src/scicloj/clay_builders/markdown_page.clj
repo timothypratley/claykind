@@ -1,6 +1,7 @@
 (ns scicloj.clay-builders.markdown-page
   (:require [clojure.string :as str]
-            [scicloj.kind-adapters.qmd :as qmd]
+            [scicloj.kind-adapters.to-markdown :as to-markdown]
+            [scicloj.kind-adapters.to-html :as to-html]
             [clj-yaml.core :as yaml]
             [hiccup2.core :as hiccup2]
             [hiccup.page :as page]))
@@ -14,11 +15,11 @@
   (str a \newline \newline b))
 
 (defn render-eval [{:keys [code exception out err] :as context}]
-  (cond-> (qmd/block code "clojure")
-          out (join (qmd/message out "stdout"))
-          err (join (qmd/message err "stderr"))
-          (contains? context :value) (join (qmd/adapt context))
-          exception (join (qmd/message (ex-message exception) "exception"))))
+  (cond-> (to-markdown/block code "clojure")
+          out (join (to-markdown/message out "stdout"))
+          err (join (to-markdown/message err "stderr"))
+          (contains? context :value) (join (to-markdown/adapt context))
+          exception (join (to-markdown/message (ex-message exception) "exception"))))
 
 (defn render-md-fragment
   "Transforms advice into a Markdown string"
@@ -74,6 +75,7 @@
 }
 </style>")
 
+;; TODO: this is really book setup in the case of a book...
 (defn page-setup [{:keys [front-matter]}]
   (str
     (when front-matter
@@ -81,11 +83,21 @@
            (str/trim-newline (yaml/generate-string front-matter)) \newline
            "---" \newline \newline))
     styles \newline \newline
+    ;; TODO: don't use hiccup2
     (hiccup2/html
       (page/include-js "https://cdn.jsdelivr.net/npm/vega@5"
                        "https://cdn.jsdelivr.net/npm/vega-lite@5"
                        "https://cdn.jsdelivr.net/npm/vega-embed@6"
-                       "portal-main.js"))))
+                       "https://unpkg.com/react@18/umd/react.production.min.js"
+                       "https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+                       "https://scicloj.github.io/scittle/js/scittle.js"
+                       "https://scicloj.github.io/scittle/js/scittle.reagent.js"
+                       "/js/portal-main.js")) \newline
+    (to-html/html [:script {:type "application/x-scittle"}
+                   [:hiccup/raw-html
+                    "(ns main
+                      (:require [reagent.core :as r]
+                                [reagent.dom :as dom]))"]])))
 
 (defn notes-to-md
   "Creates a markdown file from a notebook"

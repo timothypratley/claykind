@@ -76,7 +76,7 @@ Babashka is, by design, as close to Clojure as possible.
  [:big [:big 3]]]
 ```
 
-<div style="background-color:#effeef;"><big><big>3</big></big></div>
+<code>{:allow-raw true}</code>
 
 ## Time
 
@@ -135,7 +135,7 @@ Babashka is, by design, as close to Clojure as possible.
 <div class="printedClojure">
 
 ```clojure
-"15:31"
+"16:04"
 ```
 
 </div>

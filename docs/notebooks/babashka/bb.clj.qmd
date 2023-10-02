@@ -51,19 +51,19 @@ Babashka is, by design, as close to Clojure as possible.
 ```clojure
 (def now (java.time.ZonedDateTime/now))
 ```
-<div>VAR#'scicloj.clay.publish/now</div>
+<div>VAR#'scicloj.claykind.publish/now</div>
 ```clojure
 (def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))
 ```
-<div>VAR#'scicloj.clay.publish/LA-timezone</div>
+<div>VAR#'scicloj.claykind.publish/LA-timezone</div>
 ```clojure
 (def LA-time (.withZoneSameInstant now LA-timezone))
 ```
-<div>VAR#'scicloj.clay.publish/LA-time</div>
+<div>VAR#'scicloj.claykind.publish/LA-time</div>
 ```clojure
 (def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
 ```
-<div>VAR#'scicloj.clay.publish/pattern</div>
+<div>VAR#'scicloj.claykind.publish/pattern</div>
 ```clojure
 (.format LA-time pattern)
 ```

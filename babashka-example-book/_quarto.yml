@@ -4,12 +4,19 @@ project:
 
 format:
   html:
-    theme: cosmo
+    theme:
+      light: flatly
+      dark: darkly
 
 book:
-  title: "book"
+  title: "Babashka Example Book"
   chapters:
-    - index.qmd
-    - chapters/bb.qmd
-    - chapters/bb1.qmd
-    - chapters/git-log-analysis.qmd
+    - index.md
+    - chapters/bb.md
+    - chapters/bb1.md
+    - chapters/git-log-analysis.md
+  twitter-card:
+    creator: "@timothypratley"
+  favicon: images/Clay.svg
+  open-graph: true
+

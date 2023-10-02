@@ -1,8 +1,8 @@
-(ns scicloj.kind-adapters.qmd
+(ns scicloj.kind-adapters.to-markdown
   (:require [clojure.pprint :as pprint]
             [clojure.string :as str]
-            [scicloj.kind-adapters.hiccup]
-            [hiccup2.core]))
+            [scicloj.kind-adapters.to-hiccup :as to-hiccup]
+            [scicloj.kind-adapters.to-html :as to-html]))
 
 ;; Adapters take a context and produce a representation,
 ;; for example hiccup, markdown, or portal-annotated values.
@@ -59,6 +59,6 @@
 (defmethod adapt :default [{:as   context
                             :keys [kind value]}]
   (if kind
-    (-> (scicloj.kind-adapters.hiccup/adapt context)
-        (hiccup2.core/html))
+    (-> (to-hiccup/adapt context)
+        (to-html/html))
     (pprint-block value)))
