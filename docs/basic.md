@@ -1,5 +1,5 @@
 <style>
-.printedClojure .sourceCode {
+.sourceCode:has(.printedClojure) {
   background-color: transparent;
   border-style: none;
 }
@@ -45,13 +45,9 @@
 (ns test.basic)
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 nil
 ```
-
-</div>
 
 # section 1
 
@@ -61,13 +57,9 @@ nil
 (+ 1 2 3)
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 6
 ```
-
-</div>
 
 ```clojure
 (defn f [x]
@@ -76,25 +68,17 @@ nil
      9))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'test.basic/f"
 ```
-
-</div>
 
 ```clojure
 (f 20)
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 29
 ```
-
-</div>
 
 # section 2
 

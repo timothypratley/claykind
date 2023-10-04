@@ -1,5 +1,5 @@
 <style>
-.printedClojure .sourceCode {
+.sourceCode:has(.printedClojure) {
   background-color: transparent;
   border-style: none;
 }
@@ -48,13 +48,9 @@
   (:import (javax.imageio ImageIO)))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 nil
 ```
-
-</div>
 
 # Kindly grammars
 
@@ -77,13 +73,9 @@ as you can represent pretty much anything that can display in a browser.
    [:tr [:td 3] [:td 4]]])
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'kindly.grammars/hiccup-table"
 ```
-
-</div>
 
 The downside of HTML is that users need to expend considerable effort reshaping their data into views.
 
@@ -104,13 +96,9 @@ Hiccup has a Malli schema that can be used to validate and parse:
    "hiccup"])
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'kindly.grammars/Hiccup"
 ```
-
-</div>
 
 Hiccup does not check for the creation of valid HTML; tags and attributes are not checked.
 
@@ -118,13 +106,9 @@ Hiccup does not check for the creation of valid HTML; tags and attributes are no
 (def parse-hiccup (ma/parser Hiccup))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'kindly.grammars/parse-hiccup"
 ```
-
-</div>
 
 ```clojure
 (parse-hiccup hiccup-table)
@@ -169,25 +153,17 @@ Perhaps this can be achieved with a shorthand helper?
 '(tabulate values)
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 (tabulate values)
 ```
-
-</div>
 
 ```clojure
 '(tabulate headers values)
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 (tabulate headers values)
 ```
-
-</div>
 
 Possibly a multimethod (with a row multimethod as well).
 
@@ -199,13 +175,9 @@ Tools should be encouraged to accept a standardized data shape defined by a sche
    "table"])
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'kindly.grammars/Table"
 ```
-
-</div>
 
 ## Plots
 
@@ -224,13 +196,9 @@ Two popular grammars for plotting are Vega and ggplot2.
     :fill {:field "z", :type "nominal"}}})
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'kindly.grammars/vega-lite-point-plot"
 ```
-
-</div>
 
 ```clojure
 (defn random-data [n]
@@ -243,13 +211,9 @@ Two popular grammars for plotting are Vega and ggplot2.
                        :y y}))))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'kindly.grammars/random-data"
 ```
-
-</div>
 
 ```clojure
 (defn random-vega-lite-plot [n]
@@ -258,20 +222,16 @@ Two popular grammars for plotting are Vega and ggplot2.
       vega-lite-point-plot))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'kindly.grammars/random-vega-lite-plot"
 ```
-
-</div>
 
 ```clojure
 ^:kind/vega-lite
 (random-vega-lite-plot 9)
 ```
 
-<div style="width:100%;"><script>vegaEmbed(document.currentScript.parentElement, {"encoding":{"y":{"field":"y","type":"quantitative"},"fill":{"field":"z","type":"nominal"},"size":{"field":"w","type":"quantitative"},"x":{"field":"x","type":"quantitative"}},"mark":"point","data":{"values":[{"y":-0.006786469140177442,"w":5,"z":8,"x":0},{"y":-0.377386385739237,"w":7,"z":4,"x":1},{"y":-0.8143600077651042,"w":3,"z":5,"x":2},{"y":-0.8010806066231273,"w":8,"z":8,"x":3},{"y":-0.7573107281623458,"w":5,"z":8,"x":4},{"y":-0.9858541133585678,"w":6,"z":8,"x":5},{"y":-0.5627167598877453,"w":8,"z":0,"x":6},{"y":-0.8419837851681661,"w":4,"z":6,"x":7},{"y":-1.26688587354097,"w":4,"z":3,"x":8}]}});</script></div>
+<div style="width:100%;"><script>vegaEmbed(document.currentScript.parentElement, {"encoding":{"y":{"field":"y","type":"quantitative"},"fill":{"field":"z","type":"nominal"},"size":{"field":"w","type":"quantitative"},"x":{"field":"x","type":"quantitative"}},"mark":"point","data":{"values":[{"y":-0.09436341560035466,"w":3,"z":7,"x":0},{"y":0.10752076116506681,"w":4,"z":6,"x":1},{"y":0.03232920039070142,"w":4,"z":5,"x":2},{"y":0.44830886829896477,"w":4,"z":7,"x":3},{"y":0.5516087933790774,"w":7,"z":1,"x":4},{"y":0.23805731197274604,"w":7,"z":4,"x":5},{"y":0.27110154622808447,"w":0,"z":5,"x":6},{"y":0.22326665326408668,"w":8,"z":5,"x":7},{"y":0.5800738436672168,"w":8,"z":2,"x":8}]}});</script></div>
 
 Vega has json-schemas available which are comprehensive.
 There is not yet a way to create Malli schemas from Vega json-schema.
@@ -333,13 +293,9 @@ We might need to construct Markdown programmatically.
 (str "## This... is... " :Markdown)
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "## This... is... :Markdown"
 ```
-
-</div>
 
 ## Data
 
@@ -350,13 +306,9 @@ No grammar is necessary for primitives and collections.
  'data [1 2 3 nil]}
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 {:this #{"is"}, data [1 2 3 nil]}
 ```
-
-</div>
 
 One challenge is when the data is very large.
 Ideally some preview would be available.

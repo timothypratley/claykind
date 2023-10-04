@@ -1,5 +1,5 @@
 <style>
-.printedClojure .sourceCode {
+.sourceCode:has(.printedClojure) {
   background-color: transparent;
   border-style: none;
 }
@@ -47,22 +47,14 @@
 (range 9)
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 (0 1 2 3 4 5 6 7 8)
 ```
-
-</div>
 
 ```clojure
 {:x (range 3)}
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 {:x (0 1 2)}
 ```
-
-</div>

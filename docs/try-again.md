@@ -1,5 +1,5 @@
 <style>
-.printedClojure .sourceCode {
+.sourceCode:has(.printedClojure) {
   background-color: transparent;
   border-style: none;
 }
@@ -45,13 +45,9 @@
 (ns try-again)
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 nil
 ```
-
-</div>
 
 > If at first you don't succeed,
 > dust yourself off and try again.
@@ -132,13 +128,9 @@ Here is some code I've been working on; I'm drawing a heart shape.
   "M 12.0 7.2 C 10.5 5.6 8.1 5.2 6.3 6.7 C 4.5 8.1 4.2 10.6 5.7 12.4 L 12.0 18.3 L 18.3 12.4 C 19.7 10.6 19.5 8.1 17.7 6.7 C 15.8 5.2 13.4 5.6 12.0 7.2 Z")
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'try-again/heart-path"
 ```
-
-</div>
 
 This shape comes from [svg-paths](https://www.nan.fyi/svg-paths) by [@nandafyi](https://twitter.com/nandafyi).
 
@@ -154,13 +146,9 @@ I'll visualize it in an SVG image:
         body))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'try-again/svg"
 ```
-
-</div>
 
 The heart path goes into an SVG element:
 
@@ -170,13 +158,9 @@ The heart path goes into an SVG element:
           :d    heart-path}])
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'try-again/heart"
 ```
-
-</div>
 
 And to see what it looks like I'll make a ["rich comment block"](https://www.youtube.com/watch?v=Qx0-pViyIDU&t=1229s):
 
@@ -203,13 +187,9 @@ and seeing the effect is just one keystroke away with **"retry"**:
           :d    heart-path}])
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'try-again/heart"
 ```
-
-</div>
 
 ```clojure
 (svg (heart))

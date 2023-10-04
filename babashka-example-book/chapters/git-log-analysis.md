@@ -5,7 +5,7 @@ highlight-style: solarized
 ---
 
 <style>
-.printedClojure .sourceCode {
+.sourceCode:has(.printedClojure) {
   background-color: transparent;
   border-style: none;
 }
@@ -72,13 +72,9 @@ with embedded Portal viewers.
 (require '[scicloj.kindly.v4.kind :as kind])
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 nil
 ```
-
-</div>
 
 ```clojure
 (defn pr-str-with-meta [value]
@@ -86,13 +82,9 @@ nil
     (pr-str value)))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'user/pr-str-with-meta"
 ```
-
-</div>
 
 TODO: do we need a portal kind?
 TODO: scripts should be raw
@@ -109,13 +101,9 @@ TODO: scripts should be raw
                 , document.currentScript.parentElement);")]]]))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'user/portal-widget"
 ```
-
-</div>
 
 ## Data preparation
 
@@ -127,13 +115,9 @@ TODO: scripts should be raw
       kind/pprint))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'user/git-log"
 ```
-
-</div>
 
 ```clojure
 (def dates-and-freqs
@@ -149,13 +133,9 @@ TODO: scripts should be raw
        (sort-by :date)))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'user/dates-and-freqs"
 ```
-
-</div>
 
 ## Data exploration
 
@@ -168,7 +148,7 @@ TODO: scripts should be raw
 
 <div><script>portal.extensions.vs_code_notebook.activate().renderOutputItem(
                 {"mime": "x-application/edn",
-                 "text": (() => "^#:portal.viewer{:default :portal.viewer/table} ({:freq 1, :date \"2023-08-08\"} {:freq 2, :date \"2023-08-14\"} {:freq 1, :date \"2023-08-17\"} {:freq 2, :date \"2023-08-18\"} {:freq 9, :date \"2023-08-19\"} {:freq 1, :date \"2023-08-20\"} {:freq 5, :date \"2023-08-21\"} {:freq 2, :date \"2023-08-22\"} {:freq 1, :date \"2023-08-23\"} {:freq 1, :date \"2023-09-11\"} {:freq 4, :date \"2023-09-12\"} {:freq 3, :date \"2023-09-13\"} {:freq 3, :date \"2023-09-14\"} {:freq 3, :date \"2023-09-15\"} {:freq 9, :date \"2023-09-18\"} {:freq 4, :date \"2023-09-19\"} {:freq 7, :date \"2023-09-20\"} {:freq 4, :date \"2023-09-21\"} {:freq 1, :date \"2023-09-26\"} {:freq 1, :date \"2023-09-27\"} {:freq 1, :date \"2023-10-01\"})")}
+                 "text": (() => "^#:portal.viewer{:default :portal.viewer/table} ({:freq 1, :date \"2023-08-08\"} {:freq 2, :date \"2023-08-14\"} {:freq 1, :date \"2023-08-17\"} {:freq 2, :date \"2023-08-18\"} {:freq 9, :date \"2023-08-19\"} {:freq 1, :date \"2023-08-20\"} {:freq 5, :date \"2023-08-21\"} {:freq 2, :date \"2023-08-22\"} {:freq 1, :date \"2023-08-23\"} {:freq 1, :date \"2023-09-11\"} {:freq 4, :date \"2023-09-12\"} {:freq 3, :date \"2023-09-13\"} {:freq 3, :date \"2023-09-14\"} {:freq 3, :date \"2023-09-15\"} {:freq 9, :date \"2023-09-18\"} {:freq 4, :date \"2023-09-19\"} {:freq 7, :date \"2023-09-20\"} {:freq 4, :date \"2023-09-21\"} {:freq 1, :date \"2023-09-26\"} {:freq 1, :date \"2023-09-27\"} {:freq 1, :date \"2023-10-01\"} {:freq 2, :date \"2023-10-03\"})")}
                 , document.currentScript.parentElement);</script></div>
 
 ## Plotting
@@ -187,19 +167,15 @@ TODO: scripts should be raw
      :background :floralwhite}))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'user/freqs-plot"
 ```
-
-</div>
 
 ```clojure
 freqs-plot
 ```
 
-<div style="width:100%;"><script>vegaEmbed(document.currentScript.parentElement, {"encoding":{"y":{"field":"freq","type":"quantitative"},"x":{"field":"date","type":"temporal"}},"mark":"bar","width":"container","background":"floralwhite","height":200,"data":{"values":[{"freq":1,"date":"2023-08-08"},{"freq":2,"date":"2023-08-14"},{"freq":1,"date":"2023-08-17"},{"freq":2,"date":"2023-08-18"},{"freq":9,"date":"2023-08-19"},{"freq":1,"date":"2023-08-20"},{"freq":5,"date":"2023-08-21"},{"freq":2,"date":"2023-08-22"},{"freq":1,"date":"2023-08-23"},{"freq":1,"date":"2023-09-11"},{"freq":4,"date":"2023-09-12"},{"freq":3,"date":"2023-09-13"},{"freq":3,"date":"2023-09-14"},{"freq":3,"date":"2023-09-15"},{"freq":9,"date":"2023-09-18"},{"freq":4,"date":"2023-09-19"},{"freq":7,"date":"2023-09-20"},{"freq":4,"date":"2023-09-21"},{"freq":1,"date":"2023-09-26"},{"freq":1,"date":"2023-09-27"},{"freq":1,"date":"2023-10-01"}]}});</script></div>
+<div style="width:100%;"><script>vegaEmbed(document.currentScript.parentElement, {"encoding":{"y":{"field":"freq","type":"quantitative"},"x":{"field":"date","type":"temporal"}},"mark":"bar","width":"container","background":"floralwhite","height":200,"data":{"values":[{"freq":1,"date":"2023-08-08"},{"freq":2,"date":"2023-08-14"},{"freq":1,"date":"2023-08-17"},{"freq":2,"date":"2023-08-18"},{"freq":9,"date":"2023-08-19"},{"freq":1,"date":"2023-08-20"},{"freq":5,"date":"2023-08-21"},{"freq":2,"date":"2023-08-22"},{"freq":1,"date":"2023-08-23"},{"freq":1,"date":"2023-09-11"},{"freq":4,"date":"2023-09-12"},{"freq":3,"date":"2023-09-13"},{"freq":3,"date":"2023-09-14"},{"freq":3,"date":"2023-09-15"},{"freq":9,"date":"2023-09-18"},{"freq":4,"date":"2023-09-19"},{"freq":7,"date":"2023-09-20"},{"freq":4,"date":"2023-09-21"},{"freq":1,"date":"2023-09-26"},{"freq":1,"date":"2023-09-27"},{"freq":1,"date":"2023-10-01"},{"freq":2,"date":"2023-10-03"}]}});</script></div>
 
 ```clojure
 (portal-widget freqs-plot)
@@ -207,7 +183,7 @@ freqs-plot
 
 <div><script>portal.extensions.vs_code_notebook.activate().renderOutputItem(
                 {"mime": "x-application/edn",
-                 "text": (() => "^#:kindly{:kind :kind/vega-lite} {:encoding {:y {:field :freq, :type :quantitative}, :x {:field :date, :type :temporal}}, :mark :bar, :width :container, :background :floralwhite, :height 200, :data {:values ({:freq 1, :date \"2023-08-08\"} {:freq 2, :date \"2023-08-14\"} {:freq 1, :date \"2023-08-17\"} {:freq 2, :date \"2023-08-18\"} {:freq 9, :date \"2023-08-19\"} {:freq 1, :date \"2023-08-20\"} {:freq 5, :date \"2023-08-21\"} {:freq 2, :date \"2023-08-22\"} {:freq 1, :date \"2023-08-23\"} {:freq 1, :date \"2023-09-11\"} {:freq 4, :date \"2023-09-12\"} {:freq 3, :date \"2023-09-13\"} {:freq 3, :date \"2023-09-14\"} {:freq 3, :date \"2023-09-15\"} {:freq 9, :date \"2023-09-18\"} {:freq 4, :date \"2023-09-19\"} {:freq 7, :date \"2023-09-20\"} {:freq 4, :date \"2023-09-21\"} {:freq 1, :date \"2023-09-26\"} {:freq 1, :date \"2023-09-27\"} {:freq 1, :date \"2023-10-01\"})}}")}
+                 "text": (() => "^#:kindly{:kind :kind/vega-lite} {:encoding {:y {:field :freq, :type :quantitative}, :x {:field :date, :type :temporal}}, :mark :bar, :width :container, :background :floralwhite, :height 200, :data {:values ({:freq 1, :date \"2023-08-08\"} {:freq 2, :date \"2023-08-14\"} {:freq 1, :date \"2023-08-17\"} {:freq 2, :date \"2023-08-18\"} {:freq 9, :date \"2023-08-19\"} {:freq 1, :date \"2023-08-20\"} {:freq 5, :date \"2023-08-21\"} {:freq 2, :date \"2023-08-22\"} {:freq 1, :date \"2023-08-23\"} {:freq 1, :date \"2023-09-11\"} {:freq 4, :date \"2023-09-12\"} {:freq 3, :date \"2023-09-13\"} {:freq 3, :date \"2023-09-14\"} {:freq 3, :date \"2023-09-15\"} {:freq 9, :date \"2023-09-18\"} {:freq 4, :date \"2023-09-19\"} {:freq 7, :date \"2023-09-20\"} {:freq 4, :date \"2023-09-21\"} {:freq 1, :date \"2023-09-26\"} {:freq 1, :date \"2023-09-27\"} {:freq 1, :date \"2023-10-01\"} {:freq 2, :date \"2023-10-03\"})}}")}
                 , document.currentScript.parentElement);</script></div>
 
 --------------------------------------------------

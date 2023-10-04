@@ -1,5 +1,5 @@
 <style>
-.printedClojure .sourceCode {
+.sourceCode:has(.printedClojure) {
   background-color: transparent;
   border-style: none;
 }
@@ -51,25 +51,17 @@ Babashka is, by design, as close to Clojure as possible.
 (+ 1 2)
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 3
 ```
-
-</div>
 
 ```clojure
 {:x (range 3)}
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 {:x (0 1 2)}
 ```
-
-</div>
 
 ## Hiccup
 
@@ -87,61 +79,41 @@ Babashka is, by design, as close to Clojure as possible.
 (def now (java.time.ZonedDateTime/now))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'user/now"
 ```
-
-</div>
 
 ```clojure
 (def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'user/LA-timezone"
 ```
-
-</div>
 
 ```clojure
 (def LA-time (.withZoneSameInstant now LA-timezone))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'user/LA-time"
 ```
-
-</div>
 
 ```clojure
 (def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
 ```
 
-<div class="printedClojure">
-
-```clojure
+```clojure {.printedClojure}
 "#'user/pattern"
 ```
-
-</div>
 
 ```clojure
 (.format LA-time pattern)
 ```
 
-<div class="printedClojure">
-
-```clojure
-"18:27"
+```clojure {.printedClojure}
+"23:25"
 ```
-
-</div>
 
 ## Babashka vs clojure
 

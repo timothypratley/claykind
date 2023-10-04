@@ -209,7 +209,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <style>
-.printedClojure .sourceCode {
+.sourceCode:has(.printedClojure) {
   background-color: transparent;
   border-style: none;
 }
@@ -265,15 +265,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>as a Quarto document</p>
 <p>with embedded Portal viewers.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> '[scicloj.kindly.v4.kind <span class="at">:as</span> kind])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="printedClojure">
-<div class="sourceCode" id="cb2"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">nil</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode clojure printedClojure code-with-copy"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">nil</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> pr-str-with-meta </span>[value]</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">binding</span> [<span class="va">*print-meta*</span> <span class="va">true</span>]</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">pr-str</span> value)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="printedClojure">
-<div class="sourceCode" id="cb4"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="st">"#'user/pr-str-with-meta"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode clojure printedClojure code-with-copy"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="st">"#'user/pr-str-with-meta"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>TODO: do we need a portal kind? TODO: scripts should be raw</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> portal-widget </span>[value]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  (kind/hiccup</span>
@@ -284,9 +280,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">                {</span><span class="sc">\"</span><span class="st">mime</span><span class="sc">\"</span><span class="st">: </span><span class="sc">\"</span><span class="st">x-application/edn</span><span class="sc">\"</span><span class="st">,</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">                 </span><span class="sc">\"</span><span class="st">text</span><span class="sc">\"</span><span class="st">: (() =&gt; "</span> (<span class="kw">pr-str</span> (pr-str-with-meta value)) <span class="st">")}</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">                , document.currentScript.parentElement);"</span>)]]]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="printedClojure">
-<div class="sourceCode" id="cb6"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="st">"#'user/portal-widget"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode clojure printedClojure code-with-copy"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="st">"#'user/portal-widget"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="data-preparation" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="data-preparation"><span class="header-section-number">4.2</span> Data preparation</h2>
@@ -295,9 +289,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">:out</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      (str/split <span class="ss">#"</span><span class="sc">\n</span><span class="ss">"</span>)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      kind/pprint))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="printedClojure">
-<div class="sourceCode" id="cb8"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="st">"#'user/git-log"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode clojure printedClojure code-with-copy"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="st">"#'user/git-log"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> dates-and-freqs</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;&gt;</span> git-log</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">filter</span> (<span class="kw">partial</span> <span class="kw">re-matches</span> <span class="ss">#"^Date:.*"</span>))</span>
@@ -309,9 +301,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>              {<span class="at">:date</span> date</span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">:freq</span> freq}))</span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">sort-by</span> <span class="at">:date</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="printedClojure">
-<div class="sourceCode" id="cb10"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="st">"#'user/dates-and-freqs"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode clojure printedClojure code-with-copy"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="st">"#'user/dates-and-freqs"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="data-exploration" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="data-exploration"><span class="header-section-number">4.3</span> Data exploration</h2>
@@ -323,7 +313,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script>portal.extensions.vs_code_notebook.activate().renderOutputItem(
                 {"mime": "x-application/edn",
-                 "text": (() => "^#:portal.viewer{:default :portal.viewer/table} ({:freq 1, :date \"2023-08-08\"} {:freq 2, :date \"2023-08-14\"} {:freq 1, :date \"2023-08-17\"} {:freq 2, :date \"2023-08-18\"} {:freq 9, :date \"2023-08-19\"} {:freq 1, :date \"2023-08-20\"} {:freq 5, :date \"2023-08-21\"} {:freq 2, :date \"2023-08-22\"} {:freq 1, :date \"2023-08-23\"} {:freq 1, :date \"2023-09-11\"} {:freq 4, :date \"2023-09-12\"} {:freq 3, :date \"2023-09-13\"} {:freq 3, :date \"2023-09-14\"} {:freq 3, :date \"2023-09-15\"} {:freq 9, :date \"2023-09-18\"} {:freq 4, :date \"2023-09-19\"} {:freq 7, :date \"2023-09-20\"} {:freq 4, :date \"2023-09-21\"} {:freq 1, :date \"2023-09-26\"} {:freq 1, :date \"2023-09-27\"} {:freq 1, :date \"2023-10-01\"})")}
+                 "text": (() => "^#:portal.viewer{:default :portal.viewer/table} ({:freq 1, :date \"2023-08-08\"} {:freq 2, :date \"2023-08-14\"} {:freq 1, :date \"2023-08-17\"} {:freq 2, :date \"2023-08-18\"} {:freq 9, :date \"2023-08-19\"} {:freq 1, :date \"2023-08-20\"} {:freq 5, :date \"2023-08-21\"} {:freq 2, :date \"2023-08-22\"} {:freq 1, :date \"2023-08-23\"} {:freq 1, :date \"2023-09-11\"} {:freq 4, :date \"2023-09-12\"} {:freq 3, :date \"2023-09-13\"} {:freq 3, :date \"2023-09-14\"} {:freq 3, :date \"2023-09-15\"} {:freq 9, :date \"2023-09-18\"} {:freq 4, :date \"2023-09-19\"} {:freq 7, :date \"2023-09-20\"} {:freq 4, :date \"2023-09-21\"} {:freq 1, :date \"2023-09-26\"} {:freq 1, :date \"2023-09-27\"} {:freq 1, :date \"2023-10-01\"} {:freq 2, :date \"2023-10-03\"})")}
                 , document.currentScript.parentElement);</script>
 </div>
 </section>
@@ -340,18 +330,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">:width</span>      <span class="at">:container</span></span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">:height</span>     <span class="dv">200</span></span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">:background</span> <span class="at">:floralwhite</span>}))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="printedClojure">
-<div class="sourceCode" id="cb13"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="st">"#'user/freqs-plot"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode clojure printedClojure code-with-copy"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="st">"#'user/freqs-plot"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb14"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>freqs-plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div style="width:100%;">
-<script>vegaEmbed(document.currentScript.parentElement, {"encoding":{"y":{"field":"freq","type":"quantitative"},"x":{"field":"date","type":"temporal"}},"mark":"bar","width":"container","background":"floralwhite","height":200,"data":{"values":[{"freq":1,"date":"2023-08-08"},{"freq":2,"date":"2023-08-14"},{"freq":1,"date":"2023-08-17"},{"freq":2,"date":"2023-08-18"},{"freq":9,"date":"2023-08-19"},{"freq":1,"date":"2023-08-20"},{"freq":5,"date":"2023-08-21"},{"freq":2,"date":"2023-08-22"},{"freq":1,"date":"2023-08-23"},{"freq":1,"date":"2023-09-11"},{"freq":4,"date":"2023-09-12"},{"freq":3,"date":"2023-09-13"},{"freq":3,"date":"2023-09-14"},{"freq":3,"date":"2023-09-15"},{"freq":9,"date":"2023-09-18"},{"freq":4,"date":"2023-09-19"},{"freq":7,"date":"2023-09-20"},{"freq":4,"date":"2023-09-21"},{"freq":1,"date":"2023-09-26"},{"freq":1,"date":"2023-09-27"},{"freq":1,"date":"2023-10-01"}]}});</script>
+<script>vegaEmbed(document.currentScript.parentElement, {"encoding":{"y":{"field":"freq","type":"quantitative"},"x":{"field":"date","type":"temporal"}},"mark":"bar","width":"container","background":"floralwhite","height":200,"data":{"values":[{"freq":1,"date":"2023-08-08"},{"freq":2,"date":"2023-08-14"},{"freq":1,"date":"2023-08-17"},{"freq":2,"date":"2023-08-18"},{"freq":9,"date":"2023-08-19"},{"freq":1,"date":"2023-08-20"},{"freq":5,"date":"2023-08-21"},{"freq":2,"date":"2023-08-22"},{"freq":1,"date":"2023-08-23"},{"freq":1,"date":"2023-09-11"},{"freq":4,"date":"2023-09-12"},{"freq":3,"date":"2023-09-13"},{"freq":3,"date":"2023-09-14"},{"freq":3,"date":"2023-09-15"},{"freq":9,"date":"2023-09-18"},{"freq":4,"date":"2023-09-19"},{"freq":7,"date":"2023-09-20"},{"freq":4,"date":"2023-09-21"},{"freq":1,"date":"2023-09-26"},{"freq":1,"date":"2023-09-27"},{"freq":1,"date":"2023-10-01"},{"freq":2,"date":"2023-10-03"}]}});</script>
 </div>
 <div class="sourceCode" id="cb15"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(portal-widget freqs-plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div>
 <script>portal.extensions.vs_code_notebook.activate().renderOutputItem(
                 {"mime": "x-application/edn",
-                 "text": (() => "^#:kindly{:kind :kind/vega-lite} {:encoding {:y {:field :freq, :type :quantitative}, :x {:field :date, :type :temporal}}, :mark :bar, :width :container, :background :floralwhite, :height 200, :data {:values ({:freq 1, :date \"2023-08-08\"} {:freq 2, :date \"2023-08-14\"} {:freq 1, :date \"2023-08-17\"} {:freq 2, :date \"2023-08-18\"} {:freq 9, :date \"2023-08-19\"} {:freq 1, :date \"2023-08-20\"} {:freq 5, :date \"2023-08-21\"} {:freq 2, :date \"2023-08-22\"} {:freq 1, :date \"2023-08-23\"} {:freq 1, :date \"2023-09-11\"} {:freq 4, :date \"2023-09-12\"} {:freq 3, :date \"2023-09-13\"} {:freq 3, :date \"2023-09-14\"} {:freq 3, :date \"2023-09-15\"} {:freq 9, :date \"2023-09-18\"} {:freq 4, :date \"2023-09-19\"} {:freq 7, :date \"2023-09-20\"} {:freq 4, :date \"2023-09-21\"} {:freq 1, :date \"2023-09-26\"} {:freq 1, :date \"2023-09-27\"} {:freq 1, :date \"2023-10-01\"})}}")}
+                 "text": (() => "^#:kindly{:kind :kind/vega-lite} {:encoding {:y {:field :freq, :type :quantitative}, :x {:field :date, :type :temporal}}, :mark :bar, :width :container, :background :floralwhite, :height 200, :data {:values ({:freq 1, :date \"2023-08-08\"} {:freq 2, :date \"2023-08-14\"} {:freq 1, :date \"2023-08-17\"} {:freq 2, :date \"2023-08-18\"} {:freq 9, :date \"2023-08-19\"} {:freq 1, :date \"2023-08-20\"} {:freq 5, :date \"2023-08-21\"} {:freq 2, :date \"2023-08-22\"} {:freq 1, :date \"2023-08-23\"} {:freq 1, :date \"2023-09-11\"} {:freq 4, :date \"2023-09-12\"} {:freq 3, :date \"2023-09-13\"} {:freq 3, :date \"2023-09-14\"} {:freq 3, :date \"2023-09-15\"} {:freq 9, :date \"2023-09-18\"} {:freq 4, :date \"2023-09-19\"} {:freq 7, :date \"2023-09-20\"} {:freq 4, :date \"2023-09-21\"} {:freq 1, :date \"2023-09-26\"} {:freq 1, :date \"2023-09-27\"} {:freq 1, :date \"2023-10-01\"} {:freq 2, :date \"2023-10-03\"})}}")}
                 , document.currentScript.parentElement);</script>
 </div>
 <hr>

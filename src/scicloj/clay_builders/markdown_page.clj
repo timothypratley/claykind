@@ -38,7 +38,7 @@
 
 (def styles
   "<style>
-.printedClojure .sourceCode {
+.sourceCode:has(.printedClojure) {
   background-color: transparent;
   border-style: none;
 }

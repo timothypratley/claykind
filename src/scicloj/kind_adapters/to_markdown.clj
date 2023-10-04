@@ -32,14 +32,9 @@
            s)
       (block-quote)))
 
-(defn result-block [s language]
-  (str "<div class=\"printedClojure\">" \newline \newline
-       (block s language) \newline \newline
-       "</div>"))
-
 (defn pprint-block [value]
   (-> (with-out-str (pprint/pprint value))
-      (result-block "clojure")))
+      (block "clojure {.printedClojure}")))
 
 (defmethod adapt :kind/pprint [{:keys [kind value]}]
   (pprint-block value))
