@@ -18,6 +18,44 @@
          '[scicloj.clay-builders.id-generator :as idg]
          '[clojure.pprint :as pprint])
 
+;; ^:kind/dataset {}
+;; {:vega ...}
+;; :kind/pprint, :kind/map
+;;
+;; {} => :kind/map    ;; PROBLEM
+;;
+;; [:div {} "hello"] => :kind/vector    ;; PROBLEM
+
+;; ^:kind/hiccup [:div {} "hello"]
+;; [:div [:div]] => :kind/vector ;; PROBLEM
+
+;; Solution0(current): Avoid these kinds during Hiccup recursion
+;; PROBLEM, user cannot set some kinds (maybe not a big problem)
+
+;; Solution1.5: Not infer them inside hiccup only
+;; PROBLEM: but now we still need to know is the kind requested by a user
+;; Just check metadata? Leakage of metadata? Kindly job
+;; (kind/user-annotated?)  EASIER
+
+;; Absence of a kind is O.K.
+
+;; Solution1: Kindly should not infer these kinds, only users can use them to disable other kinds
+;; Solution2: Use some other method for users to remove kinds
+;; Solution3: ???
+
+;; These are kinds because we may wish to specify how they should be displayed
+;; The answer to displaying them should be recursive
+
+;; Hiccup is recursive and will stop at some kinds
+;; In table recursion we do not avoid them.
+
+;; ^:kind/table {:rows [{:a 1} {:b 2}]}
+
+;; {}         ;; this should be treated as attrs in ^:kind/hiccup [:div {} "other"]
+;; {} map     ;; this should be treated as attrs unless user specifically wanted it to show as a map
+;; {} vega    ;; this should always be shown as vega
+;; {} dataset ;; this should always be shown as vega
+
 (defn kind
   "Detects kindly metadata indicating that a value is intended for transformation into hiccup."
   [x]
@@ -25,7 +63,8 @@
         k (:kind context)]
     ;; TODO: Convince Daniel that :kind/vector :kind/set :kind/map :kind/seq shouldn't exist,
     ;; they are neither user annotated, nor helpful to tools.
-    (and (not (contains? #{:kind/vector :kind/seq} k))
+    ;; What about :kind/hiccup? I think it's O.K.
+    (and (not (contains? #{:kind/map :kind/vector :kind/seq} k))
          k)))
 
 (def hiccup-schema

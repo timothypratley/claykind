@@ -37,7 +37,9 @@
 ;; TODO: :kind/seq
 
 (defmethod adapt :kind/image [{:keys [value]}]
-  [:img {:src value}])
+  (if (string? value)
+    [:img {:src value}]
+    [:div "Image kind not implemented"]))
 
 ;; TODO: is there a nice way to be able to render markdown by adding an adapter?
 ;; because we don't want flexmark or nextjournal dependencies in this project

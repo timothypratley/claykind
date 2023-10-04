@@ -42,9 +42,10 @@
   [^File file {:keys [verbose] :as options}]
   (binding [*ns* (find-ns 'user)
             read/*on-eval-error* (when verbose
-                                   (fn [ex]
+                                   (fn [context ex]
                                      (println (str "ERROR rendering " file))
-                                     (println (str "  " (ex-message ex)))))]
+                                     (println (str "at: " (pr-str context)))
+                                     (println (str "ex: " (ex-message ex)))))]
     (read-file-as-notes file options)))
 
 ;; This is a wrapper to handle invoking from bb command line

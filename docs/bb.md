@@ -36,7 +36,10 @@
 }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="portal-main.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script><script src="/js/portal-main.js" type="text/javascript"></script>
+<script type="application/x-scittle">(ns main
+                      (:require [reagent.core :as r]
+                                [reagent.dom :as dom]))</script>
 
 # Babashka notebooks
 
@@ -76,7 +79,7 @@ Babashka is, by design, as close to Clojure as possible.
  [:big [:big 3]]]
 ```
 
-<code>{:allow-raw true}</code>
+<div style="background-color:#effeef;"><big><big>3</big></big></div>
 
 ## Time
 
@@ -135,7 +138,7 @@ Babashka is, by design, as close to Clojure as possible.
 <div class="printedClojure">
 
 ```clojure
-"16:04"
+"18:27"
 ```
 
 </div>
