@@ -49,12 +49,8 @@
 nil
 ```
 
-{% note %}
-
-Note: this is a test note
-
-{% endnote %}
-
+> [!NOTE]  
+> Highlights information that users should take into account, even when skimming.
 
 
 > If at first you don't succeed,
