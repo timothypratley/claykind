@@ -45,9 +45,17 @@
 (ns try-again)
 ```
 
-```clojure {.printedClojure}
+```edn
 nil
 ```
+
+{% note %}
+
+Note: this is a test note
+
+{% endnote %}
+
+
 
 > If at first you don't succeed,
 > dust yourself off and try again.
@@ -128,7 +136,7 @@ Here is some code I've been working on; I'm drawing a heart shape.
   "M 12.0 7.2 C 10.5 5.6 8.1 5.2 6.3 6.7 C 4.5 8.1 4.2 10.6 5.7 12.4 L 12.0 18.3 L 18.3 12.4 C 19.7 10.6 19.5 8.1 17.7 6.7 C 15.8 5.2 13.4 5.6 12.0 7.2 Z")
 ```
 
-```clojure {.printedClojure}
+```edn
 "#'try-again/heart-path"
 ```
 
@@ -146,7 +154,7 @@ I'll visualize it in an SVG image:
         body))
 ```
 
-```clojure {.printedClojure}
+```edn
 "#'try-again/svg"
 ```
 
@@ -158,7 +166,7 @@ The heart path goes into an SVG element:
           :d    heart-path}])
 ```
 
-```clojure {.printedClojure}
+```edn
 "#'try-again/heart"
 ```
 
@@ -187,7 +195,7 @@ and seeing the effect is just one keystroke away with **"retry"**:
           :d    heart-path}])
 ```
 
-```clojure {.printedClojure}
+```edn
 "#'try-again/heart"
 ```
 
