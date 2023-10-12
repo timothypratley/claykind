@@ -1,4 +1,4 @@
-(ns build
+(ns compile
   (:require [clojure.tools.build.api :as b]
             [deps-deploy.deps-deploy :as dd]))
 

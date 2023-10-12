@@ -1,9 +1,3 @@
----
-format:
-  html: {toc: true, theme: spacelab}
-highlight-style: solarized
----
-
 <style>
 .sourceCode:has(.printedClojure) {
   background-color: transparent;
@@ -40,6 +34,16 @@ highlight-style: solarized
   text-align:            center;
   border:                solid 1px black;
 }
+
+.kind_seq {
+  background:            bisque;
+  display:               grid;
+  grid-template-columns: repeat(auto-fit, minmax(auto, max-content));
+  align-items:           center;
+  justify-content:       center;
+  text-align:            center;
+  border:                solid 1px black;
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script><script src="/js/portal-main.js" type="text/javascript"></script>
@@ -53,14 +57,14 @@ highlight-style: solarized
 (range 9)
 ```
 
-```clojure {.printedClojure}
-(0 1 2 3 4 5 6 7 8)
-```
+> ```clojure
+> (0 1 2 3 4 5 6 7 8)
+> ```
 
 ```clojure
 {:x (range 3)}
 ```
 
-```clojure {.printedClojure}
-{:x (0 1 2)}
-```
+> ```clojure
+> {:x (0 1 2)}
+> ```

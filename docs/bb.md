@@ -51,17 +51,17 @@ Babashka is, by design, as close to Clojure as possible.
 (+ 1 2)
 ```
 
-```clojure {.printedClojure}
-3
-```
+> ```clojure
+> 3
+> ```
 
 ```clojure
 {:x (range 3)}
 ```
 
-```clojure {.printedClojure}
-{:x (0 1 2)}
-```
+> ```clojure
+> {:x (0 1 2)}
+> ```
 
 ## Hiccup
 
@@ -79,41 +79,41 @@ Babashka is, by design, as close to Clojure as possible.
 (def now (java.time.ZonedDateTime/now))
 ```
 
-```clojure {.printedClojure}
-"#'user/now"
-```
+> ```clojure
+> "#'user/now"
+> ```
 
 ```clojure
 (def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))
 ```
 
-```clojure {.printedClojure}
-"#'user/LA-timezone"
-```
+> ```clojure
+> "#'user/LA-timezone"
+> ```
 
 ```clojure
 (def LA-time (.withZoneSameInstant now LA-timezone))
 ```
 
-```clojure {.printedClojure}
-"#'user/LA-time"
-```
+> ```clojure
+> "#'user/LA-time"
+> ```
 
 ```clojure
 (def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
 ```
 
-```clojure {.printedClojure}
-"#'user/pattern"
-```
+> ```clojure
+> "#'user/pattern"
+> ```
 
 ```clojure
 (.format LA-time pattern)
 ```
 
-```clojure {.printedClojure}
-"23:25"
-```
+> ```clojure
+> "20:08"
+> ```
 
 ## Babashka vs clojure
 

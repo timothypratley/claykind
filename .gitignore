@@ -1,6 +1,6 @@
 .calva/output-window/
 .classpath
-.clj-kondo/.cache
+.clj-kondo
 .cpcache
 .DS_Store
 .eastwood
@@ -9,8 +9,7 @@
 .hgignore
 .java-version
 .lein-*
-.lsp/.cache
-.lsp/sqlite.db
+.lsp
 .nrepl-history
 .nrepl-port
 .portal

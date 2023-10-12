@@ -11,14 +11,11 @@
 
 (set! *warn-on-reflection* true)
 
-;; Similar to [pandoc options](https://pandoc.org/MANUAL.html#general-options),
-;  To support working with a single configuration file.
-;; TODO: Pandoc could be used to transform markdown to a common format
-
+;; TODO: option validation should be done by the API
 (def cli-options
   (let [{:keys [paths target-dir evaluator]} api/default-options]
-    [["-f" "--formats FORMATS"
-      :validate [api/formats (str "must be one or more of: " (cons "all" (keys api/formats)))]]
+    [["-f" "--flavors FLAVORS"
+      :validate [api/flavors (str "must be one or more of: " (cons "all" (keys api/flavors)))]]
      ["-p" "--paths PATHS"
       :validate [sequential? (str "paths should be a sequence like " (pr-str paths))]
       :default-desc (pr-str paths)
@@ -49,6 +46,3 @@
                                           {:paths (vec arguments)})
                                         options))
                     (System/exit 0)))))
-
-(comment
-  (-main "--verbose"))

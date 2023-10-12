@@ -45,9 +45,9 @@
 (ns test.basic)
 ```
 
-```clojure {.printedClojure}
-nil
-```
+> ```clojure
+> nil
+> ```
 
 # section 1
 
@@ -57,9 +57,9 @@ nil
 (+ 1 2 3)
 ```
 
-```clojure {.printedClojure}
-6
-```
+> ```clojure
+> 6
+> ```
 
 ```clojure
 (defn f [x]
@@ -68,17 +68,17 @@ nil
      9))
 ```
 
-```clojure {.printedClojure}
-"#'test.basic/f"
-```
+> ```clojure
+> "#'test.basic/f"
+> ```
 
 ```clojure
 (f 20)
 ```
 
-```clojure {.printedClojure}
-29
-```
+> ```clojure
+> 29
+> ```
 
 # section 2
 

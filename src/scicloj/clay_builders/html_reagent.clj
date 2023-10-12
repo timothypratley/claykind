@@ -1,6 +1,5 @@
 (ns scicloj.clay-builders.html_reagent
-  (:require [clojure.string :as str]
-            [hiccup.page :as page]))
+  (:require [hiccup.page :as page]))
 
 ;; TODO: how do we want to consume dependencies?
 ;;
@@ -40,9 +39,10 @@
 
 (def body
   [:body [:script {:type "application/x-scittle"}
-          "(ns main
-            (:require [reagent.core :as r]
-                      [reagent.dom :as dom]))"]])
+          [:hiccup/raw
+           "(ns main
+             (:require [reagent.core :as r]
+                       [reagent.dom :as dom]))"]]])
 
 (defn page [widgets]
   (page/html5 head (into body widgets)))

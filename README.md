@@ -72,9 +72,10 @@ By default, Claykind will look for source files in a `notebooks` directory (`:pa
 and produce output to a `docs` directory (`:target-dir "docs"`).
 See `scicloj.claykind.api/default-options` for a full list of default options.
 
+### Front matter
+
 Markdown front-matter is useful when using publishing tools like Quarto.
-A map argument will be converted to YAML markdown.
-(`:front-matter {:highlight-style :solarized}`)
+Front-matter will be taken from the metadata of the first form in the notebook.
 
 ## Rational
 
@@ -259,11 +260,20 @@ Perhaps we can draw inspiration from HTML strategies.
 * portal is not only a tool, it is a specification (could be a kind)
 * notebook writers may wish to configure which viewer to render with
 
+### Code layout
+
+Adapters take a context and produce a representation,
+for example hiccup, markdown, or portal-annotated values.
+
+Builders make pages.
+
+Claykind creates an interface for rendering notebooks to markdown via commandline and code or REPL.
+
+Read-kinds evaluates notebooks into a sequence of contexts.
+
 ## TODO
 
-* Babashka notebooks
 * Better Markdown
-* Portal
 * Kindly grammars
 
 

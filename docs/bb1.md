@@ -47,14 +47,14 @@
 (range 9)
 ```
 
-```clojure {.printedClojure}
-(0 1 2 3 4 5 6 7 8)
-```
+> ```clojure
+> (0 1 2 3 4 5 6 7 8)
+> ```
 
 ```clojure
 {:x (range 3)}
 ```
 
-```clojure {.printedClojure}
-{:x (0 1 2)}
-```
+> ```clojure
+> {:x (0 1 2)}
+> ```

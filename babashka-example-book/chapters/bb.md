@@ -1,9 +1,3 @@
----
-format:
-  html: {toc: true, theme: spacelab}
-highlight-style: solarized
----
-
 <style>
 .sourceCode:has(.printedClojure) {
   background-color: transparent;
@@ -40,6 +34,16 @@ highlight-style: solarized
   text-align:            center;
   border:                solid 1px black;
 }
+
+.kind_seq {
+  background:            bisque;
+  display:               grid;
+  grid-template-columns: repeat(auto-fit, minmax(auto, max-content));
+  align-items:           center;
+  justify-content:       center;
+  text-align:            center;
+  border:                solid 1px black;
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script><script src="/js/portal-main.js" type="text/javascript"></script>
@@ -57,17 +61,17 @@ Babashka is, by design, as close to Clojure as possible.
 (+ 1 2)
 ```
 
-```clojure {.printedClojure}
-3
-```
+> ```clojure
+> 3
+> ```
 
 ```clojure
 {:x (range 3)}
 ```
 
-```clojure {.printedClojure}
-{:x (0 1 2)}
-```
+> ```clojure
+> {:x (0 1 2)}
+> ```
 
 ## Hiccup
 
@@ -85,41 +89,41 @@ Babashka is, by design, as close to Clojure as possible.
 (def now (java.time.ZonedDateTime/now))
 ```
 
-```clojure {.printedClojure}
-"#'user/now"
-```
+> ```clojure
+> "#'user/now"
+> ```
 
 ```clojure
 (def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))
 ```
 
-```clojure {.printedClojure}
-"#'user/LA-timezone"
-```
+> ```clojure
+> "#'user/LA-timezone"
+> ```
 
 ```clojure
 (def LA-time (.withZoneSameInstant now LA-timezone))
 ```
 
-```clojure {.printedClojure}
-"#'user/LA-time"
-```
+> ```clojure
+> "#'user/LA-time"
+> ```
 
 ```clojure
 (def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
 ```
 
-```clojure {.printedClojure}
-"#'user/pattern"
-```
+> ```clojure
+> "#'user/pattern"
+> ```
 
 ```clojure
 (.format LA-time pattern)
 ```
 
-```clojure {.printedClojure}
-"23:25"
-```
+> ```clojure
+> "19:48"
+> ```
 
 ## Babashka vs clojure
 

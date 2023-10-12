@@ -9,25 +9,25 @@
          hiccup/hiccup             {:mvn/version "2.0.0-RC1"}
          org.scicloj/kind-portal   {:mvn/version "1-alpha7"}
 
-
          ;; TODO: we don't want dependencies that don't work in babashka
          ;; but at the same time, it might be nice?
          ;;com.vladsch.flexmark/flexmark-all {:mvn/version "0.64.8"}
-
-
-         ;; TODO: clj-yaml is not up to date with the Clojure version
-         clj-commons/clj-yaml      {:mvn/version "1.0.27"}}
+         }
 
  :aliases
  {
   ;; Build with `clojure -T:dev build/jar` and `clojure -T:dev build/deploy`
   ;; Run example with `clojure -M:dev -m changed`
+  ;; Render with `clojure -M:dev -m scicloj.claykind.main
   :dev    {:extra-paths ["notebooks" "test" "examples" "dev"]
            :extra-deps  {org.clojure/tools.build {:mvn/version "0.9.2"}
                          slipset/deps-deploy     {:mvn/version "RELEASE"}
                          djblue/portal           {:mvn/version "0.46.0"}
                          org.scicloj/kindly      {:mvn/version "4-alpha4"}
-                         metosin/malli           {:mvn/version "0.11.0"}}}
+
+                         ;; For comparison
+                         com.lambdaisland/hiccup {:mvn/version "0.0.33"}
+                         }}
   ;; Run tests with `clojure -M:dev:test`
   :test   {:extra-paths ["test"]
            :extra-deps  {io.github.cognitect-labs/test-runner

@@ -1,13 +1,3 @@
 {:paths        ["notebooks"]
  :target-dir   "chapters"
- :evaluator    :babashka
- :front-matter {:format
-                {:html {:toc   true
-                        :theme :spacelab}
-                 ;; :revealjs {:theme :serif
-                 ;;            :navigation-mode :vertical
-                 ;;            :transition :slide
-                 ;;            :background-transition :fade
-                 ;;            :incremental true}
-                 }
-                :highlight-style :solarized}}
+ :evaluator    :babashka}

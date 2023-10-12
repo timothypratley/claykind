@@ -115,10 +115,6 @@
     (emit sb c opts)))
 
 (defmethod emit :reagent-node [^StringBuilder sb [_ {:keys [component args]}] opts]
-  ;; TODO: need an id that is per project
-  (prn "C" component args)
-  ;; why is component a vector?? malli??
-
   (let [component (if (vector? component)
                     (seq component)
                     component)
