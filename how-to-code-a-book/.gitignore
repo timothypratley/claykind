@@ -2,3 +2,5 @@
 .DS_Store
 .nrepl-history
 .nrepl-port
+
+/.quarto/

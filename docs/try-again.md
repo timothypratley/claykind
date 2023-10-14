@@ -34,33 +34,59 @@
   text-align:            center;
   border:                solid 1px black;
 }
+
+.kind_seq {
+  background:            bisque;
+  display:               grid;
+  grid-template-columns: repeat(auto-fit, minmax(auto, max-content));
+  align-items:           center;
+  justify-content:       center;
+  text-align:            center;
+  border:                solid 1px black;
+}
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script><script src="/js/portal-main.js" type="text/javascript"></script>
-<script type="application/x-scittle">(ns main
-                      (:require [reagent.core :as r]
-                                [reagent.dom :as dom]))</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script><script type="text/javascript" src="https://unpkg.com/react@18/umd/react.production.min.js"></script><script type="text/javascript" src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script><script type="text/javascript" src="https://scicloj.github.io/scittle/js/scittle.js"></script><script type="text/javascript" src="https://scicloj.github.io/scittle/js/scittle.reagent.js"></script><script type="text/javascript" src="/js/portal-main.js"></script>
+<script type="application/x-scittle">[:hiccup/raw-html &quot;(ns main&#39;n                            (:require [reagent.core :as r]&#39;n                                      [reagent.dom :as dom]))&quot;]</script>
 
 ```clojure
-(ns try-again)
+(ns blog.try-again)
 ```
 
 > ```clojure
 > nil
 > ```
 
+One thing that I love about Clojure is that the Read-Eval-Print-Loop (REPL)
+enables me to redefine functions on the fly, without restarting anything.
+This makes trying things, making changes, and trying them again very fluid.
+Trying stuff, changing it, and trying it again pretty much sums up how I write code.
+
 > If at first you don't succeed,
 > dust yourself off and try again.
 >
 > -- <cite>Aaliyah</cite>
 
-One thing I love about Clojure is that it allows me to change functions on the fly.
-The Read-Eval-Print-Loop (REPL) becomes a trusted companion, a real-time feedback mechanism,
-and a dynamic environment fostering experimentation and rapid iteration.
-But I'm not usually "in" the REPL.
-I'm "in" my editor, sending forms to the REPL.
-Evaluating Expressions at the cursor,
-running tests, navigating, and viewing docstrings or parameter lists.
+Today I'm going to share with you my favorite "try it again" tip,
+which is to bind keys to *try something* and *try it again*.
+
+## REPL usage
+
+Let's recap basic REPL usage.
+I can type stuff into the REPL input window and evaluate some code.
+Generally I don't do that though.
+I'm not usually *in* the REPL, I'm *in* my source code sending forms to the REPL.
+To achieve that requires some essential key bindings.
+
+| Binding        | Action                                      |
+|---------------:|---------------------------------------------|
+| `alt-t`        | Evaluate the expression before the cursor   |
+| `cmd-t`        | Evaluate top-level expression at the cursor |
+| `ctrl-c`       | Run test under cursor                       |
+| `shift-ctrl-c` | Run all tests in namespace                  |
+| `ctrl-c`       | Re-run last test action                     |
+
+## The Problem 😢
 
 A common scenario I find myself in is that I set up a little bit of code to try something.
 Then I make some changes, and need to retry the same snippet or test.
@@ -68,7 +94,8 @@ In the meantime I have navigated away and I need to either go back to the form I
 or navigate to the REPL and use history to try it again.
 Both of these strategies work, but there is a better way!
 
-💡
+## The Solution 💡
+
 The idea is to create a REPL command that creates a function in the `user` namespace.
 Then we can make a keybinding like "send form before caret to REPL",
 and another keybinding to execute the saved function.
@@ -84,7 +111,7 @@ in the [Clay setup documentation](https://scicloj.github.io/clay/#setup).
 
 `~form-before-caret` gets replaced with code.
 
-So if our cursor is at the end of an expression, the `_` below:
+So if my cursor is at the end of an expression (cursor shown as `_`):
 
 ```clojure
 (+ 1 2)_
@@ -129,7 +156,7 @@ Here is some code I've been working on; I'm drawing a heart shape.
 ```
 
 > ```clojure
-> "#'try-again/heart-path"
+> "#'blog.try-again/heart-path"
 > ```
 
 This shape comes from [svg-paths](https://www.nan.fyi/svg-paths) by [@nandafyi](https://twitter.com/nandafyi).
@@ -147,7 +174,7 @@ I'll visualize it in an SVG image:
 ```
 
 > ```clojure
-> "#'try-again/svg"
+> "#'blog.try-again/svg"
 > ```
 
 The heart path goes into an SVG element:
@@ -159,7 +186,7 @@ The heart path goes into an SVG element:
 ```
 
 > ```clojure
-> "#'try-again/heart"
+> "#'blog.try-again/heart"
 > ```
 
 And to see what it looks like I'll make a ["rich comment block"](https://www.youtube.com/watch?v=Qx0-pViyIDU&t=1229s):
@@ -176,7 +203,7 @@ and of course we'll use my new **"try form before caret"** on it.
 (svg (heart))
 ```
 
-<code>[:svg {:width 256, :xmlns &quot;http://www.w3.org/2000/svg&quot;, :viewBox [0 0 24 24], :height 256} [:path {:fill &quot;green&quot;, :d &quot;M 12.0 7.2 C 10.5 5.6 8.1 5.2 6.3 6.7 C 4.5 8.1 4.2 10.6 5.7 12.4 L 12.0 18.3 L 18.3 12.4 C 19.7 10.6 19.5 8.1 17.7 6.7 C 15.8 5.2 13.4 5.6 12.0 7.2 Z&quot;}]]</code>
+<svg width="256" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="256"><path fill="green" d="M 12.0 7.2 C 10.5 5.6 8.1 5.2 6.3 6.7 C 4.5 8.1 4.2 10.6 5.7 12.4 L 12.0 18.3 L 18.3 12.4 C 19.7 10.6 19.5 8.1 17.7 6.7 C 15.8 5.2 13.4 5.6 12.0 7.2 Z"></path></svg>
 
 Now I can navigate throughout my code base, making changes and fixes,
 and seeing the effect is just one keystroke away with **"retry"**:
@@ -188,14 +215,14 @@ and seeing the effect is just one keystroke away with **"retry"**:
 ```
 
 > ```clojure
-> "#'try-again/heart"
+> "#'blog.try-again/heart"
 > ```
 
 ```clojure
 (svg (heart))
 ```
 
-<code>[:svg {:width 256, :xmlns &quot;http://www.w3.org/2000/svg&quot;, :viewBox [0 0 24 24], :height 256} [:path {:fill &quot;red&quot;, :d &quot;M 12.0 7.2 C 10.5 5.6 8.1 5.2 6.3 6.7 C 4.5 8.1 4.2 10.6 5.7 12.4 L 12.0 18.3 L 18.3 12.4 C 19.7 10.6 19.5 8.1 17.7 6.7 C 15.8 5.2 13.4 5.6 12.0 7.2 Z&quot;}]]</code>
+<svg width="256" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="256"><path fill="red" d="M 12.0 7.2 C 10.5 5.6 8.1 5.2 6.3 6.7 C 4.5 8.1 4.2 10.6 5.7 12.4 L 12.0 18.3 L 18.3 12.4 C 19.7 10.6 19.5 8.1 17.7 6.7 C 15.8 5.2 13.4 5.6 12.0 7.2 Z"></path></svg>
 
 Setting up the command to sync all changes before executing makes it easy to test changes as I go,
 often I can rely on syncing instead of sending updates to the REPL individually.

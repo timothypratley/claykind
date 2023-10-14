@@ -15,7 +15,7 @@
   (let [context (ka/advise {:value x})
         k (:kind context)]
     (and k
-         (not (contains? #{:kind/vector :kind/set :kind/map :kind/seq} k))
+         (not (contains? #{:kind/vector :kind/set :kind/map :kind/seq :kind/hiccup} k))
          context)))
 
 (def escapes
@@ -27,7 +27,7 @@
 
 ;; TODO: but don't over quote!
 (defn escape-quotes [s]
-  (str/replace s \" "\\\""))
+  (str/replace s "\"" "\\\""))
 
 ;; TODO: when to quote??
 (defn stringify [x]

@@ -2,7 +2,7 @@
 
 all:
 	clojure -M:dev -m scicloj.claykind.main
-#	quarto render
+	quarto render
 
 clean:
 	rm -fr _book

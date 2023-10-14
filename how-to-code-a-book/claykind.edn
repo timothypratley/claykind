@@ -1,6 +1,4 @@
-{:paths        ["notebooks"]
- :target-dir   "chapters"
- :evaluator    :babashka
+{:paths        ["src"]
  :front-matter {:format
                 {:html {:toc   true
                         :theme :spacelab}

@@ -34,12 +34,20 @@
   text-align:            center;
   border:                solid 1px black;
 }
+
+.kind_seq {
+  background:            bisque;
+  display:               grid;
+  grid-template-columns: repeat(auto-fit, minmax(auto, max-content));
+  align-items:           center;
+  justify-content:       center;
+  text-align:            center;
+  border:                solid 1px black;
+}
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script><script src="/js/portal-main.js" type="text/javascript"></script>
-<script type="application/x-scittle">(ns main
-                      (:require [reagent.core :as r]
-                                [reagent.dom :as dom]))</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script><script type="text/javascript" src="https://unpkg.com/react@18/umd/react.production.min.js"></script><script type="text/javascript" src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script><script type="text/javascript" src="https://scicloj.github.io/scittle/js/scittle.js"></script><script type="text/javascript" src="https://scicloj.github.io/scittle/js/scittle.reagent.js"></script><script type="text/javascript" src="/js/portal-main.js"></script>
+<script type="application/x-scittle">[:hiccup/raw-html &quot;(ns main&#39;n                            (:require [reagent.core :as r]&#39;n                                      [reagent.dom :as dom]))&quot;]</script>
 
 ```clojure
 (ns test.basic)
@@ -99,7 +107,7 @@ And that you can do HTML?
 [(range 20) (reverse (range 20))]
 ```
 
-<div class="kind_set"><div style="border:1px solid grey;padding:2px;"><div><code>0</code><code>1</code><code>2</code><code>3</code><code>4</code><code>5</code><code>6</code><code>7</code><code>8</code><code>9</code><code>10</code><code>11</code><code>12</code><code>13</code><code>14</code><code>15</code><code>16</code><code>17</code><code>18</code><code>19</code></div></div><div style="border:1px solid grey;padding:2px;"><div><code>19</code><code>18</code><code>17</code><code>16</code><code>15</code><code>14</code><code>13</code><code>12</code><code>11</code><code>10</code><code>9</code><code>8</code><code>7</code><code>6</code><code>5</code><code>4</code><code>3</code><code>2</code><code>1</code><code>0</code></div></div></div>
+<div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><div><code>0</code><code>1</code><code>2</code><code>3</code><code>4</code><code>5</code><code>6</code><code>7</code><code>8</code><code>9</code><code>10</code><code>11</code><code>12</code><code>13</code><code>14</code><code>15</code><code>16</code><code>17</code><code>18</code><code>19</code></div></div><div style="border:1px solid grey;padding:2px;"><div><code>19</code><code>18</code><code>17</code><code>16</code><code>15</code><code>14</code><code>13</code><code>12</code><code>11</code><code>10</code><code>9</code><code>8</code><code>7</code><code>6</code><code>5</code><code>4</code><code>3</code><code>2</code><code>1</code><code>0</code></div></div></div>
 
 We can add things that translate to the existing kindly specs...
 But! Now I have this different thing; SVG images, tables that have double rows.

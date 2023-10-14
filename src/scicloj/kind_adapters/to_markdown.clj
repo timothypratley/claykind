@@ -2,7 +2,7 @@
   (:require [clojure.pprint :as pprint]
             [clojure.string :as str]
             [scicloj.kind-adapters.to-hiccup :as to-hiccup]
-            [scicloj.kind-adapters.to-html :as to-html]))
+            [scicloj.kind-hiccup.api :as kind-hiccup]))
 
 (defmulti adapt :kind)
 
@@ -67,5 +67,5 @@
                             :keys [kind value]} options]
   (if kind
     (-> (to-hiccup/adapt context)
-        (to-html/html))
+        (kind-hiccup/html))
     (pprint-block value options)))

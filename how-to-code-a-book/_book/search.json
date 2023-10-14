@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "How to Code a Book",
+    "section": "",
+    "text": "1 Preface\nTODO"
+  },
+  {
+    "objectID": "docs/c01-introduction.html",
+    "href": "docs/c01-introduction.html",
+    "title": "How to Code a Book",
+    "section": "",
+    "text": "(ns how-to-code-a-book.c01-introduction)\n\nnil"
+  },
+  {
+    "objectID": "docs/c02-principles.html",
+    "href": "docs/c02-principles.html",
+    "title": "How to Code a Book",
+    "section": "",
+    "text": "(ns how-to-code-a-book.c02-principles)\n\nnil"
+  },
+  {
+    "objectID": "docs/c03-coding.html",
+    "href": "docs/c03-coding.html",
+    "title": "How to Code a Book",
+    "section": "",
+    "text": "(ns how-to-code-a-book.c03-coding)\n\nnil"
+  },
+  {
+    "objectID": "docs/c04-colating.html",
+    "href": "docs/c04-colating.html",
+    "title": "How to Code a Book",
+    "section": "",
+    "text": "(ns how-to-code-a-book.c04_colating)\n\nnil"
+  },
+  {
+    "objectID": "docs/c05-options.html",
+    "href": "docs/c05-options.html",
+    "title": "How to Code a Book",
+    "section": "",
+    "text": "(ns how-to-code-a-book.c05-options)\n\nnil"
+  },
+  {
+    "objectID": "docs/c06-references.html",
+    "href": "docs/c06-references.html",
+    "title": "How to Code a Book",
+    "section": "",
+    "text": "(ns how-to-code-a-book.c06-references)\n\nnil"
+  }
+]

@@ -49,20 +49,10 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script><script type="text/javascript" src="https://unpkg.com/react@18/umd/react.production.min.js"></script><script type="text/javascript" src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script><script type="text/javascript" src="https://scicloj.github.io/scittle/js/scittle.js"></script><script type="text/javascript" src="https://scicloj.github.io/scittle/js/scittle.reagent.js"></script><script type="text/javascript" src="/js/portal-main.js"></script>
 <script type="application/x-scittle">[:hiccup/raw-html &quot;(ns main&#39;n                            (:require [reagent.core :as r]&#39;n                                      [reagent.dom :as dom]))&quot;]</script>
 
-# More experiments
-
 ```clojure
-(range 9)
+(ns how-to-code-a-book.c04_colating)
 ```
 
 > ```clojure
-> (0 1 2 3 4 5 6 7 8)
-> ```
-
-```clojure
-{:x (range 3)}
-```
-
-> ```clojure
-> {:x (0 1 2)}
+> nil
 > ```

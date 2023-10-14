@@ -2,7 +2,7 @@
   (:require [clojure.data.json :as json]
             [clojure.string :as str]
             [scicloj.kind-adapters.to-markdown :as to-markdown]
-            [scicloj.kind-adapters.to-html :as to-html]
+            [scicloj.kind-hiccup.api :as kind-hiccup]
             [hiccup.page :as page]))
 
 ;; Markdown is sensitive to whitespace (especially newlines).
@@ -109,12 +109,12 @@
       ;; TODO: for a book these should just go in _quarto.yml as include-in-header
       ;; But for a standalone markdown file we need them
       ;; How do we tell the difference?
-      (to-html/html (apply page/include-js js-includes)) \newline
-      (to-html/html [:script {:type "application/x-scittle"}
-                     [:hiccup/raw-html
-                      "(ns main
-                        (:require [reagent.core :as r]
-                                  [reagent.dom :as dom]))"]]))))
+      (kind-hiccup/html (apply page/include-js js-includes)) \newline
+      (kind-hiccup/html [:script {:type "application/x-scittle"}
+                         [:hiccup/raw-html
+                          "(ns main
+                            (:require [reagent.core :as r]
+                                      [reagent.dom :as dom]))"]]))))
 
 (defn notes-to-md
   "Creates a markdown file from a notebook"

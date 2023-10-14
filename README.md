@@ -52,13 +52,13 @@ Claykind
 ### REPL
 
 ```clojure
-(require '[scicloj.claykind.api :as clay])
+(require '[scicloj.claykind.api :as claykind])
 
 ;; render the entire project
-(clay/render!)
+(claykind/render!)
 
 ;; render the current file being edited
-(clay/render! "notebooks/test/basic.clj" {:verbose true})
+(claykind/render! "notebooks/test/basic.clj" {:verbose true})
 ```
 
 ### Options
@@ -76,6 +76,14 @@ See `scicloj.claykind.api/default-options` for a full list of default options.
 
 Markdown front-matter is useful when using publishing tools like Quarto.
 Front-matter will be taken from the metadata of the first form in the notebook.
+
+## Examples
+
+| Source                                           | Compiled                                  |
+|--------------------------------------------------|-------------------------------------------|
+| [notebooks](./notebooks)                         | [docs](./docs)                            |
+| [babashka-example-book](./babashka-example-book) | [_book](./babashka-example-book/_book/)   |
+| [how-to-code-a-book](./how-to-code-a-book)       | [_book](./how-to-code-a-book_book/_book/) |
 
 ## Rational
 

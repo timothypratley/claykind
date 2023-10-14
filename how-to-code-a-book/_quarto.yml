@@ -1,0 +1,26 @@
+
+project:
+  type: book
+
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly
+
+book:
+  title: "How to Code a Book"
+  author:
+    name: "Timothy Pratley"
+  twitter-card:
+    creator: "@timothypratley"
+  favicon: images/Clay.svg
+  open-graph: true
+  chapters:
+    - index.md
+    - docs/c01-introduction.md
+    - docs/c02-principles.md
+    - docs/c03-coding.md
+    - docs/c04-colating.md
+    - docs/c05-options.md
+    - docs/c06-references.md
