@@ -1,7 +1,6 @@
 (ns scicloj.kind-adapters.to-hiccup
   (:require [clojure.data.json :as json]
-            [scicloj.kindly-advice.v1.api :as ka]
-            [hiccup.util :as hiccup.util]))
+            [scicloj.kindly-advice.v1.api :as ka]))
 
 (defmulti adapt :kind)
 

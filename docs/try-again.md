@@ -53,10 +53,6 @@
 (ns blog.try-again)
 ```
 
-> ```clojure
-> nil
-> ```
-
 One thing that I love about Clojure is that the Read-Eval-Print-Loop (REPL)
 enables me to redefine functions on the fly, without restarting anything.
 This makes trying things, making changes, and trying them again very fluid.
@@ -155,9 +151,7 @@ Here is some code I've been working on; I'm drawing a heart shape.
   "M 12.0 7.2 C 10.5 5.6 8.1 5.2 6.3 6.7 C 4.5 8.1 4.2 10.6 5.7 12.4 L 12.0 18.3 L 18.3 12.4 C 19.7 10.6 19.5 8.1 17.7 6.7 C 15.8 5.2 13.4 5.6 12.0 7.2 Z")
 ```
 
-> ```clojure
-> "#'blog.try-again/heart-path"
-> ```
+#'blog.try-again/heart-path
 
 This shape comes from [svg-paths](https://www.nan.fyi/svg-paths) by [@nandafyi](https://twitter.com/nandafyi).
 
@@ -173,9 +167,7 @@ I'll visualize it in an SVG image:
         body))
 ```
 
-> ```clojure
-> "#'blog.try-again/svg"
-> ```
+#'blog.try-again/svg
 
 The heart path goes into an SVG element:
 
@@ -185,9 +177,7 @@ The heart path goes into an SVG element:
           :d    heart-path}])
 ```
 
-> ```clojure
-> "#'blog.try-again/heart"
-> ```
+#'blog.try-again/heart
 
 And to see what it looks like I'll make a ["rich comment block"](https://www.youtube.com/watch?v=Qx0-pViyIDU&t=1229s):
 
@@ -203,7 +193,7 @@ and of course we'll use my new **"try form before caret"** on it.
 (svg (heart))
 ```
 
-<svg width="256" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="256"><path fill="green" d="M 12.0 7.2 C 10.5 5.6 8.1 5.2 6.3 6.7 C 4.5 8.1 4.2 10.6 5.7 12.4 L 12.0 18.3 L 18.3 12.4 C 19.7 10.6 19.5 8.1 17.7 6.7 C 15.8 5.2 13.4 5.6 12.0 7.2 Z"></path></svg>
+[:svg {:width 256, :xmlns "http://www.w3.org/2000/svg", :viewBox [0 0 24 24], :height 256} [:path {:fill "green", :d "M 12.0 7.2 C 10.5 5.6 8.1 5.2 6.3 6.7 C 4.5 8.1 4.2 10.6 5.7 12.4 L 12.0 18.3 L 18.3 12.4 C 19.7 10.6 19.5 8.1 17.7 6.7 C 15.8 5.2 13.4 5.6 12.0 7.2 Z"}]]
 
 Now I can navigate throughout my code base, making changes and fixes,
 and seeing the effect is just one keystroke away with **"retry"**:
@@ -214,15 +204,13 @@ and seeing the effect is just one keystroke away with **"retry"**:
           :d    heart-path}])
 ```
 
-> ```clojure
-> "#'blog.try-again/heart"
-> ```
+#'blog.try-again/heart
 
 ```clojure
 (svg (heart))
 ```
 
-<svg width="256" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="256"><path fill="red" d="M 12.0 7.2 C 10.5 5.6 8.1 5.2 6.3 6.7 C 4.5 8.1 4.2 10.6 5.7 12.4 L 12.0 18.3 L 18.3 12.4 C 19.7 10.6 19.5 8.1 17.7 6.7 C 15.8 5.2 13.4 5.6 12.0 7.2 Z"></path></svg>
+[:svg {:width 256, :xmlns "http://www.w3.org/2000/svg", :viewBox [0 0 24 24], :height 256} [:path {:fill "red", :d "M 12.0 7.2 C 10.5 5.6 8.1 5.2 6.3 6.7 C 4.5 8.1 4.2 10.6 5.7 12.4 L 12.0 18.3 L 18.3 12.4 C 19.7 10.6 19.5 8.1 17.7 6.7 C 15.8 5.2 13.4 5.6 12.0 7.2 Z"}]]
 
 Setting up the command to sync all changes before executing makes it easy to test changes as I go,
 often I can rely on syncing instead of sending updates to the REPL individually.

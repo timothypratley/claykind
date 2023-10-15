@@ -59,9 +59,7 @@ Babashka is, by design, as close to Clojure as possible.
 (+ 1 2)
 ```
 
-> ```clojure
-> 3
-> ```
+3
 
 ```clojure
 {:x (range 3)}
@@ -79,7 +77,7 @@ Babashka is, by design, as close to Clojure as possible.
  [:big [:big 3]]]
 ```
 
-<div style="background-color:#effeef;"><big><big>3</big></big></div>
+[:div {:style {:background-color "#effeef"}} [:big [:big 3]]]
 
 ## Time
 
@@ -87,41 +85,31 @@ Babashka is, by design, as close to Clojure as possible.
 (def now (java.time.ZonedDateTime/now))
 ```
 
-> ```clojure
-> "#'user/now"
-> ```
+#'user/now
 
 ```clojure
 (def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))
 ```
 
-> ```clojure
-> "#'user/LA-timezone"
-> ```
+#'user/LA-timezone
 
 ```clojure
 (def LA-time (.withZoneSameInstant now LA-timezone))
 ```
 
-> ```clojure
-> "#'user/LA-time"
-> ```
+#'user/LA-time
 
 ```clojure
 (def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
 ```
 
-> ```clojure
-> "#'user/pattern"
-> ```
+#'user/pattern
 
 ```clojure
 (.format LA-time pattern)
 ```
 
-> ```clojure
-> "18:09"
-> ```
+21:18
 
 ## Babashka vs clojure
 

@@ -56,10 +56,6 @@
   (:import (javax.imageio ImageIO)))
 ```
 
-> ```clojure
-> nil
-> ```
-
 # Kindly grammars
 
 Notebooks and rich REPLs visualize data and objects.
@@ -81,9 +77,7 @@ as you can represent pretty much anything that can display in a browser.
    [:tr [:td 3] [:td 4]]])
 ```
 
-> ```clojure
-> "#'kindly.grammars/hiccup-table"
-> ```
+#'kindly.grammars/hiccup-table
 
 The downside of HTML is that users need to expend considerable effort reshaping their data into views.
 
@@ -104,9 +98,7 @@ Hiccup has a Malli schema that can be used to validate and parse:
    "hiccup"])
 ```
 
-> ```clojure
-> "#'kindly.grammars/Hiccup"
-> ```
+#'kindly.grammars/Hiccup
 
 Hiccup does not check for the creation of valid HTML; tags and attributes are not checked.
 
@@ -114,15 +106,13 @@ Hiccup does not check for the creation of valid HTML; tags and attributes are no
 (def parse-hiccup (ma/parser Hiccup))
 ```
 
-> ```clojure
-> "#'kindly.grammars/parse-hiccup"
-> ```
+#'kindly.grammars/parse-hiccup
 
 ```clojure
 (parse-hiccup hiccup-table)
 ```
 
-<div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:node</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_map"><div style="border:1px solid grey;padding:2px;"><code>:name</code></div><div style="border:1px solid grey;padding:2px;"><code>:table</code></div><div style="border:1px solid grey;padding:2px;"><code>:props</code></div><div style="border:1px solid grey;padding:2px;"><code>nil</code></div><div style="border:1px solid grey;padding:2px;"><code>:children</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:node</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_map"><div style="border:1px solid grey;padding:2px;"><code>:name</code></div><div style="border:1px solid grey;padding:2px;"><code>:tr</code></div><div style="border:1px solid grey;padding:2px;"><code>:props</code></div><div style="border:1px solid grey;padding:2px;"><code>nil</code></div><div style="border:1px solid grey;padding:2px;"><code>:children</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:node</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_map"><div style="border:1px solid grey;padding:2px;"><code>:name</code></div><div style="border:1px solid grey;padding:2px;"><code>:td</code></div><div style="border:1px solid grey;padding:2px;"><code>:props</code></div><div style="border:1px solid grey;padding:2px;"><code>nil</code></div><div style="border:1px solid grey;padding:2px;"><code>:children</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:primitive</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:number</code></div><div style="border:1px solid grey;padding:2px;"><code>1</code></div></div></div></div></div></div></div></div></div></div></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:node</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_map"><div style="border:1px solid grey;padding:2px;"><code>:name</code></div><div style="border:1px solid grey;padding:2px;"><code>:td</code></div><div style="border:1px solid grey;padding:2px;"><code>:props</code></div><div style="border:1px solid grey;padding:2px;"><code>nil</code></div><div style="border:1px solid grey;padding:2px;"><code>:children</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:primitive</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:number</code></div><div style="border:1px solid grey;padding:2px;"><code>2</code></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:node</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_map"><div style="border:1px solid grey;padding:2px;"><code>:name</code></div><div style="border:1px solid grey;padding:2px;"><code>:tr</code></div><div style="border:1px solid grey;padding:2px;"><code>:props</code></div><div style="border:1px solid grey;padding:2px;"><code>nil</code></div><div style="border:1px solid grey;padding:2px;"><code>:children</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:node</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_map"><div style="border:1px solid grey;padding:2px;"><code>:name</code></div><div style="border:1px solid grey;padding:2px;"><code>:td</code></div><div style="border:1px solid grey;padding:2px;"><code>:props</code></div><div style="border:1px solid grey;padding:2px;"><code>nil</code></div><div style="border:1px solid grey;padding:2px;"><code>:children</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:primitive</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:number</code></div><div style="border:1px solid grey;padding:2px;"><code>3</code></div></div></div></div></div></div></div></div></div></div></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:node</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_map"><div style="border:1px solid grey;padding:2px;"><code>:name</code></div><div style="border:1px solid grey;padding:2px;"><code>:td</code></div><div style="border:1px solid grey;padding:2px;"><code>:props</code></div><div style="border:1px solid grey;padding:2px;"><code>nil</code></div><div style="border:1px solid grey;padding:2px;"><code>:children</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:primitive</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:number</code></div><div style="border:1px solid grey;padding:2px;"><code>4</code></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div>
+[:node {:name :table, :props nil, :children [[:node {:name :tr, :props nil, :children [[:node {:name :td, :props nil, :children [[:primitive [:number 1]]]}] [:node {:name :td, :props nil, :children [[:primitive [:number 2]]]}]]}] [:node {:name :tr, :props nil, :children [[:node {:name :td, :props nil, :children [[:primitive [:number 3]]]}] [:node {:name :td, :props nil, :children [[:primitive [:number 4]]]}]]}]]}]
 
 ## Tables
 
@@ -135,7 +125,8 @@ vectors of vectors, vectors of maps, Tablecloth datasets, or maybe something els
  :row-vectors []}
 ```
 
-----
+|  |
+|  |
 
 ```clojure
 ^:kind/table
@@ -143,7 +134,8 @@ vectors of vectors, vectors of maps, Tablecloth datasets, or maybe something els
  :row-maps []}
 ```
 
-----
+|  |
+|  |
 
 ```clojure
 ^:kind/table
@@ -151,7 +143,8 @@ vectors of vectors, vectors of maps, Tablecloth datasets, or maybe something els
  [3 4]]
 ```
 
-----
+|  |
+|  |
 
 It would be convenient to allow users several options for table inputs,
 and some transformations to standardize them for downstream tools.
@@ -183,9 +176,7 @@ Tools should be encouraged to accept a standardized data shape defined by a sche
    "table"])
 ```
 
-> ```clojure
-> "#'kindly.grammars/Table"
-> ```
+#'kindly.grammars/Table
 
 ## Plots
 
@@ -204,9 +195,7 @@ Two popular grammars for plotting are Vega and ggplot2.
     :fill {:field "z", :type "nominal"}}})
 ```
 
-> ```clojure
-> "#'kindly.grammars/vega-lite-point-plot"
-> ```
+#'kindly.grammars/vega-lite-point-plot
 
 ```clojure
 (defn random-data [n]
@@ -219,9 +208,7 @@ Two popular grammars for plotting are Vega and ggplot2.
                        :y y}))))
 ```
 
-> ```clojure
-> "#'kindly.grammars/random-data"
-> ```
+#'kindly.grammars/random-data
 
 ```clojure
 (defn random-vega-lite-plot [n]
@@ -230,16 +217,14 @@ Two popular grammars for plotting are Vega and ggplot2.
       vega-lite-point-plot))
 ```
 
-> ```clojure
-> "#'kindly.grammars/random-vega-lite-plot"
-> ```
+#'kindly.grammars/random-vega-lite-plot
 
 ```clojure
 ^:kind/vega-lite
 (random-vega-lite-plot 9)
 ```
 
-<div style="width:100%;"><script>[:hiccup/raw-html &quot;vegaEmbed(document.currentScript.parentElement, {&#39;&quot;encoding&#39;&quot;:{&#39;&quot;y&#39;&quot;:{&#39;&quot;field&#39;&quot;:&#39;&quot;y&#39;&quot;,&#39;&quot;type&#39;&quot;:&#39;&quot;quantitative&#39;&quot;},&#39;&quot;fill&#39;&quot;:{&#39;&quot;field&#39;&quot;:&#39;&quot;z&#39;&quot;,&#39;&quot;type&#39;&quot;:&#39;&quot;nominal&#39;&quot;},&#39;&quot;size&#39;&quot;:{&#39;&quot;field&#39;&quot;:&#39;&quot;w&#39;&quot;,&#39;&quot;type&#39;&quot;:&#39;&quot;quantitative&#39;&quot;},&#39;&quot;x&#39;&quot;:{&#39;&quot;field&#39;&quot;:&#39;&quot;x&#39;&quot;,&#39;&quot;type&#39;&quot;:&#39;&quot;quantitative&#39;&quot;}},&#39;&quot;mark&#39;&quot;:&#39;&quot;point&#39;&quot;,&#39;&quot;data&#39;&quot;:{&#39;&quot;values&#39;&quot;:[{&#39;&quot;y&#39;&quot;:-0.4294478659303229,&#39;&quot;w&#39;&quot;:1,&#39;&quot;z&#39;&quot;:8,&#39;&quot;x&#39;&quot;:0},{&#39;&quot;y&#39;&quot;:-0.5276728739320112,&#39;&quot;w&#39;&quot;:5,&#39;&quot;z&#39;&quot;:5,&#39;&quot;x&#39;&quot;:1},{&#39;&quot;y&#39;&quot;:-0.0848102200199854,&#39;&quot;w&#39;&quot;:5,&#39;&quot;z&#39;&quot;:1,&#39;&quot;x&#39;&quot;:2},{&#39;&quot;y&#39;&quot;:-0.20111217775725976,&#39;&quot;w&#39;&quot;:8,&#39;&quot;z&#39;&quot;:1,&#39;&quot;x&#39;&quot;:3},{&#39;&quot;y&#39;&quot;:-0.5268358568675492,&#39;&quot;w&#39;&quot;:0,&#39;&quot;z&#39;&quot;:5,&#39;&quot;x&#39;&quot;:4},{&#39;&quot;y&#39;&quot;:-0.35771111884168605,&#39;&quot;w&#39;&quot;:2,&#39;&quot;z&#39;&quot;:2,&#39;&quot;x&#39;&quot;:5},{&#39;&quot;y&#39;&quot;:-0.5769565076378887,&#39;&quot;w&#39;&quot;:4,&#39;&quot;z&#39;&quot;:3,&#39;&quot;x&#39;&quot;:6},{&#39;&quot;y&#39;&quot;:-0.6514150657702256,&#39;&quot;w&#39;&quot;:5,&#39;&quot;z&#39;&quot;:2,&#39;&quot;x&#39;&quot;:7},{&#39;&quot;y&#39;&quot;:-0.8345970239681084,&#39;&quot;w&#39;&quot;:1,&#39;&quot;z&#39;&quot;:2,&#39;&quot;x&#39;&quot;:8}]}});&quot;]</script></div>
+{:encoding {:y {:field "y", :type "quantitative"}, :fill {:field "z", :type "nominal"}, :size {:field "w", :type "quantitative"}, :x {:field "x", :type "quantitative"}}, :mark "point", :data {:values ({:y 0.19490550176498578, :w 2, :z 8, :x 0} {:y 0.18652730596767386, :w 8, :z 7, :x 1} {:y 0.10875547724560464, :w 5, :z 7, :x 2} {:y 0.30697800881963533, :w 4, :z 6, :x 3} {:y 0.7738827931600999, :w 1, :z 1, :x 4} {:y 0.7425742606560399, :w 2, :z 6, :x 5} {:y 0.49350329518946845, :w 5, :z 4, :x 6} {:y 0.3969700829476961, :w 3, :z 6, :x 7} {:y 0.3691085806099147, :w 5, :z 5, :x 8})}}
 
 Vega has json-schemas available which are comprehensive.
 There is not yet a way to create Malli schemas from Vega json-schema.
@@ -264,7 +249,7 @@ It is nice to be able to use "send form to Portal" or similar, can this be done 
 (ImageIO/read (io/file "claykind.png"))
 ```
 
-<div>Image kind not implemented</div>
+BufferedImage@628fc76f: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@6335ef49 transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3
 
 Users may benefit from a shorthand helper function `(image "claykind.png")`.
 
@@ -301,9 +286,7 @@ We might need to construct Markdown programmatically.
 (str "## This... is... " :Markdown)
 ```
 
-> ```clojure
-> "## This... is... :Markdown"
-> ```
+## This... is... :Markdown
 
 ## Data
 

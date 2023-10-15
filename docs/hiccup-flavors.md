@@ -55,30 +55,88 @@
   (:require [hiccup2.core :as hiccup2]
             [lambdaisland.hiccup :as lhiccup]
             [huff.core :as hhiccup]
-            [scicloj.kind-hiccup.api :as khiccup]))
+            [scicloj.kind-hiccup.api :as khiccup]
+            [scicloj.kindly.v4.kind :as kind]))
 ```
 
-> **stderr**
-> 
-> WARNING: abs already refers to: #'clojure.core/abs in namespace: garden.color, being replaced by: #'garden.color/abs
+|test|
+|----|
+|<h2>foo</h2><img src="https://raw.githubusercontent.com/scicloj/graphic-design/live/icons/Clay.svg">|
+|test|
 
-> ```clojure
-> nil
-> ```
+```clojure
+(def hiccup-implementations
+  [{:name   "Hiccup"
+    :author "James Reeves (weavejester)"
+    :id     'hiccup/hiccup
+    :url    "https://github.com/weavejester/hiccup"
+    :features #{"fragments"}}
 
-| Library | Author | project |
-|---
-| Hiccup | James Reeves (weavejester) | [hiccup/hiccup](https://github.com/weavejester/hiccup) |
-| LambdaIsland Hiccup | Arne Brasseur (plexus) | [com.lambdaisland/hiccup](https://github.com/lambdaisland/hiccup) |
-| Huff | Bryan (escherize) | [io.github.escherize/huff](https://github.com/escherize/huff) |
-| kind-hiccup | | |
-| Reagent | Dan Holmsand (holmsand) | https://github.com/reagent-project/reagent |
+   {:name   "LambdaIsland Hiccup"
+    :author "Arne Brasseur (plexus)"
+    :id     'com.lambdaisland/hiccup
+    :url    "https://github.com/lambdaisland/hiccup"
+    :platforms #{"Clojure"}
+    :features #{"auto-escape strings"
+                "fragments"
+                "components"
+                "style maps"
+                "unsafe strings"
+                "kebab-case"}}
+
+   {:name   "Huff"
+    :author "Bryan Maass (escherize)"
+    :id     'io.github.escherize/huff
+    :url    "https://github.com/escherize/huff"
+    :perf {:runtime 1
+           :compiled 1}
+    :tests {}
+    :features #{"extendable grammar"
+                "unsafe strings"
+                "components"
+                "style maps"
+                "HTML-encoded by default"
+                "Parse tags in any order :div#id.c or :div.c#id"
+                "Babashka"
+                "[:<> ...] fragments"
+                "(...) fragments"
+                "Extreme shorthand syntax [:. {:color :red}]"}}
+
+   {:name   "Reagent"
+    :author "Dan Holmsand (holmsand)"
+    :id     'reagent/reagent
+    :url    "https://github.com/reagent-project/reagent"
+    :features #{"ClojureScript"}}
+
+   {:name   "kind-hiccup"
+    :author "Timothy Pratley"
+    :id     'org.scicloj/kind-hiccup
+    :url    "https://github.com/timothypratley/claykind"
+    :features #{"Babashka"}}])
+```
+
+#'blog.hiccup-flavors/hiccup-implementations
+
+```clojure
+(kind/table
+  {:column-names ["name" "author" "project" "features"]
+   :row-vectors  (for [{:keys [name author id url features]} hiccup-implementations]
+                   [name author (kind/hiccup [:a {:href url} id]) features])})
+```
+
+| name | author | project | features |
+| ---- | ---- | ---- | ---- |
+| Hiccup | James Reeves (weavejester) | <a href="https://github.com/weavejester/hiccup">hiccup/hiccup</a> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">fragments</div></div> |
+| LambdaIsland Hiccup | Arne Brasseur (plexus) | <a href="https://github.com/lambdaisland/hiccup">com.lambdaisland/hiccup</a> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">auto-escape strings</div><div style="border:1px solid grey;padding:2px;">kebab-case</div><div style="border:1px solid grey;padding:2px;">fragments</div><div style="border:1px solid grey;padding:2px;">components</div><div style="border:1px solid grey;padding:2px;">style maps</div><div style="border:1px solid grey;padding:2px;">unsafe strings</div></div> |
+| Huff | Bryan Maass (escherize) | <a href="https://github.com/escherize/huff">io.github.escherize/huff</a> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">(...) fragments</div><div style="border:1px solid grey;padding:2px;">Extreme shorthand syntax [:. {:color :red}]</div><div style="border:1px solid grey;padding:2px;">Parse tags in any order :div#id.c or :div.c#id</div><div style="border:1px solid grey;padding:2px;">extendable grammar</div><div style="border:1px solid grey;padding:2px;">components</div><div style="border:1px solid grey;padding:2px;">[:&lt;&gt; ...] fragments</div><div style="border:1px solid grey;padding:2px;">HTML-encoded by default</div><div style="border:1px solid grey;padding:2px;">Babashka</div><div style="border:1px solid grey;padding:2px;">style maps</div><div style="border:1px solid grey;padding:2px;">unsafe strings</div></div> |
+| Reagent | Dan Holmsand (holmsand) | <a href="https://github.com/reagent-project/reagent">reagent/reagent</a> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">ClojureScript</div></div> |
+| kind-hiccup | Timothy Pratley | <a href="https://github.com/timothypratley/claykind">org.scicloj/kind-hiccup</a> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">Babashka</div></div> |
 
 ```clojure
 [:div "hello world" ['(fn [] [:div [myjscomponent]])]]
 ```
 
-<div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:div</code></div><div style="border:1px solid grey;padding:2px;"><code>&quot;hello world&quot;</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><div><code>fn</code><div class="kind_vector"></div><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>:div</code></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>myjscomponent</code></div></div></div></div></div></div></div></div></div>
+[:div "hello world" [(fn [] [:div [myjscomponent]])]]
 
 TODO: these should just be data!
 
@@ -87,7 +145,8 @@ TODO: these should just be data!
 {:row []}
 ```
 
-----
+|  |
+|  |
 
 | Library | Platforms | Features
 |---
@@ -98,6 +157,7 @@ TODO: these should just be data!
 | Reagent | ClojureScript |
 
 ESCAPING and security
+Handling of raw strings
 
 something that just expands kinds might be better?
 
@@ -109,12 +169,10 @@ something that just expands kinds might be better?
    (hhiccup/html x)])
 ```
 
-> ```clojure
-> "#'blog.hiccup-flavors/html"
-> ```
+#'blog.hiccup-flavors/html
 
 ```clojure
 (html [:div "Hello" [:em "World"]])
 ```
 
-<div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><code>&quot;&lt;div&gt;Hello&lt;em&gt;World&lt;/em&gt;&lt;/div&gt;&quot;</code></div><div style="border:1px solid grey;padding:2px;"><code>&quot;&lt;div&gt;Hello&lt;em&gt;World&lt;/em&gt;&lt;/div&gt;&quot;</code></div><div style="border:1px solid grey;padding:2px;"><code>&quot;&lt;div&gt;Hello&lt;em&gt;World&lt;/em&gt;&lt;/div&gt;&quot;</code></div><div style="border:1px solid grey;padding:2px;"><code>&quot;&lt;div&gt;Hello&lt;em&gt;World&lt;/em&gt;&lt;/div&gt;&quot;</code></div></div>
+["<div>Hello<em>World</em></div>" "<div>Hello<em>World</em></div>" "<div>Hello<em>World</em></div>" "<div>Hello<em>World</em></div>"]

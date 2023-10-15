@@ -53,10 +53,6 @@
 (ns test.basic)
 ```
 
-> ```clojure
-> nil
-> ```
-
 # section 1
 
  hello, welcome to my wonderful test notebook
@@ -65,9 +61,7 @@
 (+ 1 2 3)
 ```
 
-> ```clojure
-> 6
-> ```
+6
 
 ```clojure
 (defn f [x]
@@ -76,17 +70,13 @@
      9))
 ```
 
-> ```clojure
-> "#'test.basic/f"
-> ```
+#'test.basic/f
 
 ```clojure
 (f 20)
 ```
 
-> ```clojure
-> 29
-> ```
+29
 
 # section 2
 
@@ -101,13 +91,13 @@ And that you can do HTML?
 [:h1 "Hello world"]
 ```
 
-<h1>Hello world</h1>
+[:h1 "Hello world"]
 
 ```clojure
 [(range 20) (reverse (range 20))]
 ```
 
-<div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><div><code>0</code><code>1</code><code>2</code><code>3</code><code>4</code><code>5</code><code>6</code><code>7</code><code>8</code><code>9</code><code>10</code><code>11</code><code>12</code><code>13</code><code>14</code><code>15</code><code>16</code><code>17</code><code>18</code><code>19</code></div></div><div style="border:1px solid grey;padding:2px;"><div><code>19</code><code>18</code><code>17</code><code>16</code><code>15</code><code>14</code><code>13</code><code>12</code><code>11</code><code>10</code><code>9</code><code>8</code><code>7</code><code>6</code><code>5</code><code>4</code><code>3</code><code>2</code><code>1</code><code>0</code></div></div></div>
+[(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19) (19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0)]
 
 We can add things that translate to the existing kindly specs...
 But! Now I have this different thing; SVG images, tables that have double rows.
