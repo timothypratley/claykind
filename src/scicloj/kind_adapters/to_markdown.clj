@@ -84,6 +84,5 @@
 (defmethod adapt :default [{:as   context
                             :keys [kind value]} options]
   (if kind
-    (html context options))
-  value
-  #_(pprint-block value options))
+    (html context options)
+    (pprint-block value options)))
