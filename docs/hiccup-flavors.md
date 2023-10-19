@@ -59,10 +59,16 @@
             [scicloj.kindly.v4.kind :as kind]))
 ```
 
-|test|
-|----|
-|<h2>foo</h2><img src="https://raw.githubusercontent.com/scicloj/graphic-design/live/icons/Clay.svg">|
-|test|
+![Clay icon](https://i.redd.it/59i7rh6wt3271.jpg)
+
+Hiccup uses vectors to represent elements, and maps to represent an element's attributes.
+
+```clojure
+(kind/hiccup
+  [:div "Hello " [:em "World"]])
+```
+
+[:div "Hello " [:em "World"]]
 
 ```clojure
 (def hiccup-implementations
@@ -132,34 +138,37 @@
 | Reagent | Dan Holmsand (holmsand) | <a href="https://github.com/reagent-project/reagent">reagent/reagent</a> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">ClojureScript</div></div> |
 | kind-hiccup | Timothy Pratley | <a href="https://github.com/timothypratley/claykind">org.scicloj/kind-hiccup</a> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">Babashka</div></div> |
 
+## Error Handling
+
+## Security (avoiding XSS)
+
+### Escaping
+
+Handling of raw strings
+
+## Extensibility
+
 ```clojure
 [:div "hello world" ['(fn [] [:div [myjscomponent]])]]
 ```
 
 [:div "hello world" [(fn [] [:div [myjscomponent]])]]
 
-TODO: these should just be data!
+IDEA: something that just expands kinds might be better?
 
-```clojure
-^:kind/table
-{:row []}
+TODO: but why does this even work?
+Markdown don't care, it's not escaped (but it could be)
+What should this show?
+<h3>I'm big</h3>
+**should it** work?
+Or should it be &lt;h3&gt;
+what about 3 > 2?
+or
 ```
-
-|  |
-|  |
-
-| Library | Platforms | Features
-|---
-| Hiccup | Clojure |
-| LambdaIsland Hiccup | Clojure
-| Huff | Clojure, Babashka
-| kind-hiccup | Clojure, Babashka | |
-| Reagent | ClojureScript |
-
-ESCAPING and security
-Handling of raw strings
-
-something that just expands kinds might be better?
+3 > 2
+```
+Probably we don't want `<script>...</script>`,
+but maybe we do? (after all we encourage scittle and reagent)
 
 ```clojure
 (defn html [x]

@@ -50,7 +50,10 @@
   #_ (md/render (:kindly/comment context)))
 
 (defmethod adapt :kind/md [{:keys [value]}]
-  [:p value]
+  ;; TODO: this seems a bit wierd but is to support ^:kind/md ["markdown"]
+  [:p (if (coll? value)
+        (first value)
+        value)]
   #_(md/render value))
 
 (defmethod adapt :kind/var [{:keys [value]}]

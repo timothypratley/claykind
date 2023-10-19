@@ -1,3 +1,7 @@
+;; # Hiccup flavors
+
+;; Does this break Claykind? :(
+;; TODO: what should be the correct way to provide a top level h1?
 (ns blog.hiccup-flavors
   "Wherein we explore several flavors of hiccup"
   (:require [hiccup2.core :as hiccup2]
@@ -6,37 +10,66 @@
             [scicloj.kind-hiccup.api :as khiccup]
             [scicloj.kindly.v4.kind :as kind]))
 
-;|test|
-;|----|
-;|<h2>foo</h2><img src="https://raw.githubusercontent.com/scicloj/graphic-design/live/icons/Clay.svg">|
-;|test|
+
+; ![Hiccup is concise](https://i.redd.it/59i7rh6wt3271.jpg)
+
+;; Hiccup uses vectors to represent elements, and maps to represent an element's attributes.
+
+(kind/hiccup
+  [:div "Hello " [:em "World"]])
+
+(str (hiccup2/html
+       [:div "Hello " [:em "World"]]))
+
+(str (hiccup2/html
+       [:table
+        [:thead
+         [:tr [:th "header1"] [:th "header2"]]]
+        [:tbody
+         [:tr [:td 1] [:td 2]]
+         [:tr [:td 3] [:td 4]]]]))
+
+; <table>
+;  <thead>
+;    <tr><th>header1</th><th>header2</th></tr>
+;  </thead>
+;  <tbody>
+;    <tr><td>1</td><td>2</td></tr>
+;    <tr><td>3</td><td>4</td></tr>
+;  </tbody>
+; </table>
+
+;; ## Templating
+
+;; Dissenters
+
 
 (def hiccup-implementations
-  [{:name   "Hiccup"
-    :author "James Reeves (weavejester)"
-    :id     'hiccup/hiccup
-    :url    "https://github.com/weavejester/hiccup"
+  [{:name     "Hiccup"
+    :author   "James Reeves (weavejester)"
+    :id       'hiccup/hiccup
+    :url      "https://github.com/weavejester/hiccup"
     :features #{"fragments"}}
 
-   {:name   "LambdaIsland Hiccup"
-    :author "Arne Brasseur (plexus)"
-    :id     'com.lambdaisland/hiccup
-    :url    "https://github.com/lambdaisland/hiccup"
+   {:name      "LambdaIsland Hiccup"
+    :author    "Arne Brasseur (plexus)"
+    :id        'com.lambdaisland/hiccup
+    :url       "https://github.com/lambdaisland/hiccup"
     :platforms #{"Clojure"}
-    :features #{"auto-escape strings"
-                "fragments"
-                "components"
-                "style maps"
-                "unsafe strings"
-                "kebab-case"}}
+    :features  #{"auto-escape strings"
+                 "fragments"
+                 "components"
+                 "style maps"
+                 "unsafe strings"
+                 "kebab-case"}}
 
-   {:name   "Huff"
-    :author "Bryan Maass (escherize)"
-    :id     'io.github.escherize/huff
-    :url    "https://github.com/escherize/huff"
-    :perf {:runtime 1
-           :compiled 1}
-    :tests {}
+   {:name     "Huff"
+    :author   "Bryan Maass (escherize)"
+    :id       'io.github.escherize/huff
+    :url      "https://github.com/escherize/huff"
+    :perf     {:runtime  1
+               :compiled 1}
+    :tests    {}
     :features #{"extendable grammar"
                 "unsafe strings"
                 "components"
@@ -48,16 +81,16 @@
                 "(...) fragments"
                 "Extreme shorthand syntax [:. {:color :red}]"}}
 
-   {:name   "Reagent"
-    :author "Dan Holmsand (holmsand)"
-    :id     'reagent/reagent
-    :url    "https://github.com/reagent-project/reagent"
+   {:name     "Reagent"
+    :author   "Dan Holmsand (holmsand)"
+    :id       'reagent/reagent
+    :url      "https://github.com/reagent-project/reagent"
     :features #{"ClojureScript"}}
 
-   {:name   "kind-hiccup"
-    :author "Timothy Pratley"
-    :id     'org.scicloj/kind-hiccup
-    :url    "https://github.com/timothypratley/claykind"
+   {:name     "kind-hiccup"
+    :author   "Timothy Pratley"
+    :id       'org.scicloj/kind-hiccup
+    :url      "https://github.com/timothypratley/claykind"
     :features #{"Babashka"}}])
 
 (kind/table
@@ -65,26 +98,34 @@
    :row-vectors  (for [{:keys [name author id url features]} hiccup-implementations]
                    [name author (kind/hiccup [:a {:href url} id]) features])})
 
-[:div "hello world" ['(fn [] [:div [myjscomponent]])]]
+;; ## Error Handling
 
-;; TODO: these should just be data!
+;; ## Security (avoiding XSS)
 
-^:kind/table
-{:row []}
+;; ### Escaping
 
-;; | Library | Platforms | Features
-;; |---
-;; | Hiccup | Clojure |
-;; | LambdaIsland Hiccup | Clojure
-;; | Huff | Clojure, Babashka
-;; | kind-hiccup | Clojure, Babashka | |
-;; | Reagent | ClojureScript |
-
-
-;; ESCAPING and security
 ;; Handling of raw strings
 
-;; something that just expands kinds might be better?
+;; ## Extensibility
+
+[:div "hello world" ['(fn [] [:div [myjscomponent]])]]
+
+
+;; IDEA: something that just expands kinds might be better?
+
+;; TODO: but why does this even work?
+;; Markdown don't care, it's not escaped (but it could be)
+;; What should this show?
+;; <h3>I'm big</h3>
+;; **should it** work?
+;; Or should it be &lt;h3&gt;
+;; what about 3 > 2?
+;; or
+;; ```
+;; 3 > 2
+;; ```
+;; Probably we don't want `<script>...</script>`,
+;; but maybe we do? (after all we encourage scittle and reagent)
 
 (defn html [x]
   [(str (hiccup2/html x))

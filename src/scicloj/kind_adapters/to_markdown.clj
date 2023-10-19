@@ -20,7 +20,8 @@
   ;; CHOICE: this makes everything inside the table HTML,
   ;; which is probably great...?
   (str "| " (str/join " | " (map #(html (advice/advise {:value %}) options)
-                                 xs)) " |"))
+                                 xs))
+       " |"))
 
 (defmethod adapt :kind/table [{:keys [value]} options]
   (let [{:keys [column-names row-vectors]} value]
@@ -42,7 +43,7 @@
 
 (defn message [s channel]
   (-> (str "**" channel "**" \newline \newline
-           s)
+           (block s ""))
       (block-quote)))
 
 ;; There are several potential ways to print values:
@@ -84,5 +85,5 @@
                             :keys [kind value]} options]
   (if kind
     (html context options))
-    value
-    #_(pprint-block value options))
+  value
+  #_(pprint-block value options))

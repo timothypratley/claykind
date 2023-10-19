@@ -224,7 +224,7 @@ Two popular grammars for plotting are Vega and ggplot2.
 (random-vega-lite-plot 9)
 ```
 
-{:encoding {:y {:field "y", :type "quantitative"}, :fill {:field "z", :type "nominal"}, :size {:field "w", :type "quantitative"}, :x {:field "x", :type "quantitative"}}, :mark "point", :data {:values ({:y 0.19490550176498578, :w 2, :z 8, :x 0} {:y 0.18652730596767386, :w 8, :z 7, :x 1} {:y 0.10875547724560464, :w 5, :z 7, :x 2} {:y 0.30697800881963533, :w 4, :z 6, :x 3} {:y 0.7738827931600999, :w 1, :z 1, :x 4} {:y 0.7425742606560399, :w 2, :z 6, :x 5} {:y 0.49350329518946845, :w 5, :z 4, :x 6} {:y 0.3969700829476961, :w 3, :z 6, :x 7} {:y 0.3691085806099147, :w 5, :z 5, :x 8})}}
+{:encoding {:y {:field "y", :type "quantitative"}, :fill {:field "z", :type "nominal"}, :size {:field "w", :type "quantitative"}, :x {:field "x", :type "quantitative"}}, :mark "point", :data {:values ({:y 0.08173103335917853, :w 7, :z 3, :x 0} {:y -0.16470506485183423, :w 3, :z 0, :x 1} {:y -0.6149339253746506, :w 5, :z 7, :x 2} {:y -0.3367510624786776, :w 1, :z 8, :x 3} {:y -0.3840249875127255, :w 4, :z 0, :x 4} {:y -0.06363082690729482, :w 1, :z 8, :x 5} {:y -0.5530924609940749, :w 0, :z 1, :x 6} {:y -0.9758323264402247, :w 5, :z 7, :x 7} {:y -1.3130498853889352, :w 8, :z 2, :x 8})}}
 
 Vega has json-schemas available which are comprehensive.
 There is not yet a way to create Malli schemas from Vega json-schema.
@@ -249,7 +249,7 @@ It is nice to be able to use "send form to Portal" or similar, can this be done 
 (ImageIO/read (io/file "claykind.png"))
 ```
 
-BufferedImage@628fc76f: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@6335ef49 transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3
+BufferedImage@5e5f38f7: type = 6 ColorModel: #pixelBits = 32 numComponents = 4 color space = java.awt.color.ICC_ColorSpace@6335ef49 transparency = 3 has alpha = true isAlphaPre = false ByteInterleavedRaster: width = 256 height = 256 #numDataElements 4 dataOff[0] = 3
 
 Users may benefit from a shorthand helper function `(image "claykind.png")`.
 
