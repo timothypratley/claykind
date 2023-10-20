@@ -15,9 +15,7 @@
   (adapt (ka/advise {:value v})))
 
 (defn grid [props vs]
-  (into [:div (merge-with merge
-                          {}
-                          props)]
+  (into [:div props]
         ;; TODO: adapt outside! not a grid except by css
         (for [v vs]
           [:div {:style {:border "1px solid grey"

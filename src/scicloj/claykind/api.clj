@@ -1,7 +1,6 @@
 (ns scicloj.claykind.api
   (:require [clojure.java.io :as io]
             [clojure.pprint :as pprint]
-    ;; TODO: abstract builders as write?
             [scicloj.clay-builders.html-plain :as html]
             [scicloj.clay-builders.html-portal :as hpp]
             [scicloj.clay-builders.markdown-page :as mdp]
@@ -13,43 +12,56 @@
 
 (set! *warn-on-reflection* true)
 
-;; TODO: is there a nicer way? Should this be a `format` protocol? multimethod? One single method??
 (def flavors
-  {"html"     {:fn        html/notes-to-html
-               :docs      "https://developer.mozilla.org/en-US/docs/Learn/HTML"
-               :spec      "https://www.w3.org/TR/2011/WD-html5-20110405/"
-               :extension "html"}
-   "portal"   {:fn        hpp/notes-to-html-portal
-               :docs      "https://github.com/djblue/portal"
-               :spec      "https://github.com/djblue/portal/blob/master/src/portal/api.cljc"
-               :extension "html"}
-   "markdown" {:fn        mdp/notes-to-md
-               :docs      "https://pandoc.org/MANUAL.html#pandocs-markdown"
-               :spec      "https://pandoc.org/"
-               :extension "md"}
-   "gfm"      {:fn        mdp/notes-to-md
-               :docs      "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
-               :spec      "https://github.github.com/gfm/"
-               :extension "md"}})
+  {"html"     {:compile        html/notes-to-html
+               :file-extension "html"
+               :docs           "https://developer.mozilla.org/en-US/docs/Learn/HTML"
+               :spec           "https://www.w3.org/TR/2011/WD-html5-20110405/"}
+   "portal"   {:compile        hpp/notes-to-html-portal
+               :file-extension "html"
+               :docs           "https://github.com/djblue/portal"
+               :spec           "https://github.com/djblue/portal/blob/master/src/portal/api.cljc"}
+   "markdown" {:compile        mdp/notes-to-md
+               :file-extension "md"
+               :docs           "https://pandoc.org/MANUAL.html#pandocs-markdown"
+               :spec           "https://pandoc.org/"}
+   "gfm"      {:compile        mdp/notes-to-md
+               :file-extension "md"
+               :docs           "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
+               :spec           "https://github.github.com/gfm/"}})
 
+;; slides are the same markdown with different build time stuff
+;; Steps should be visible
+;; front-matter per file vs ___ for book
 (def default-options
-  {:flavor           "gfm"
-   :paths            ["notebooks"]
-   :target-dir       "docs"
+  {:paths            ["notebooks"]
+   :flavor           "gfm"
+   :targets          {"docs" {:flavor "gfm"}
+                      "md"   {:flavor "markdown"}}
+   :verbose          false
    :fail-if-warnings false})
 
-(defn- render* [^File file {:keys [verbose] :as options}]
+(defn- render* [^File file {:keys [targets verbose] :as options}]
   (when verbose
-    (println "Rendering" (str file)))
-  ;; TODO: handle formats and extensions properly
-  (let [builder mdp/notes-to-md #_(get formats format)
-        target (clay.io/target file "md" options)]
-    (-> (read-kinds/notebook file options)
-        (builder options)
-        (->> (idg/scope (str file)))
-        (->> (clay.io/spit! target)))
-    (when verbose
-      (println "Wrote" (str target)))))
+    (println "Rendering" (str file) (pr-str targets)))
+  (doseq [[target-dir target-options] targets
+          :let [options (merge options target-options)
+                {:keys [paths]} options]
+          :when (first (filter #(clay.io/inside? (io/file %) file) paths))]
+    (let [
+          {:keys [file-extension flavor]} options
+          compile (or (get-in flavors [flavor :compile])
+                      (throw (ex-info (str "Flavor '" flavor "' not found in " (keys flavors))
+                                      options)))
+          extension (or file-extension
+                        (get-in flavors [flavor :file-extension])
+                        "md")
+          target (clay.io/target target-dir file extension)
+          notebook (read-kinds/notebook file options)
+          result (idg/scope (str file) (compile notebook options))]
+      (clay.io/spit! target result)
+      (when verbose
+        (println "Wrote" (str target))))))
 
 ;; TODO: needs to handle relative paths better
 (defn render!

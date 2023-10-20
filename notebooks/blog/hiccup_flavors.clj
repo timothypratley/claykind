@@ -1,7 +1,4 @@
 ;; # Hiccup flavors
-
-;; Does this break Claykind? :(
-;; TODO: what should be the correct way to provide a top level h1?
 (ns blog.hiccup-flavors
   "Wherein we explore several flavors of hiccup"
   (:require [hiccup2.core :as hiccup2]
@@ -9,7 +6,6 @@
             [huff.core :as hhiccup]
             [scicloj.kind-hiccup.api :as khiccup]
             [scicloj.kindly.v4.kind :as kind]))
-
 
 ; ![Hiccup is concise](https://i.redd.it/59i7rh6wt3271.jpg)
 

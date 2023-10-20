@@ -1,3 +1,2 @@
-{:paths        ["notebooks"]
- :target-dir   "chapters"
- :evaluator    :babashka}
+{:targets   {"chapters" {}}
+ :evaluator :babashka}
