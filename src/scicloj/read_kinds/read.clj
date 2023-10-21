@@ -23,7 +23,8 @@
   When bound to a function the result will be ignored, but subsequent exceptions will propagate."
   [context ex]
   (throw (ex-info (str "Eval failed: " (ex-message ex))
-                  context
+                  {:id      ::eval-failed
+                   :context context}
                   ex)))
 
 (defn- eval-node
@@ -98,7 +99,7 @@
     ;; Babashka and Clojure can evaluate files with or without the header present,
     ;; it is up to the user to specify which evaluator to use in the options.
     #_(when (and babashka (not= evaluator :babashka))
-      (println "Warning: Babashka header detected while evaluating in Clojure"))
+        (println "Warning: Babashka header detected while evaluating in Clojure"))
     ;; must be eager to restore current bindings
     (mapv #(eval-node % options) nodes)))
 

@@ -51,7 +51,9 @@
     :tag (cond (= char \#) (assoc acc :tag (empty-or-div seen) :seen [] :mode :id)
                (= char \.) (assoc acc :tag (empty-or-div seen) :seen [] :mode :class)
                :else (update acc :seen conj char))
-    :id (cond (= char \#) (throw (ex-info "can't have 2 #'s in a tag." {:acc acc}))
+    :id (cond (= char \#) (throw (ex-info "can't have 2 #'s in a tag."
+                                          {:id  ::illegal-tag
+                                           :acc acc}))
               (= char \.) (assoc acc :id (str/join seen) :seen [] :mode :class) :else (update acc :seen conj char))
     :class (cond (= char \#) (-> acc
                                  (update :class (fn [c] (cond-> c (not-empty seen) (conj (str/join seen)))))

@@ -1,4 +1,9 @@
 ;; # Hiccup flavors
+
+;; This article examines the performance, error reporting, and output of several Hiccup implementations.
+
+;; ![Hiccup is concise](https://i.redd.it/59i7rh6wt3271.jpg)
+
 (ns blog.hiccup-flavors
   "Wherein we explore several flavors of hiccup"
   (:require [hiccup2.core :as hiccup2]
@@ -7,38 +12,74 @@
             [scicloj.kind-hiccup.api :as khiccup]
             [scicloj.kindly.v4.kind :as kind]))
 
-; ![Hiccup is concise](https://i.redd.it/59i7rh6wt3271.jpg)
 
-;; Hiccup uses vectors to represent elements, and maps to represent an element's attributes.
 
-(kind/hiccup
-  [:div "Hello " [:em "World"]])
+;; ## What is Hiccup?
 
-(str (hiccup2/html
-       [:div "Hello " [:em "World"]]))
+;; Hiccup is an approach to creating HTML strings.
+;; Hiccup uses vectors to represent HTML elements,
+;; and maps to represent an element's attributes.
 
-(str (hiccup2/html
-       [:table
-        [:thead
-         [:tr [:th "header1"] [:th "header2"]]]
-        [:tbody
-         [:tr [:td 1] [:td 2]]
-         [:tr [:td 3] [:td 4]]]]))
+(def my-div [:div {:style {:color "green"}}
+             "Hello "
+             [:em "World"]])
 
-; <table>
-;  <thead>
-;    <tr><th>header1</th><th>header2</th></tr>
-;  </thead>
-;  <tbody>
-;    <tr><td>1</td><td>2</td></tr>
-;    <tr><td>3</td><td>4</td></tr>
-;  </tbody>
-; </table>
+;; This data-structure can be compiled to an HTML string
+
+(str (hiccup2/html my-div))
+
+;; And if we view the HTML in a browser, it will render it like so:
+
+(kind/hiccup my-div)
+
+;; The transformation was:
+
+;; ```
+;; input data: [:tag {:attr "value"} ...child-elements...]
+;; output string: <tag attr="value">...child-elements...</tag>
+;; ```
+
+;; Here is a how we can construct a table
+
+(def my-table
+  [:table
+   [:thead
+    [:tr [:th "header1"] [:th "header2"]]]
+   [:tbody
+    [:tr [:td 1] [:td (inc 2)]]
+    [:tr [:td (Math/sqrt 3)] [:td (Math/pow 2 2)]]]])
+
+(str (hiccup2/html my-table))
+
+;; Notice that the in the string version it is harder to see the closing tags.
+;; Moreover, if you were editing the string, it is difficult to manage the hierarchy.
+;; One of the advantages of using a data-structure is that you can use structural editing to modify it.
+
+;; Here's what the resulting HTML looks like:
+
+(kind/hiccup my-table)
 
 ;; ## Templating
 
-;; Dissenters
+;; Did you notice in the table that we inserted some calculations?
+;; That wouldn't be possible when editing a string of HTML.
+;; Using a data-structure to represent HTML allows us to intermix computation.
+;; Doing so is a form of templating.
+;; Hiccup leverages Clojure's data-literals to allow us to mix code and data.
 
+;; Without Hiccup, the string based approach to templating is to write a string like so:
+
+;; `"<div>Hello {{name}}<div>"`
+
+;; And render it using a map of names to values like `{:name "World"}`.
+;; String templates and variable maps are more difficult to manage
+;; than just creating the data-structure you wanted in the first place.
+;; So that's another advantage to using Hiccup.
+
+;; ## Flavors
+
+;; Hiccup quickly became a popular way for creating HTML in the Clojure community,
+;; and several different implementations have sprung forth each with some extra features or goals.
 
 (def hiccup-implementations
   [{:name     "Hiccup"
@@ -51,7 +92,6 @@
     :author    "Arne Brasseur (plexus)"
     :id        'com.lambdaisland/hiccup
     :url       "https://github.com/lambdaisland/hiccup"
-    :platforms #{"Clojure"}
     :features  #{"auto-escape strings"
                  "fragments"
                  "components"
@@ -89,10 +129,12 @@
     :url      "https://github.com/timothypratley/claykind"
     :features #{"Babashka"}}])
 
+;; IDEA: feature matrix instead?
+
 (kind/table
-  {:column-names ["name" "author" "project" "features"]
+  {:column-names ["project" "features"]
    :row-vectors  (for [{:keys [name author id url features]} hiccup-implementations]
-                   [name author (kind/hiccup [:a {:href url} id]) features])})
+                   [[name author (kind/hiccup [:a {:href url} id])] features])})
 
 ;; ## Error Handling
 

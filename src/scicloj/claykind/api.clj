@@ -41,27 +41,31 @@
    :verbose          false
    :fail-if-warnings false})
 
-(defn- render* [^File file {:keys [targets verbose] :as options}]
+(defn- render* [target-dir ^File file {:keys [verbose file-extension flavor] :as options}]
   (when verbose
-    (println "Rendering" (str file) (pr-str targets)))
-  (doseq [[target-dir target-options] targets
-          :let [options (merge options target-options)
-                {:keys [paths]} options]
-          :when (first (filter #(clay.io/inside? (io/file %) file) paths))]
-    (let [
-          {:keys [file-extension flavor]} options
-          compile (or (get-in flavors [flavor :compile])
-                      (throw (ex-info (str "Flavor '" flavor "' not found in " (keys flavors))
-                                      options)))
-          extension (or file-extension
-                        (get-in flavors [flavor :file-extension])
-                        "md")
-          target (clay.io/target target-dir file extension)
-          notebook (read-kinds/notebook file options)
-          result (idg/scope (str file) (compile notebook options))]
-      (clay.io/spit! target result)
-      (when verbose
-        (println "Wrote" (str target))))))
+    (println "Rendering" (str file)))
+  (let [compile (or (get-in flavors [flavor :compile])
+                    (throw (ex-info (str "Flavor '" flavor "' not found in " (keys flavors))
+                                    {:id      ::flavor-not-found
+                                     :options options})))
+        extension (or file-extension
+                      (get-in flavors [flavor :file-extension])
+                      "md")
+        target (clay.io/target target-dir file extension)
+        notebook (read-kinds/notebook file options)
+        result (idg/scope (str file) (compile notebook options))]
+    (clay.io/spit! target result)
+    (when verbose
+      (println "Wrote" (str target)))))
+
+(defn- find-file-targets
+  "Given a file, figure out which targets require it to be rendered."
+  [file {:keys [targets] :as options}]
+  (for [[target-dir target-options] targets
+        :let [options (merge options target-options)
+              {:keys [paths]} options]
+        :when (first (filter #(clay.io/inside? (io/file %) file) paths))]
+    [target-dir options]))
 
 ;; TODO: needs to handle relative paths better
 (defn render!
@@ -77,21 +81,35 @@
    (let [options (merge default-options
                         (clay.io/find-config)
                         options)
-         {:keys [verbose paths]} options
-         files (clay.io/clojure-files paths)]
+         {:keys [verbose targets]} options]
      (when verbose
        (println "Claykind" version/version "render options:")
-       (pprint/pprint options)
-       (println "Found" (count files) "source files to render."))
-     (doseq [file files]
-       (render* file options))
+       (pprint/pprint options))
+     (if (seq targets)
+       (doseq [[target-dir target-options] targets
+               :let [options (merge options target-options)
+                     files (clay.io/clojure-files (:paths options))]]
+         (when verbose
+           (println "Found" (count files) "source files to render into '" target-dir "'."))
+         (doseq [file files]
+           (render* target-dir file options)))
+       (throw (ex-info (str "No targets configured")
+                       {:id      ::no-targets
+                        :options options})))
      (when verbose
        (println "Done."))))
   ([path options]
-   (render* (io/file path)
-            (merge default-options
-                   (clay.io/find-config)
-                   options))))
+   (let [file (io/file path)
+         options (merge default-options
+                        (clay.io/find-config)
+                        options)
+         file-targets (find-file-targets file options)]
+     (if (seq file-targets)
+       (doseq [[target-dir options] file-targets]
+         (render* target-dir file options))
+       (throw (ex-info (str "Failed to render file '" path "': No targets configured")
+                       {:id      ::no-targets-for-file
+                        :options options}))))))
 
 (comment
   (render! {:verbose true}))

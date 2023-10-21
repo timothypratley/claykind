@@ -9,7 +9,7 @@
     [:div
      [:div "Unimplemented: " [:code (pr-str kind)]]
      [:code (pr-str value)]]
-    [:code (pr-str value)]))
+    (str value)))
 
 (defn adapt-value [v]
   (adapt (ka/advise {:value v})))
