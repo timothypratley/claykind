@@ -1,7 +1,7 @@
 (ns scicloj.kind-adapters.to-markdown
   (:require [clojure.pprint :as pprint]
             [clojure.string :as str]
-            [scicloj.kind-adapters.to-hiccup :as to-hiccup]
+            [scicloj.kind-hiccup.to-hiccup :as to-hiccup]
             [scicloj.kind-hiccup.api :as kind-hiccup]
             [scicloj.kindly-advice.v1.api :as advice]))
 

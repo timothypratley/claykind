@@ -33,11 +33,6 @@
   (-> (kebab s)
       (str/replace clojure-file-ext-regex (str "." extension))))
 
-(def flavor-extensions
-  {"html"     "html"
-   "markdown" "md"
-   "gfm"      "md"})
-
 (defn target
   "Given a Clojure source file, constructs a file for output relative to target-dir if it exists."
   [target-dir ^File file extension]
@@ -54,12 +49,12 @@
         :when (clojure-source? file)]
     file))
 
-(defmacro check [x clause]
-  `(when (-> ~x ~clause)
-     ~x))
+(defn when-pred [x pred]
+  (when (pred x)
+     x))
 
 (defn find-config []
   (some-> (io/file "claykind.edn")
-          (check (.exists))
+          (when-pred (memfn ^File exists))
           (slurp)
           (edn/read-string)))

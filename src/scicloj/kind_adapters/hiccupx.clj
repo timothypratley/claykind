@@ -3,7 +3,7 @@
   (:require [clojure.pprint :as pprint]
             [clojure.string :as str]
             [malli.core :as m]
-            [scicloj.kind-adapters.to-hiccup :as ahiccup]
+            [scicloj.kind-hiccup.to-hiccup :as ahiccup]
             [scicloj.kindly-advice.v1.api :as ka]))
 
 (def ^:dynamic *escape?* true)

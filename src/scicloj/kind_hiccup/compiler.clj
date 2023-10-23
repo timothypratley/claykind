@@ -1,6 +1,6 @@
 (ns scicloj.kind-hiccup.compiler
   (:require [clojure.string :as str]
-            [scicloj.kind-adapters.to-hiccup :as ahiccup]
+            [scicloj.kind-hiccup.to-hiccup :as ahiccup]
             [scicloj.kindly-advice.v1.api :as ka]))
 
 (set! *warn-on-reflection* true)
@@ -8,7 +8,7 @@
 (declare compile-hiccup)
 
 (def primitive?
-  (some-fn string? number? boolean? nil?))
+  (some-fn string? number? boolean? keyword? symbol? nil?))
 
 (defn kind [x]
   ;; TODO: advise should indicate if user set or inferred
@@ -33,7 +33,8 @@
 (defn stringify [x]
   (cond (nil? x) ""
         (string? x) (str/escape x escapes)
-        (keyword? x) (str/escape (str (symbol x)) escapes)
+        (keyword? x) (str/escape (subs (str x) 1) escapes)
+        (symbol? x) (str/escape (str x) escapes)
         (ratio? x) (str (double x))
         (number? x) (str x)
         :else (str/escape (str x) escapes)))

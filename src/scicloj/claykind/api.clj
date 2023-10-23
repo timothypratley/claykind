@@ -5,7 +5,7 @@
             [scicloj.clay-builders.html-portal :as hpp]
             [scicloj.clay-builders.markdown-page :as mdp]
             [scicloj.claykind.io :as clay.io]
-            [scicloj.clay-builders.id-generator :as idg]
+            [scicloj.kind-hiccup.id-generator :as idg]
             [scicloj.claykind.version :as version]
             [scicloj.read-kinds.api :as read-kinds])
   (:import (java.io File)))

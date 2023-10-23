@@ -1,5 +1,9 @@
-(ns scicloj.kind-adapters.to-hiccup
-  (:require [clojure.data.json :as json]
+(ns scicloj.kind-hiccup.to-hiccup
+  (:require [backtick :as bt]
+            [clojure.data.json :as json]
+            [clojure.pprint :as pprint]
+            [clojure.string :as str]
+            [scicloj.kind-hiccup.id-generator :as idg]
             [scicloj.kindly-advice.v1.api :as ka]))
 
 (defmulti adapt :kind)
@@ -11,6 +15,9 @@
      [:code (pr-str value)]]
     (str value)))
 
+(defmethod adapt :kind/hiccup [{:keys [value]}]
+  value)
+
 (defn adapt-value [v]
   (adapt (ka/advise {:value v})))
 
@@ -18,7 +25,7 @@
   (into [:div props]
         ;; TODO: adapt outside! not a grid except by css
         (for [v vs]
-          [:div {:style {:border "1px solid grey"
+          [:div {:style {:border  "1px solid grey"
                          :padding "2px"}}
            (adapt-value v)])))
 
@@ -45,36 +52,61 @@
 ;; probably here, because kind/md exists also
 (defmethod adapt :kind/comment [context]
   [:p (:kindly/comment context)]
-  #_ (md/render (:kindly/comment context)))
+  #_(md/render (:kindly/comment context)))
 
 (defmethod adapt :kind/md [{:keys [value]}]
-  ;; TODO: this seems a bit wierd but is to support ^:kind/md ["markdown"]
-  [:p (if (coll? value)
-        (first value)
-        value)]
+  ;; value might be ^:kind/md ["markdown"] or just a string
+  [:p (cond (coll? value) (first value)
+            (string? value) value
+            :else (str value))]
   #_(md/render value))
 
 (defmethod adapt :kind/var [{:keys [value]}]
-  [:div "VAR" (str value)])
+  [:div (str value)])
 
 (defmethod adapt :kind/table [{:keys [value]}]
-  [:div "TABLE" (pr-str value)])
+  (let [{:keys [column-names row-vectors]} value]
+    [:table
+     [:thead
+      (into [:tr]
+            (for [header column-names]
+              [:th (adapt header)]))]
+     (into [:tbody]
+           (for [row row-vectors]
+             (into [:tr]
+                   (for [column row]
+                     [:td (adapt column)]))))]))
 
 (defmethod adapt :kind/seq [{:keys [value]}]
-  (into [:div] (map adapt-value value)))
+  (into [:div] (map adapt-value) value))
 
-(defn- vega [value]
+(defn vega [value]
   [:div {:style {:width "100%"}}
-   [:script
-    [:hiccup/raw-html
-     (str "vegaEmbed(document.currentScript.parentElement, " (json/write-str value) ");")]]])
+   [:script (str "vegaEmbed(document.currentScript.parentElement, " (json/write-str value) ");")]])
 
 (defmethod adapt :kind/vega [{:keys [value]}]
   (vega value))
 
-;; TODO: it would be nice if we had id passed in and didn't need a lambda
 (defmethod adapt :kind/vega-lite [{:keys [value]}]
   (vega value))
 
-(defmethod adapt :kind/hiccup [{:keys [value]}]
-  value)
+(defn format-code [form]
+  (binding [pprint/*print-pprint-dispatch* pprint/code-dispatch]
+    (with-out-str (pprint/pprint form))))
+
+(defn scittle [& forms]
+  [:script {:type "application/x-scittle"}
+   (str/join \newline (map format-code forms))])
+
+(defn reagent [component args]
+  (let [id (idg/gen-id)]
+    [:div {:id id}
+     (-> (bt/template (dom/render (js/document.getElementById ~id)
+                                  ~(into [component] args)))
+         (scittle))]))
+
+(defmethod adapt :kind/reagent [{:keys [value]}]
+  (if (vector? value)
+    (let [[component & args] value]
+      (reagent component args))
+    (reagent value nil)))

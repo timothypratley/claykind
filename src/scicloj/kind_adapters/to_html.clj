@@ -13,9 +13,9 @@
 
 (in-ns 'huff.core)
 
-(require '[scicloj.kind-adapters.to-hiccup :as ahiccup]
+(require '[scicloj.kind-hiccup.to-hiccup :as ahiccup]
          '[scicloj.kindly-advice.v1.api :as ka]
-         '[scicloj.clay-builders.id-generator :as idg]
+         '[scicloj.kind-hiccup.id-generator :as idg]
          '[clojure.pprint :as pprint])
 
 ;; ^:kind/dataset {}

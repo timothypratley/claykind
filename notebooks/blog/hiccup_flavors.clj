@@ -71,9 +71,14 @@
 
 ;; `"<div>Hello {{name}}<div>"`
 
+;; Templates are a mix of HTML and code which is easy to get wrong.
 ;; And render it using a map of names to values like `{:name "World"}`.
 ;; String templates and variable maps are more difficult to manage
 ;; than just creating the data-structure you wanted in the first place.
+
+;; Whereas with hiccup it's impossible to have unbalanced tags,
+;; and the code semantics are clear.
+;; There is no new language, you just use the host language.
 ;; So that's another advantage to using Hiccup.
 
 ;; ## Flavors
@@ -88,16 +93,16 @@
     :url      "https://github.com/weavejester/hiccup"
     :features #{"fragments"}}
 
-   {:name      "LambdaIsland Hiccup"
-    :author    "Arne Brasseur (plexus)"
-    :id        'com.lambdaisland/hiccup
-    :url       "https://github.com/lambdaisland/hiccup"
-    :features  #{"auto-escape strings"
-                 "fragments"
-                 "components"
-                 "style maps"
-                 "unsafe strings"
-                 "kebab-case"}}
+   {:name     "LambdaIsland Hiccup"
+    :author   "Arne Brasseur (plexus)"
+    :id       'com.lambdaisland/hiccup
+    :url      "https://github.com/lambdaisland/hiccup"
+    :features #{"auto-escape strings"
+                "fragments"
+                "components"
+                "style maps"
+                "unsafe strings"
+                "kebab-case"}}
 
    {:name     "Huff"
     :author   "Bryan Maass (escherize)"
@@ -172,3 +177,39 @@
    (hhiccup/html x)])
 
 (html [:div "Hello" [:em "World"]])
+
+(def tests
+  [[:div 'hello " world"]
+   [:div :hello " world"]
+   [:div #{"hello" "world"}]
+   ['("hello" "world")]
+   [{:a 1, :b 2}]])
+
+(str (hiccup2/html [:div 'hello " world"]))
+(str (hhiccup/html [:div 'hello " world"]))
+(str (lhiccup/html [:div 'hello " world"]))
+(str (khiccup/html [:div 'hello " world"]))
+
+(str (hiccup2/html [:div :hello " world"]))
+(str (hhiccup/html [:div :hello " world"]))
+(str (lhiccup/render [:div :hello " world"] {:doctype? false}))
+(str (khiccup/html [:div :hello " world"]))
+
+(str (hiccup2/html [:div #{"hello" "world"}]))
+(str (hhiccup/html [:div #{"hello" "world"}]))
+(str (lhiccup/render [:div #{"hello" "world"}] {:doctype? false}))
+(str (khiccup/html [:div #{"hello" "world"}]))
+
+(str (hiccup2/html ['("hello" "world")]))
+(str (hhiccup/html ['("hello" "world")]))
+(str (lhiccup/render ['("hello" "world")] {:doctype? false}))
+(str (khiccup/html ['("hello" "world")]))
+
+
+;; **transformer**
+;; "my-hiccup" -> "one true hiccup"
+;; maybe just use walk
+
+;; never
+
+;;

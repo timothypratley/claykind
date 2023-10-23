@@ -1,6 +1,6 @@
 (ns scicloj.clay-builders.html-plain
   (:require [scicloj.clay-builders.html_reagent :as cre]
-            [scicloj.kind-adapters.to-hiccup :as ahiccup]))
+            [scicloj.kind-hiccup.to-hiccup :as ahiccup]))
 
 (defn expr-result [{:keys [code] :as context}]
   ;; TODO: handle errors (in adapter???)

@@ -1,4 +1,4 @@
-(ns scicloj.clay-builders.id-generator
+(ns scicloj.kind-hiccup.id-generator
   (:require [clojure.string :as str]))
 
 (def ^:dynamic *scope-name* "unscoped")
