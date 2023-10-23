@@ -200,16 +200,15 @@
 (str (lhiccup/render [:div #{"hello" "world"}] {:doctype? false}))
 (str (khiccup/html [:div #{"hello" "world"}]))
 
-(str (hiccup2/html ['("hello" "world")]))
-(str (hhiccup/html ['("hello" "world")]))
-(str (lhiccup/render ['("hello" "world")] {:doctype? false}))
-(str (khiccup/html ['("hello" "world")]))
+(str (hiccup2/html ['(println "hello" "world")]))
+(str (hhiccup/html ['(println "hello" "world")]))
+(str (lhiccup/render ['(println "hello" "world")] {:doctype? false}))
+(str (khiccup/html ['(println "hello" "world")]))
 
 
-;; **transformer**
-;; "my-hiccup" -> "one true hiccup"
-;; maybe just use walk
+;; **kind-hiccup transformer**
+;; "kind-hiccup" -> "standard hiccup"
 
-;; never
+(str (khiccup/html ['(fn [] [:h1 "it works"])]))
 
-;;
+(kind/hiccup ['(fn [] [:h1 "it works"])])
