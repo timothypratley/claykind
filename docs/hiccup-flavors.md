@@ -66,6 +66,17 @@ This article examines the performance, error reporting, and output of several Hi
             [scicloj.kindly.v4.kind :as kind]))
 ```
 
+> **stderr**
+> 
+> ```
+> WARNING: abs already refers to: #'clojure.core/abs in namespace: garden.color, being replaced by: #'garden.color/abs
+> WARNING: test already refers to: #'clojure.core/test in namespace: scicloj.kindly.v4.kind, being replaced by: #'scicloj.kindly.v4.kind/test
+> WARNING: seq already refers to: #'clojure.core/seq in namespace: scicloj.kindly.v4.kind, being replaced by: #'scicloj.kindly.v4.kind/seq
+> WARNING: vector already refers to: #'clojure.core/vector in namespace: scicloj.kindly.v4.kind, being replaced by: #'scicloj.kindly.v4.kind/vector
+> WARNING: set already refers to: #'clojure.core/set in namespace: scicloj.kindly.v4.kind, being replaced by: #'scicloj.kindly.v4.kind/set
+> WARNING: map already refers to: #'clojure.core/map in namespace: scicloj.kindly.v4.kind, being replaced by: #'scicloj.kindly.v4.kind/map
+> ```
+
 > ```clojure
 > nil
 > ```
@@ -411,25 +422,25 @@ but maybe we do? (after all we encourage scittle and reagent)
 > ```
 
 ```clojure
-(str (hiccup2/html ['("hello" "world")]))
+(str (hiccup2/html ['(println "hello" "world")]))
 ```
 
 > **exception**
 > 
 > ```
-> Syntax error macroexpanding hiccup2/html at (/private/var/folders/8r/y2d3thln6s3fyrl_s6vknb440000gn/T/form-init13126710767890429850.clj:5:3).
+> Syntax error macroexpanding hiccup2/html at (0:0).
 > ```
 
 ```clojure
-(str (hhiccup/html ['("hello" "world")]))
+(str (hhiccup/html ['(println "hello" "world")]))
 ```
 
 > ```clojure
-> "helloworld"
+> "world"
 > ```
 
 ```clojure
-(str (lhiccup/render ['("hello" "world")] {:doctype? false}))
+(str (lhiccup/render ['(println "hello" "world")] {:doctype? false}))
 ```
 
 > **exception**
@@ -439,17 +450,29 @@ but maybe we do? (after all we encourage scittle and reagent)
 > ```
 
 ```clojure
-(str (khiccup/html ['("hello" "world")]))
+(str (khiccup/html ['(println "hello" "world")]))
 ```
 
 > ```clojure
-> "<script type=\"application/x-scittle\">(\"hello\" \"world\")\n</script>"
+> "<script type=\"application/x-scittle\">(println \"hello\" \"world\")\n</script>"
 > ```
 
-**transformer**
-"my-hiccup" -> "one true hiccup"
-maybe just use walk
+**kind-hiccup transformer**
+"kind-hiccup" -> "standard hiccup"
 
-never
+```clojure
+(str (khiccup/html ['(fn [] [:h1 "it works"])]))
+```
 
+> ```clojure
+> "<div id=\"unscoped-1\"><script type=\"application/x-scittle\">(dom/render\n  (js/document.getElementById \"unscoped-1\")\n  [(fn [] [:h1 \"it works\"])])\n</script></div>"
+> ```
 
+```clojure
+(kind/hiccup ['(fn [] [:h1 "it works"])])
+```
+
+<div id="notebooks/blog/hiccup_flavors.clj-1"><script type="application/x-scittle">(dom/render
+  (js/document.getElementById "notebooks/blog/hiccup_flavors.clj-1")
+  [(fn [] [:h1 "it works"])])
+</script></div>

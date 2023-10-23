@@ -16,14 +16,16 @@
                        (str/join))})
 
 (defmacro pred->
-  "Takes an expression and a set of pred/form pairs. Threads expr (via ->)
-  through each form for which the corresponding pred application is true.
+  "Takes an expression and a set of pred/form pairs.
+  Threads expr (via ->) through each form for which the corresponding
+  pred yields is true.
+  The pred clause is also threaded, so expressions like (= 1) are considered valid predicate clauses.
   Note that, unlike cond branching, pred-> threading does
   not short circuit after the first true pred expression."
   [expr & clauses]
   (assert (even? (count clauses)))
   (let [g (gensym)
-        steps (map (fn [[pred step]] `(if (~pred ~g) (-> ~g ~step) ~g))
+        steps (map (fn [[pred step]] `(if (-> ~g ~pred) (-> ~g ~step) ~g))
                    (partition 2 clauses))]
     `(let [~g ~expr
            ~@(interleave (repeat g) (butlast steps))]
