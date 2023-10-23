@@ -8,6 +8,7 @@
          metosin/malli             {:mvn/version "0.13.0"}
          hiccup/hiccup             {:mvn/version "2.0.0-RC1"}
          org.scicloj/kind-portal   {:mvn/version "1-alpha7"}
+         backtick/backtick         {:mvn/version "0.3.5"}
 
          ;; TODO: we don't want dependencies that don't work in babashka
          ;; but at the same time, it might be nice?

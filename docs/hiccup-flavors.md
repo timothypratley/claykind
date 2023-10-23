@@ -46,8 +46,15 @@
 }
 </style>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script><script type="text/javascript" src="https://unpkg.com/react@18/umd/react.production.min.js"></script><script type="text/javascript" src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script><script type="text/javascript" src="https://scicloj.github.io/scittle/js/scittle.js"></script><script type="text/javascript" src="https://scicloj.github.io/scittle/js/scittle.reagent.js"></script><script type="text/javascript" src="/js/portal-main.js"></script>
-<script type="application/x-scittle">[:hiccup/raw-html &quot;(ns main&#39;n                            (:require [reagent.core :as r]&#39;n                                      [reagent.dom :as dom]))&quot;]</script>
+<script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script><script src="/js/portal-main.js" type="text/javascript"></script>
+<script type="application/x-scittle">(require '[reagent.core :as r] '[reagent.dom :as dom])
+</script>
+
+# Hiccup flavors
+
+This article examines the performance, error reporting, and output of several Hiccup implementations.
+
+![Hiccup is concise](https://i.redd.it/59i7rh6wt3271.jpg)
 
 ```clojure
 (ns blog.hiccup-flavors
@@ -59,30 +66,126 @@
             [scicloj.kindly.v4.kind :as kind]))
 ```
 
-![Clay icon](https://i.redd.it/59i7rh6wt3271.jpg)
+> ```clojure
+> nil
+> ```
 
-Hiccup uses vectors to represent elements, and maps to represent an element's attributes.
+## What is Hiccup?
+
+Hiccup is an approach to creating HTML strings.
+Hiccup uses vectors to represent HTML elements,
+and maps to represent an element's attributes.
 
 ```clojure
-(kind/hiccup
-  [:div "Hello " [:em "World"]])
+(def my-div [:div {:style {:color "green"}}
+             "Hello "
+             [:em "World"]])
 ```
 
-[:div "Hello " [:em "World"]]
+> ```clojure
+> "#'blog.hiccup-flavors/my-div"
+> ```
+
+This data-structure can be compiled to an HTML string
+
+```clojure
+(str (hiccup2/html my-div))
+```
+
+> ```clojure
+> "<div style=\"color:green;\">Hello <em>World</em></div>"
+> ```
+
+And if we view the HTML in a browser, it will render it like so:
+
+```clojure
+(kind/hiccup my-div)
+```
+
+<div style="color:green;">Hello <em>World</em></div>
+
+The transformation was:
+
+```
+input data: [:tag {:attr "value"} ...child-elements...]
+output string: <tag attr="value">...child-elements...</tag>
+```
+
+Here is a how we can construct a table
+
+```clojure
+(def my-table
+  [:table
+   [:thead
+    [:tr [:th "header1"] [:th "header2"]]]
+   [:tbody
+    [:tr [:td 1] [:td (inc 2)]]
+    [:tr [:td (Math/sqrt 3)] [:td (Math/pow 2 2)]]]])
+```
+
+> ```clojure
+> "#'blog.hiccup-flavors/my-table"
+> ```
+
+```clojure
+(str (hiccup2/html my-table))
+```
+
+> ```clojure
+> "<table><thead><tr><th>header1</th><th>header2</th></tr></thead><tbody><tr><td>1</td><td>3</td></tr><tr><td>1.7320508075688772</td><td>4.0</td></tr></tbody></table>"
+> ```
+
+Notice that the in the string version it is harder to see the closing tags.
+Moreover, if you were editing the string, it is difficult to manage the hierarchy.
+One of the advantages of using a data-structure is that you can use structural editing to modify it.
+
+Here's what the resulting HTML looks like:
+
+```clojure
+(kind/hiccup my-table)
+```
+
+<table><thead><tr><th>header1</th><th>header2</th></tr></thead><tbody><tr><td>1</td><td>3</td></tr><tr><td>1.7320508075688772</td><td>4.0</td></tr></tbody></table>
+
+## Templating
+
+Did you notice in the table that we inserted some calculations?
+That wouldn't be possible when editing a string of HTML.
+Using a data-structure to represent HTML allows us to intermix computation.
+Doing so is a form of templating.
+Hiccup leverages Clojure's data-literals to allow us to mix code and data.
+
+Without Hiccup, the string based approach to templating is to write a string like so:
+
+`"<div>Hello {{name}}<div>"`
+
+Templates are a mix of HTML and code which is easy to get wrong.
+And render it using a map of names to values like `{:name "World"}`.
+String templates and variable maps are more difficult to manage
+than just creating the data-structure you wanted in the first place.
+
+Whereas with hiccup it's impossible to have unbalanced tags,
+and the code semantics are clear.
+There is no new language, you just use the host language.
+So that's another advantage to using Hiccup.
+
+## Flavors
+
+Hiccup quickly became a popular way for creating HTML in the Clojure community,
+and several different implementations have sprung forth each with some extra features or goals.
 
 ```clojure
 (def hiccup-implementations
-  [{:name   "Hiccup"
-    :author "James Reeves (weavejester)"
-    :id     'hiccup/hiccup
-    :url    "https://github.com/weavejester/hiccup"
+  [{:name     "Hiccup"
+    :author   "James Reeves (weavejester)"
+    :id       'hiccup/hiccup
+    :url      "https://github.com/weavejester/hiccup"
     :features #{"fragments"}}
 
-   {:name   "LambdaIsland Hiccup"
-    :author "Arne Brasseur (plexus)"
-    :id     'com.lambdaisland/hiccup
-    :url    "https://github.com/lambdaisland/hiccup"
-    :platforms #{"Clojure"}
+   {:name     "LambdaIsland Hiccup"
+    :author   "Arne Brasseur (plexus)"
+    :id       'com.lambdaisland/hiccup
+    :url      "https://github.com/lambdaisland/hiccup"
     :features #{"auto-escape strings"
                 "fragments"
                 "components"
@@ -90,13 +193,13 @@ Hiccup uses vectors to represent elements, and maps to represent an element's at
                 "unsafe strings"
                 "kebab-case"}}
 
-   {:name   "Huff"
-    :author "Bryan Maass (escherize)"
-    :id     'io.github.escherize/huff
-    :url    "https://github.com/escherize/huff"
-    :perf {:runtime 1
-           :compiled 1}
-    :tests {}
+   {:name     "Huff"
+    :author   "Bryan Maass (escherize)"
+    :id       'io.github.escherize/huff
+    :url      "https://github.com/escherize/huff"
+    :perf     {:runtime  1
+               :compiled 1}
+    :tests    {}
     :features #{"extendable grammar"
                 "unsafe strings"
                 "components"
@@ -108,35 +211,39 @@ Hiccup uses vectors to represent elements, and maps to represent an element's at
                 "(...) fragments"
                 "Extreme shorthand syntax [:. {:color :red}]"}}
 
-   {:name   "Reagent"
-    :author "Dan Holmsand (holmsand)"
-    :id     'reagent/reagent
-    :url    "https://github.com/reagent-project/reagent"
+   {:name     "Reagent"
+    :author   "Dan Holmsand (holmsand)"
+    :id       'reagent/reagent
+    :url      "https://github.com/reagent-project/reagent"
     :features #{"ClojureScript"}}
 
-   {:name   "kind-hiccup"
-    :author "Timothy Pratley"
-    :id     'org.scicloj/kind-hiccup
-    :url    "https://github.com/timothypratley/claykind"
+   {:name     "kind-hiccup"
+    :author   "Timothy Pratley"
+    :id       'org.scicloj/kind-hiccup
+    :url      "https://github.com/timothypratley/claykind"
     :features #{"Babashka"}}])
 ```
 
-#'blog.hiccup-flavors/hiccup-implementations
+> ```clojure
+> "#'blog.hiccup-flavors/hiccup-implementations"
+> ```
+
+IDEA: feature matrix instead?
 
 ```clojure
 (kind/table
-  {:column-names ["name" "author" "project" "features"]
+  {:column-names ["project" "features"]
    :row-vectors  (for [{:keys [name author id url features]} hiccup-implementations]
-                   [name author (kind/hiccup [:a {:href url} id]) features])})
+                   [[name author (kind/hiccup [:a {:href url} id])] features])})
 ```
 
-| name | author | project | features |
-| ---- | ---- | ---- | ---- |
-| Hiccup | James Reeves (weavejester) | <a href="https://github.com/weavejester/hiccup">hiccup/hiccup</a> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">fragments</div></div> |
-| LambdaIsland Hiccup | Arne Brasseur (plexus) | <a href="https://github.com/lambdaisland/hiccup">com.lambdaisland/hiccup</a> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">auto-escape strings</div><div style="border:1px solid grey;padding:2px;">kebab-case</div><div style="border:1px solid grey;padding:2px;">fragments</div><div style="border:1px solid grey;padding:2px;">components</div><div style="border:1px solid grey;padding:2px;">style maps</div><div style="border:1px solid grey;padding:2px;">unsafe strings</div></div> |
-| Huff | Bryan Maass (escherize) | <a href="https://github.com/escherize/huff">io.github.escherize/huff</a> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">(...) fragments</div><div style="border:1px solid grey;padding:2px;">Extreme shorthand syntax [:. {:color :red}]</div><div style="border:1px solid grey;padding:2px;">Parse tags in any order :div#id.c or :div.c#id</div><div style="border:1px solid grey;padding:2px;">extendable grammar</div><div style="border:1px solid grey;padding:2px;">components</div><div style="border:1px solid grey;padding:2px;">[:&lt;&gt; ...] fragments</div><div style="border:1px solid grey;padding:2px;">HTML-encoded by default</div><div style="border:1px solid grey;padding:2px;">Babashka</div><div style="border:1px solid grey;padding:2px;">style maps</div><div style="border:1px solid grey;padding:2px;">unsafe strings</div></div> |
-| Reagent | Dan Holmsand (holmsand) | <a href="https://github.com/reagent-project/reagent">reagent/reagent</a> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">ClojureScript</div></div> |
-| kind-hiccup | Timothy Pratley | <a href="https://github.com/timothypratley/claykind">org.scicloj/kind-hiccup</a> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">Babashka</div></div> |
+| project | features |
+| ---- | ---- |
+| <div class="kind_vector"><div style="border:1px solid grey;padding:2px;">Hiccup</div><div style="border:1px solid grey;padding:2px;">James Reeves (weavejester)</div><div style="border:1px solid grey;padding:2px;"><a href="https://github.com/weavejester/hiccup">hiccup/hiccup</a></div></div> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">fragments</div></div> |
+| <div class="kind_vector"><div style="border:1px solid grey;padding:2px;">LambdaIsland Hiccup</div><div style="border:1px solid grey;padding:2px;">Arne Brasseur (plexus)</div><div style="border:1px solid grey;padding:2px;"><a href="https://github.com/lambdaisland/hiccup">com.lambdaisland/hiccup</a></div></div> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">auto-escape strings</div><div style="border:1px solid grey;padding:2px;">kebab-case</div><div style="border:1px solid grey;padding:2px;">fragments</div><div style="border:1px solid grey;padding:2px;">components</div><div style="border:1px solid grey;padding:2px;">style maps</div><div style="border:1px solid grey;padding:2px;">unsafe strings</div></div> |
+| <div class="kind_vector"><div style="border:1px solid grey;padding:2px;">Huff</div><div style="border:1px solid grey;padding:2px;">Bryan Maass (escherize)</div><div style="border:1px solid grey;padding:2px;"><a href="https://github.com/escherize/huff">io.github.escherize/huff</a></div></div> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">(...) fragments</div><div style="border:1px solid grey;padding:2px;">Extreme shorthand syntax [:. {:color :red}]</div><div style="border:1px solid grey;padding:2px;">Parse tags in any order :div#id.c or :div.c#id</div><div style="border:1px solid grey;padding:2px;">extendable grammar</div><div style="border:1px solid grey;padding:2px;">components</div><div style="border:1px solid grey;padding:2px;">[:<> ...] fragments</div><div style="border:1px solid grey;padding:2px;">HTML-encoded by default</div><div style="border:1px solid grey;padding:2px;">Babashka</div><div style="border:1px solid grey;padding:2px;">style maps</div><div style="border:1px solid grey;padding:2px;">unsafe strings</div></div> |
+| <div class="kind_vector"><div style="border:1px solid grey;padding:2px;">Reagent</div><div style="border:1px solid grey;padding:2px;">Dan Holmsand (holmsand)</div><div style="border:1px solid grey;padding:2px;"><a href="https://github.com/reagent-project/reagent">reagent/reagent</a></div></div> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">ClojureScript</div></div> |
+| <div class="kind_vector"><div style="border:1px solid grey;padding:2px;">kind-hiccup</div><div style="border:1px solid grey;padding:2px;">Timothy Pratley</div><div style="border:1px solid grey;padding:2px;"><a href="https://github.com/timothypratley/claykind">org.scicloj/kind-hiccup</a></div></div> | <div class="kind_set"><div style="border:1px solid grey;padding:2px;">Babashka</div></div> |
 
 ## Error Handling
 
@@ -152,7 +259,7 @@ Handling of raw strings
 [:div "hello world" ['(fn [] [:div [myjscomponent]])]]
 ```
 
-[:div "hello world" [(fn [] [:div [myjscomponent]])]]
+<div class="kind_vector"><div style="border:1px solid grey;padding:2px;">:div</div><div style="border:1px solid grey;padding:2px;">hello world</div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><div>fn<div class="kind_vector"></div><div class="kind_vector"><div style="border:1px solid grey;padding:2px;">:div</div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;">myjscomponent</div></div></div></div></div></div></div></div></div>
 
 IDEA: something that just expands kinds might be better?
 
@@ -178,10 +285,171 @@ but maybe we do? (after all we encourage scittle and reagent)
    (hhiccup/html x)])
 ```
 
-#'blog.hiccup-flavors/html
+> ```clojure
+> "#'blog.hiccup-flavors/html"
+> ```
 
 ```clojure
 (html [:div "Hello" [:em "World"]])
 ```
 
-["<div>Hello<em>World</em></div>" "<div>Hello<em>World</em></div>" "<div>Hello<em>World</em></div>" "<div>Hello<em>World</em></div>"]
+<div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><div>Hello<em>World</em></div></div><div style="border:1px solid grey;padding:2px;"><div>Hello<em>World</em></div></div><div style="border:1px solid grey;padding:2px;"><div>Hello<em>World</em></div></div><div style="border:1px solid grey;padding:2px;"><div>Hello<em>World</em></div></div></div>
+
+```clojure
+(def tests
+  [[:div 'hello " world"]
+   [:div :hello " world"]
+   [:div #{"hello" "world"}]
+   ['("hello" "world")]
+   [{:a 1, :b 2}]])
+```
+
+> ```clojure
+> "#'blog.hiccup-flavors/tests"
+> ```
+
+```clojure
+(str (hiccup2/html [:div 'hello " world"]))
+```
+
+> ```clojure
+> "<div>hello world</div>"
+> ```
+
+```clojure
+(str (hhiccup/html [:div 'hello " world"]))
+```
+
+> **exception**
+> 
+> ```
+> Invalid huff form passed to html. See `huff.core/hiccup-schema` for more info
+> ```
+
+```clojure
+(str (lhiccup/html [:div 'hello " world"]))
+```
+
+> ```clojure
+> "clojure.lang.LazySeq@19ee3a74"
+> ```
+
+```clojure
+(str (khiccup/html [:div 'hello " world"]))
+```
+
+> ```clojure
+> "<div>hello world</div>"
+> ```
+
+```clojure
+(str (hiccup2/html [:div :hello " world"]))
+```
+
+> ```clojure
+> "<div>hello world</div>"
+> ```
+
+```clojure
+(str (hhiccup/html [:div :hello " world"]))
+```
+
+> **exception**
+> 
+> ```
+> Invalid huff form passed to html. See `huff.core/hiccup-schema` for more info
+> ```
+
+```clojure
+(str (lhiccup/render [:div :hello " world"] {:doctype? false}))
+```
+
+> ```clojure
+> "<div>:hello world</div>"
+> ```
+
+```clojure
+(str (khiccup/html [:div :hello " world"]))
+```
+
+> ```clojure
+> "<div>:hello world</div>"
+> ```
+
+```clojure
+(str (hiccup2/html [:div #{"hello" "world"}]))
+```
+
+> ```clojure
+> "<div>#{&quot;hello&quot; &quot;world&quot;}</div>"
+> ```
+
+```clojure
+(str (hhiccup/html [:div #{"hello" "world"}]))
+```
+
+> **exception**
+> 
+> ```
+> Invalid huff form passed to html. See `huff.core/hiccup-schema` for more info
+> ```
+
+```clojure
+(str (lhiccup/render [:div #{"hello" "world"}] {:doctype? false}))
+```
+
+> ```clojure
+> "<div>#{\"hello\" \"world\"}</div>"
+> ```
+
+```clojure
+(str (khiccup/html [:div #{"hello" "world"}]))
+```
+
+> ```clojure
+> "<div>#{\"hello\" \"world\"}</div>"
+> ```
+
+```clojure
+(str (hiccup2/html ['("hello" "world")]))
+```
+
+> **exception**
+> 
+> ```
+> Syntax error macroexpanding hiccup2/html at (/private/var/folders/8r/y2d3thln6s3fyrl_s6vknb440000gn/T/form-init13126710767890429850.clj:5:3).
+> ```
+
+```clojure
+(str (hhiccup/html ['("hello" "world")]))
+```
+
+> ```clojure
+> "helloworld"
+> ```
+
+```clojure
+(str (lhiccup/render ['("hello" "world")] {:doctype? false}))
+```
+
+> **exception**
+> 
+> ```
+> Not a valid hiccup tag
+> ```
+
+```clojure
+(str (khiccup/html ['("hello" "world")]))
+```
+
+> ```clojure
+> "<script type=\"application/x-scittle\">(\"hello\" \"world\")\n</script>"
+> ```
+
+**transformer**
+"my-hiccup" -> "one true hiccup"
+maybe just use walk
+
+never
+
+

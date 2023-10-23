@@ -1,6 +1,6 @@
 (ns scicloj.clay-builders.html-plain
   (:require [scicloj.clay-builders.html_reagent :as cre]
-            [scicloj.kind-hiccup.to-hiccup :as ahiccup]))
+            [scicloj.kind-hiccup.to-hiccup :as to-hiccup]))
 
 (defn expr-result [{:keys [code] :as context}]
   ;; TODO: handle errors (in adapter???)
@@ -8,7 +8,7 @@
    ;; code
    [:pre [:code code]]
    ;; value
-   (ahiccup/adapt context)])
+   (to-hiccup/adapt context)])
 
 ;; using reagent for some cases still
 #_

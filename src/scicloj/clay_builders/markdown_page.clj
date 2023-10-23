@@ -3,7 +3,6 @@
             [clojure.string :as str]
             [scicloj.kind-adapters.to-markdown :as to-markdown]
             [scicloj.kind-hiccup.api :as kind-hiccup]
-            [scicloj.kind-hiccup.api2 :as api2]
             [hiccup.page :as page]))
 
 ;; Markdown is sensitive to whitespace (especially newlines).
@@ -115,9 +114,8 @@
       ;; either detected, or requested, or they could just add it as hiccup??
       ;; (kind/hiccup '[(require [reagent.core :as r] [reagent.dom :as dom])])
       (kind-hiccup/html
-        (api2/scittle
-          '(require '[reagent.core :as r]
-                    '[reagent.dom :as dom]))))))
+        ['(require '[reagent.core :as r]
+                   '[reagent.dom :as dom])]))))
 
 (defn notes-to-md
   "Creates a markdown file from a notebook"

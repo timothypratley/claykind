@@ -1,4 +1,4 @@
 (ns user
-  (:require [scicloj.claykind.api :as clay]))
+  (:require [scicloj.claykind.api :as claykind]))
 
-(clay/render!)
+(claykind/render!)

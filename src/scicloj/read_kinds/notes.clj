@@ -15,14 +15,28 @@
    :kindly/comment (-> (map :kindly/comment comment-blocks)
                        (str/join))})
 
+(defmacro pred->
+  "Takes an expression and a set of pred/form pairs. Threads expr (via ->)
+  through each form for which the corresponding pred application is true.
+  Note that, unlike cond branching, pred-> threading does
+  not short circuit after the first true pred expression."
+  [expr & clauses]
+  (assert (even? (count clauses)))
+  (let [g (gensym)
+        steps (map (fn [[pred step]] `(if (~pred ~g) (-> ~g ~step) ~g))
+                   (partition 2 clauses))]
+    `(let [~g ~expr
+           ~@(interleave (repeat g) (butlast steps))]
+       ~(if (empty? steps)
+          g
+          (last steps)))))
+
 (def notebook-xform
   "Transducer to infer kinds, join comment blocks, and remove unnecessary whitespace."
   (comp
     ;; infer kinds
     (map (fn [context]
-           (if (-> context :kind #{:kind/comment :kind/whitespace :kind/uneval})
-             context
-             (ka/advise context))))
+           (pred-> context :value (ka/advise))))
     ;; join comment blocks -- whitespace and uneval still break them
     (partition-by (comp some? :kindly/comment))
     (mapcat (fn [part]
@@ -43,7 +57,8 @@
   (binding [*ns* (find-ns 'user)
             read/*on-eval-error* (when verbose
                                    (fn [context ex]
-                                     (println (str "ERROR rendering " file))
+                                     (println (str "ERROR evaluating " file))
+                                     ;; TODO: need to pass the file/line/column location through
                                      (println (str "at: " (pr-str context)))
                                      (println (str "ex: " (ex-message ex)))))]
     (read-file-as-notes file options)))
