@@ -5,9 +5,10 @@
             [scicloj.clay-builders.html-portal :as hpp]
             [scicloj.clay-builders.markdown-page :as mdp]
             [scicloj.claykind.io :as clay.io]
-            [scicloj.kind-hiccup.id-generator :as idg]
             [scicloj.claykind.version :as version]
-            [scicloj.read-kinds.api :as read-kinds])
+            [scicloj.kind-hiccup.id-generator :as idg]
+            [scicloj.read-kinds.api :as read-kinds]
+            [scicloj.read-kinds.notes :as notes])
   (:import (java.io File)))
 
 (set! *warn-on-reflection* true)
@@ -43,7 +44,7 @@
 
 (defn- render* [target-dir ^File file {:keys [verbose file-extension flavor] :as options}]
   (when verbose
-    (println "Rendering" (relativize file)))
+    (println "Rendering" (notes/relative-path file)))
   (let [compile (or (get-in flavors [flavor :compile])
                     (throw (ex-info (str "Flavor '" flavor "' not found in " (keys flavors))
                                     {:id      ::flavor-not-found
@@ -52,6 +53,7 @@
                       (get-in flavors [flavor :file-extension])
                       "md")
         target (clay.io/target target-dir file extension)
+        ;; TODO: should avoid re-reading for multiple targets
         notebook (read-kinds/notebook file options)
         result (idg/scope (str file) (compile notebook options))]
     (clay.io/spit! target result)

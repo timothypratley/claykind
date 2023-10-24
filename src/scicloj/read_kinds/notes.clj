@@ -9,39 +9,21 @@
             [clojure.string :as str]
             [scicloj.kindly-advice.v1.api :as ka]
             [scicloj.read-kinds.read :as read])
-  (:import (java.io File)
-           (java.net URI)
-           (java.nio.file Paths)))
+  (:import (java.io File)))
 
 (defn join-comment-blocks [comment-blocks]
   {:kind           :kind/comment
    :kindly/comment (-> (map :kindly/comment comment-blocks)
                        (str/join))})
 
-(defmacro pred->
-  "Takes an expression and a set of pred/form pairs.
-  Threads expr (via ->) through each form for which the corresponding
-  pred yields is true.
-  The pred clause is also threaded, so expressions like (= 1) are considered valid predicate clauses.
-  Note that, unlike cond branching, pred-> threading does
-  not short circuit after the first true pred expression."
-  [expr & clauses]
-  (assert (even? (count clauses)))
-  (let [g (gensym)
-        steps (map (fn [[pred step]] `(if (-> ~g ~pred) (-> ~g ~step) ~g))
-                   (partition 2 clauses))]
-    `(let [~g ~expr
-           ~@(interleave (repeat g) (butlast steps))]
-       ~(if (empty? steps)
-          g
-          (last steps)))))
-
 (def notebook-xform
   "Transducer to infer kinds, join comment blocks, and remove unnecessary whitespace."
   (comp
     ;; infer kinds
     (map (fn [context]
-           (pred-> context :value (ka/advise))))
+           (if (:value context)
+             (ka/advise context)
+             context)))
     ;; join comment blocks -- whitespace and uneval still break them
     (partition-by (comp some? :kindly/comment))
     (mapcat (fn [part]
@@ -109,9 +91,6 @@
   representing the original form, evaluated value, and kindly kind.
   Contexts are suitable for passing to visualization tools,
   or Kindly plugins that talk to visualization tools."
-  ;; TODO: pass a path instead for better errors
-  ;; TODO: do wrapped transducer catches work?
-  ;; TODO: remove helpers
   [^File file {:keys [evaluator] :as options}]
   {:file     file
    :contexts (if (= evaluator :babashka)

@@ -3,10 +3,6 @@
             [scicloj.kindly-advice.v1.api :as ka]
             [hiccup.core :as hiccup]))
 
-(defn when-pred [x pred]
-  (when (pred x)
-    x))
-
 (defn reagent?
   "Reagent components may be requested by symbol: `[my-component 1]`
    or by an inline function: `['(fn [] [:h1 123])]`"
@@ -20,24 +16,23 @@
   (complement #{:kind/vector :kind/set :kind/map :kind/seq :kind/hiccup}))
 
 (defn kind-request [x]
-  (when-pred (ka/advise {:value x}) (comp requested? :kind)))
+  (let [context (ka/advise {:value x})]
+    (when (requested? (:kind context))
+      context)))
 
 (defn expand [hiccup]
   (if-let [context (kind-request hiccup)]
     (to-hiccup/adapt context)
     (if (vector? hiccup)
       (let [[tag & children] hiccup
-            attrs (when-pred (first children) (every-pred map? (complement kind-request)))]
+            c (first children)
+            attrs (and (map? c) (not (kind-request c)) c)]
         (cond (reagent? tag) (to-hiccup/reagent tag children)
               (seq? tag) (apply to-hiccup/scittle tag children)
               :else (if attrs
                       (into [tag attrs] (map expand) (next children))
                       (into [tag] (map expand) children))))
       hiccup)))
-
-(comment
-  (expand [:div "Hello " [:em "world"]])
-  (expand [:div "Hello " [:em "world"] ['(fn [] (render-it!)) 2]]))
 
 (defn html
   "Given hiccup that may contain embedded kinds, returns an HTML string."

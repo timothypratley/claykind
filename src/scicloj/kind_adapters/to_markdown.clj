@@ -7,18 +7,15 @@
 
 (defmulti adapt :kind)
 
-;; TODO: not all markdown is nestable
-;; idea: note when inside a table, and behave accordingly
-;; or create HTML in those situations
-;; Main issue is that blocks can't exist inside tables
+(defmethod adapt :kind/var [{:keys [value]}]
+  (str value))
 
 (defn html [context options]
   (-> (to-hiccup/adapt context)
       (kind-hiccup/html)))
 
 (defn divide [xs options]
-  ;; CHOICE: this makes everything inside the table HTML,
-  ;; which is probably great...?
+  ;; Calling html here makes everything inside the table HTML
   (str "| " (str/join " | " (map #(html (advice/advise {:value %}) options)
                                  xs))
        " |"))
@@ -54,7 +51,6 @@
 ;; >```clojure
 ;; <pre><code>...</code></pre>
 
-;; TODO: how to specify a flavor?
 (defn pprint-block [value {:keys [flavor]}]
   (cond-> (with-out-str (pprint/pprint value))
           true (block (if (= flavor "gfm")
@@ -80,9 +76,10 @@
 (defmethod adapt :kind/map [{:keys [value]} options]
   (pprint-block value options))
 
-;; TODO: only want blocks as results
-(defmethod adapt :default [{:as   context
-                            :keys [kind value]} options]
-  (if kind
-    (html context options)
-    (pprint-block value options)))
+(defmethod adapt :default [context options]
+  (let [{:keys [kind value]} context
+        {:keys [flavor]} context]
+    ;; TODO: actually some things might work as HTML, only JavaScript wont work...
+    (if (and kind (= flavor "gfm"))
+      (html context options)
+      (pprint-block value options))))
