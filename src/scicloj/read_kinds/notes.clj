@@ -5,10 +5,13 @@
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
             [clojure.java.shell :as sh]
+            [clojure.pprint :as pprint]
             [clojure.string :as str]
             [scicloj.kindly-advice.v1.api :as ka]
             [scicloj.read-kinds.read :as read])
-  (:import (java.io File)))
+  (:import (java.io File)
+           (java.net URI)
+           (java.nio.file Paths)))
 
 (defn join-comment-blocks [comment-blocks]
   {:kind           :kind/comment
@@ -53,16 +56,27 @@
   [^File file options]
   (into [] notebook-xform (read/read-file file options)))
 
+(defn relative-path [^File file]
+  (-> (str (.relativize (.toURI (io/file ""))
+                        (.toURI (io/file file))))
+      (str/replace #"/$" "")))
+
+(defn pr-ex [ex label]
+  (println label (ex-message ex))
+  (when-let [data (ex-data ex)]
+    (pprint/pprint data))
+  (when-let [cause (ex-cause ex)]
+    (recur cause "CAUSE:")))
+
 (defn safe-read-notes
   "Like `read-notes` but stores errors in the advice."
   [^File file {:keys [verbose] :as options}]
   (binding [*ns* (find-ns 'user)
             read/*on-eval-error* (when verbose
                                    (fn [context ex]
-                                     (println (str "ERROR evaluating " file))
-                                     ;; TODO: need to pass the file/line/column location through
-                                     (println (str "at: " (pr-str context)))
-                                     (println (str "ex: " (ex-message ex)))))]
+                                     (println (str "ERROR evaluating " (relative-path file) ":" (:line context)))
+                                     (println (:code context))
+                                     (pr-ex ex "EXCEPTION:")))]
     (read-file-as-notes file options)))
 
 ;; This is a wrapper to handle invoking from bb command line
@@ -95,6 +109,9 @@
   representing the original form, evaluated value, and kindly kind.
   Contexts are suitable for passing to visualization tools,
   or Kindly plugins that talk to visualization tools."
+  ;; TODO: pass a path instead for better errors
+  ;; TODO: do wrapped transducer catches work?
+  ;; TODO: remove helpers
   [^File file {:keys [evaluator] :as options}]
   {:file     file
    :contexts (if (= evaluator :babashka)

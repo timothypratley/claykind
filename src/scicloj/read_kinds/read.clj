@@ -32,34 +32,34 @@
   A context represents a top level form evaluation."
   [node options]
   (let [tag (node/tag node)
-        code (node/string node)
-        {:keys [evaluator ctx]} options]
+        code (node/string node)]
     (case tag
-      (:newline :whitespace)
-      {:code code
-       :kind :kind/whitespace}
+      (:newline :whitespace) {:code code
+                              :kind :kind/whitespace}
 
-      :uneval
-      {:code code
-       :kind :kind/uneval}
+      :uneval {:code code
+               :kind :kind/uneval}
 
       ;; extract text from comments
-      :comment
-      {:code           code
-       :kind           :kind/comment
-       ;; remove leading semicolons or shebangs, and one non-newline space if present.
-       :kindly/comment (str/replace-first code #"^(;|#!)*[^\S\r\n]?" "")}
+      :comment {:code           code
+                :kind           :kind/comment
+                ;; remove leading semicolons or shebangs, and one non-newline space if present.
+                :kindly/comment (str/replace-first code #"^(;|#!)*[^\S\r\n]?" "")}
 
       ;; evaluate for value, taking care to capture stderr/stdout and exceptions
       (let [form (node/sexpr node)
+            {:keys [row col]} (meta node)
             out (new StringWriter)
             err (new StringWriter)
-            context {:code code
-                     :form form}
+            context {:line   row
+                     :column col
+                     :code   code
+                     :form   form}
             result (try
-                     ;; TODO: tap
+                     ;; TODO: capture tap?? or not - maybe users want that to escape??
                      (let [x (binding [*out* out
                                        *err* err]
+                               ;; TODO: things inside form wont have line/row, can we solve this by traversing?
                                (eval form))]
                        ;; TODO: vars cannot be sent across the babashka/clojure boundary
                        {:value (if (var? x)
@@ -87,7 +87,7 @@
   (-> (node/string node)
       (str/starts-with? "#!/usr/bin/env bb")))
 
-(defn- eval-ast [ast {:keys [evaluator] :as options}]
+(defn- eval-ast [ast options]
   "Given the root Abstract Syntax Tree node,
   returns a vector of contexts that represent evaluation"
   (let [top-level-nodes (node/children ast)

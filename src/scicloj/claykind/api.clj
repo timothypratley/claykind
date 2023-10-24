@@ -43,7 +43,7 @@
 
 (defn- render* [target-dir ^File file {:keys [verbose file-extension flavor] :as options}]
   (when verbose
-    (println "Rendering" (str file)))
+    (println "Rendering" (relativize file)))
   (let [compile (or (get-in flavors [flavor :compile])
                     (throw (ex-info (str "Flavor '" flavor "' not found in " (keys flavors))
                                     {:id      ::flavor-not-found
