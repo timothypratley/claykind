@@ -47,7 +47,7 @@
 </style>
 
 <link href="style.css" rel="stylesheet" type="text/css" />
-
+<script src="portal-main.js" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script>
 
 
 
@@ -71,12 +71,6 @@ This article examines the performance, error reporting, and output of several Hi
             [scicloj.kind-hiccup.api :as khiccup]
             [scicloj.kindly.v4.kind :as kind]))
 ```
-
-> **stderr**
-> 
-> ```
-> WARNING: abs already refers to: #'clojure.core/abs in namespace: garden.color, being replaced by: #'garden.color/abs
-> ```
 
 > **exception**
 > 
@@ -110,7 +104,7 @@ and maps to represent an element's attributes.
              [:em "World"]])
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'blog.hiccup-flavors/my-div
 > ```
 
@@ -163,7 +157,7 @@ Here is a how we can construct a table
     [:tr [:td (Math/sqrt 3)] [:td (Math/pow 2 2)]]]])
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'blog.hiccup-flavors/my-table
 > ```
 
@@ -286,7 +280,7 @@ and several different implementations have sprung forth each with some extra fea
     :features #{"Babashka"}}])
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'blog.hiccup-flavors/hiccup-implementations
 > ```
 
@@ -386,7 +380,7 @@ but maybe we do? (after all we encourage scittle and reagent)
    [{:a 1, :b 2}]])
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'blog.hiccup-flavors/tests
 > ```
 

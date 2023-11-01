@@ -11,23 +11,29 @@
             [scicloj.read-kinds.read :as read])
   (:import (java.io File)))
 
+(set! *warn-on-reflection* true)
+
 (defn join-comment-blocks [comment-blocks]
-  {:kind           :kind/comment
-   :kindly/comment (-> (map :kindly/comment comment-blocks)
-                       (str/join))})
+  {:kind  :kind/comment
+   :value (-> (map :value comment-blocks)
+              (str/join))})
+
+(defn comment? [context]
+  (= (:kind context) :kind/comment))
 
 (def notebook-xform
   "Transducer to infer kinds, join comment blocks, and remove unnecessary whitespace."
   (comp
     ;; infer kinds
     (map (fn [context]
-           (if (:value context)
-             (ka/advise context)
+           (if (and (contains? context :value)
+                    (not (contains? context :kind)))
+             (ka/top-level-advise context)
              context)))
     ;; join comment blocks -- whitespace and uneval still break them
-    (partition-by (comp some? :kindly/comment))
+    (partition-by comment?)
     (mapcat (fn [part]
-              (if (-> part first :kindly/comment)
+              (if (comment? (first part))
                 [(join-comment-blocks part)]
                 part)))
     ;; remove uneval and whitespace

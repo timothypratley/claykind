@@ -36,7 +36,7 @@ jobs:
           restore-keys: cljdeps-
 
       - name: Execute tests
-        run: clojure -M:dev:test
+        run: clojure -M:dev:test -m cognitect.test-runner
 
 # TODO: for this to work: change myusername to a valid Clojars username, generate a token, add it as a secret in github project settings
 #      - name: Deploy

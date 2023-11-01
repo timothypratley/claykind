@@ -47,7 +47,7 @@
 </style>
 
 <link href="style.css" rel="stylesheet" type="text/css" />
-
+<script src="portal-main.js" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script>
 
 
 
@@ -94,7 +94,7 @@ Babashka is, by design, as close to Clojure as possible.
 (def now (java.time.ZonedDateTime/now))
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'user/now
 > ```
 
@@ -102,7 +102,7 @@ Babashka is, by design, as close to Clojure as possible.
 (def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'user/LA-timezone
 > ```
 
@@ -110,7 +110,7 @@ Babashka is, by design, as close to Clojure as possible.
 (def LA-time (.withZoneSameInstant now LA-timezone))
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'user/LA-time
 > ```
 
@@ -118,7 +118,7 @@ Babashka is, by design, as close to Clojure as possible.
 (def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'user/pattern
 > ```
 

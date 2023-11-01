@@ -47,7 +47,7 @@
 </style>
 
 <link href="style.css" rel="stylesheet" type="text/css" />
-
+<script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script>
 
 
 ```clojure
@@ -88,7 +88,7 @@ as you can represent pretty much anything that can display in a browser.
    [:tr [:td 3] [:td 4]]])
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'kindly.grammars/hiccup-table
 > ```
 
@@ -115,7 +115,7 @@ Hiccup has a Malli schema that can be used to validate and parse:
    "hiccup"])
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'kindly.grammars/Hiccup
 > ```
 
@@ -127,7 +127,7 @@ Hiccup does not check for the creation of valid HTML; tags and attributes are no
 (def parse-hiccup (ma/parser Hiccup))
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'kindly.grammars/parse-hiccup
 > ```
 
@@ -205,7 +205,7 @@ Tools should be encouraged to accept a standardized data shape defined by a sche
    "table"])
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'kindly.grammars/Table
 > ```
 
@@ -230,7 +230,7 @@ Two popular grammars for plotting are Vega and ggplot2.
     :fill {:field "z", :type "nominal"}}})
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'kindly.grammars/vega-lite-point-plot
 > ```
 
@@ -245,7 +245,7 @@ Two popular grammars for plotting are Vega and ggplot2.
                        :y y}))))
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'kindly.grammars/random-data
 > ```
 
@@ -256,7 +256,7 @@ Two popular grammars for plotting are Vega and ggplot2.
       vega-lite-point-plot))
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'kindly.grammars/random-vega-lite-plot
 > ```
 
@@ -265,7 +265,7 @@ Two popular grammars for plotting are Vega and ggplot2.
 (random-vega-lite-plot 9)
 ```
 
-<div style="width:100%;"><img src="https://placehold.co/600x400" /></div>
+<div style="width:100%;"><script>vegaEmbed(document.currentScript.parentElement, {"encoding":{"y":{"field":"y","type":"quantitative"},"fill":{"field":"z","type":"nominal"},"size":{"field":"w","type":"quantitative"},"x":{"field":"x","type":"quantitative"}},"mark":"point","data":{"values":[{"y":0.15007372941770714,"w":6,"z":1,"x":0},{"y":0.027035728135016313,"w":1,"z":6,"x":1},{"y":0.39342591959323137,"w":7,"z":1,"x":2},{"y":0.5190256527887961,"w":2,"z":2,"x":3},{"y":0.7025621857367156,"w":0,"z":2,"x":4},{"y":0.6770455058115529,"w":3,"z":4,"x":5},{"y":1.0940250583983664,"w":0,"z":3,"x":6},{"y":0.6063206047304301,"w":8,"z":4,"x":7},{"y":0.44564016043827226,"w":7,"z":4,"x":8}]}});</script></div>
 
 
 

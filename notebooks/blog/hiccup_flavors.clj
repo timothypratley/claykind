@@ -12,6 +12,7 @@
             [scicloj.kind-hiccup.api :as khiccup]
             [scicloj.kindly.v4.kind :as kind]))
 
+(kind/md "hello world")
 
 
 ;; ## What is Hiccup?

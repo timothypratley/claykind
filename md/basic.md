@@ -47,7 +47,7 @@
 </style>
 
 <link href="style.css" rel="stylesheet" type="text/css" />
-
+<script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script>
 
 
 ```clojure
@@ -73,7 +73,7 @@
      9))
 ```
 
-> ```clojure
+> ```clojure {.printedClojure}
 > #'test.basic/f
 > ```
 

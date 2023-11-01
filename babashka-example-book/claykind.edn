@@ -1,2 +1,2 @@
-{:targets   {"chapters" {}}
+{:targets   {"chapters" {:flavor "markdown"}}
  :evaluator :babashka}

@@ -1,17 +1,16 @@
 {:paths ["src"]
- :deps  {org.clojure/clojure       {:mvn/version "1.11.0"}
-         org.clojure/data.json     {:mvn/version "2.4.0"}
-         org.clojure/tools.cli     {:mvn/version "1.0.219"}
-         org.scicloj/kindly-advice {:mvn/version "1-alpha3"}
-         rewrite-clj/rewrite-clj   {:mvn/version "1.1.47"}
-         io.github.escherize/huff  {:mvn/version "0.1.0"}
-         metosin/malli             {:mvn/version "0.13.0"}
-         hiccup/hiccup             {:mvn/version "2.0.0-RC1"}
-         org.scicloj/kind-portal   {:mvn/version "1-alpha7"}
-         backtick/backtick         {:mvn/version "0.3.5"}
+ :deps  {org.clojure/clojure            {:mvn/version "1.11.1"}
+         org.clojure/data.json          {:mvn/version "2.4.0"}
+         org.clojure/tools.cli          {:mvn/version "1.0.219"}
+         org.scicloj/kindly-advice      {:local/root "../kindly-advice" #_#_:mvn/version "1-alpha4"}
+         rewrite-clj/rewrite-clj        {:mvn/version "1.1.47"}
+         metosin/malli                  {:mvn/version "0.13.0"}
+         hiccup/hiccup                  {:mvn/version "2.0.0-RC2"}
+         org.scicloj/kind-portal        {:mvn/version "1-alpha7"}
+         io.github.nextjournal/markdown {:mvn/version "0.5.146"}
 
-         ;; TODO: we don't want dependencies that don't work in babashka
-         ;; but at the same time, it might be nice?
+         ;; TODO: this is a large dependency but at the same time, it might be nice?
+         ;; or maybe use nextjournal?
          ;;com.vladsch.flexmark/flexmark-all {:mvn/version "0.64.8"}
          }
 
@@ -20,21 +19,23 @@
   ;; Build with `clojure -T:dev build/jar` and `clojure -T:dev build/deploy`
   ;; Run example with `clojure -M:dev -m changed`
   ;; Render with `clojure -M:dev -m scicloj.claykind.main
-  :dev    {:extra-paths ["notebooks" "test" "examples" "dev"]
-           :extra-deps  {org.clojure/tools.build {:mvn/version "0.9.2"}
-                         slipset/deps-deploy     {:mvn/version "RELEASE"}
-                         djblue/portal           {:mvn/version "0.46.0"}
-                         org.scicloj/kindly      {:mvn/version "4-alpha4"}
+  :dev      {:extra-paths ["notebooks" "test" "examples" "dev"]
+             :extra-deps  {org.clojure/tools.build  {:mvn/version "0.9.2"}
+                           slipset/deps-deploy      {:mvn/version "0.2.1"}
+                           djblue/portal            {:mvn/version "0.48.0"}
+                           org.scicloj/kindly       {:mvn/version "4-alpha7"}
 
-                         ;; For comparison
-                         com.lambdaisland/hiccup {:mvn/version "0.0.33"}
-                         }}
-  ;; Run tests with `clojure -M:dev:test`
-  :test   {:extra-paths ["test"]
-           :extra-deps  {io.github.cognitect-labs/test-runner
-                         {:git/tag "v0.5.1" :git/sha "dfb30dd6605cb6c0efc275e1df1736f6e90d4d73"}}
-           :main-opts   ["-m" "cognitect.test-runner"]
-           :exec-fn     cognitect.test-runner.api/test}
+                           ;; For comparison
+                           io.github.escherize/huff {:mvn/version "0.1.8"}
+                           com.lambdaisland/hiccup  {:mvn/version "0.0.33"}}}
+  ;; Run tests with `clojure -M:dev:test -m cognitect.test-runner`
+  :test     {:extra-paths ["test"]
+             :extra-deps  {io.github.cognitect-labs/test-runner
+                           {:git/tag "v0.5.1" :git/sha "dfb30dd6605cb6c0efc275e1df1736f6e90d4d73"}}}
   ;; Format the code with `clojure -M:cljfmt`
-  :cljfmt {:main-opts  ["-m" "cljfmt.main"]
-           :extra-deps {cljfmt/cljfmt {:mvn/version "0.9.2"}}}}}
+  :cljfmt   {:main-opts  ["-m" "cljfmt.main"]
+             :extra-deps {cljfmt/cljfmt {:mvn/version "0.9.2"}}}
+  ;; Update dependencies with `clojure -M:outdated --every --write`
+  :outdated {:replace-deps {olical/depot        {:mvn/version "2.3.0"}
+                            org.slf4j/slf4j-nop {:mvn/version "1.7.32"}}
+             :main-opts    ["-m" "depot.outdated.main"]}}}

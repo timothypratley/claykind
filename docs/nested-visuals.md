@@ -52,16 +52,68 @@
 
 
 
-# More experiments
+# Nested Visuals
 
 ```clojure
-(range 9)
+(ns blog.nested-visuals
+  "Wherein we nest Kindly visualizations for fun and profit"
+  (:require [scicloj.kindly.v4.kind :as kind]))
 ```
 
-<div class="kind_seq"><div style="border:1px solid grey;padding:2px;">0</div><div style="border:1px solid grey;padding:2px;">1</div><div style="border:1px solid grey;padding:2px;">2</div><div style="border:1px solid grey;padding:2px;">3</div><div style="border:1px solid grey;padding:2px;">4</div><div style="border:1px solid grey;padding:2px;">5</div><div style="border:1px solid grey;padding:2px;">6</div><div style="border:1px solid grey;padding:2px;">7</div><div style="border:1px solid grey;padding:2px;">8</div></div>
+
+
+Intro
 
 ```clojure
-{:x (range 3)}
+(def x 1)
 ```
 
-<div class="kind_map"><div style="border:1px solid grey;padding:2px;">:x</div><div style="border:1px solid grey;padding:2px;"><div class="kind_seq"><div style="border:1px solid grey;padding:2px;">0</div><div style="border:1px solid grey;padding:2px;">1</div><div style="border:1px solid grey;padding:2px;">2</div></div></div></div>
+> ```clojure
+> #'blog.nested-visuals/x
+> ```
+
+```clojure
+(def my-svg
+  (kind/hiccup
+    [:svg {}
+     [:circle {:cx 50
+               :cy 50
+               :r  50}]]))
+```
+
+<svg><circle cx="50" cy="50" r="50"></circle></svg>
+
+```clojure
+(kind/portal [my-svg])
+```
+
+<pre><code>^#:kindly{:kind :kind/hiccup}
+[:svg {} [:circle {:r 50, :cx 50, :cy 50}]]
+</code></pre>
+
+
+
+Visualization requests
+
+```clojure
+(kind/table
+  {:column-names ["project" "features"]
+   :row-vectors  [[]
+                  []]})
+```
+
+| project | features |
+| ---- | ---- |
+|  |
+|  |
+
+```clojure
+^:kind/hiccup
+(def a
+  [:svg {}
+   [:circle {:cx 50
+             :cy 50
+             :r 20}]])
+```
+
+<svg><circle cx="50" cy="50" r="20"></circle></svg>

@@ -41,10 +41,10 @@
                :kind :kind/uneval}
 
       ;; extract text from comments
-      :comment {:code           code
-                :kind           :kind/comment
+      :comment {:code  code
+                :kind  :kind/comment
                 ;; remove leading semicolons or shebangs, and one non-newline space if present.
-                :kindly/comment (str/replace-first code #"^(;|#!)*[^\S\r\n]?" "")}
+                :value (str/replace-first code #"^(;|#!)*[^\S\r\n]?" "")}
 
       ;; evaluate for value, taking care to capture stderr/stdout and exceptions
       (let [form (node/sexpr node)
@@ -56,15 +56,11 @@
                      :code   code
                      :form   form}
             result (try
-                     ;; TODO: capture tap?? or not - maybe users want that to escape??
+                     ;; TODO: capture `tap` or not?
                      (let [x (binding [*out* out
                                        *err* err]
-                               ;; TODO: things inside form wont have line/row, can we solve this by traversing?
                                (eval form))]
-                       ;; TODO: vars cannot be sent across the babashka/clojure boundary
-                       {:value (if (var? x)
-                                 (str x)
-                                 x)})
+                       {:value x})
                      (catch Throwable ex
                        (when *on-eval-error*
                          (*on-eval-error* context ex))

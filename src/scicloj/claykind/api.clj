@@ -1,39 +1,22 @@
 (ns scicloj.claykind.api
   (:require [clojure.java.io :as io]
             [clojure.pprint :as pprint]
-            [scicloj.clay-builders.html-plain :as html]
-            [scicloj.clay-builders.html-portal :as hpp]
-            [scicloj.clay-builders.markdown-page :as mdp]
+            [scicloj.kindly-render.notes-html :as notes-html]
+            [scicloj.kindly-render.notes-portal :as notes-portal]
+            [scicloj.kindly-render.notes-markdown :as notes-markdown]
+            [scicloj.kindly-render.value-hiccup :as value-hiccup]
             [scicloj.claykind.io :as clay.io]
             [scicloj.claykind.version :as version]
-            [scicloj.kind-hiccup.id-generator :as idg]
             [scicloj.read-kinds.api :as read-kinds]
             [scicloj.read-kinds.notes :as notes])
   (:import (java.io File)))
 
 (set! *warn-on-reflection* true)
 
-(def flavors
-  {"html"     {:compile        html/notes-to-html
-               :file-extension "html"
-               :docs           "https://developer.mozilla.org/en-US/docs/Learn/HTML"
-               :spec           "https://www.w3.org/TR/2011/WD-html5-20110405/"}
-   "portal"   {:compile        hpp/notes-to-html-portal
-               :file-extension "html"
-               :docs           "https://github.com/djblue/portal"
-               :spec           "https://github.com/djblue/portal/blob/master/src/portal/api.cljc"}
-   "markdown" {:compile        mdp/notes-to-md
-               :file-extension "md"
-               :docs           "https://pandoc.org/MANUAL.html#pandocs-markdown"
-               :spec           "https://pandoc.org/"}
-   "gfm"      {:compile        mdp/notes-to-md
-               :file-extension "md"
-               :docs           "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
-               :spec           "https://github.github.com/gfm/"}})
-
 ;; slides are the same markdown with different build time stuff
 ;; Steps should be visible
 ;; front-matter per file vs ___ for book
+;; TODO: instead of building 2 flavors, maybe user should be encouraged to choose the flavor(s) they want
 (def default-options
   {:paths            ["notebooks"]
    :flavor           "gfm"
@@ -42,20 +25,39 @@
    :verbose          false
    :fail-if-warnings false})
 
+(def flavors
+  {"html"     {:render         notes-html/notes-to-html
+               :file-extension "html"
+               :docs           "https://developer.mozilla.org/en-US/docs/Learn/HTML"
+               :spec           "https://www.w3.org/TR/2011/WD-html5-20110405/"}
+   "portal"   {:render         notes-portal/notes-to-html-portal
+               :file-extension "html"
+               :docs           "https://github.com/djblue/portal"
+               :spec           "https://github.com/djblue/portal/blob/master/src/portal/api.cljc"}
+   "markdown" {:render         notes-markdown/notes-to-md
+               :file-extension "md"
+               :docs           "https://pandoc.org/MANUAL.html#pandocs-markdown"
+               :spec           "https://pandoc.org/"}
+   "gfm"      {:render         notes-markdown/notes-to-md
+               :file-extension "md"
+               :docs           "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
+               :spec           "https://github.github.com/gfm/"}})
+
 (defn- render* [target-dir ^File file {:keys [verbose file-extension flavor] :as options}]
   (when verbose
     (println "Rendering" (notes/relative-path file)))
-  (let [compile (or (get-in flavors [flavor :compile])
-                    (throw (ex-info (str "Flavor '" flavor "' not found in " (keys flavors))
-                                    {:id      ::flavor-not-found
-                                     :options options})))
+  (let [render (or (get-in flavors [flavor :render])
+                   (throw (ex-info (str "Flavor '" flavor "' not found in " (keys flavors))
+                                   {:id      ::flavor-not-found
+                                    :options options})))
         extension (or file-extension
                       (get-in flavors [flavor :file-extension])
                       "md")
         target (clay.io/target target-dir file extension)
         ;; TODO: should avoid re-reading for multiple targets
         notebook (read-kinds/notebook file options)
-        result (idg/scope (str file) (compile notebook options))]
+        ;; TODO: should pass the source filename instead of putting scope here
+        result (value-hiccup/scope (str file) (render notebook options))]
     (clay.io/spit! target result)
     (when verbose
       (println "Wrote" (str target)))))
@@ -70,6 +72,7 @@
     [target-dir options]))
 
 ;; TODO: needs to handle relative paths better
+;; TODO: needs to be a form arity!
 (defn render!
   "Renders Clojure source as Markdown.
   Options may be provided from a file `claykind.edn` in the project root,

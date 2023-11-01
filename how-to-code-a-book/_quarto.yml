@@ -18,9 +18,9 @@ book:
   open-graph: true
   chapters:
     - index.md
-    - docs/c01-introduction.md
-    - docs/c02-principles.md
-    - docs/c03-coding.md
-    - docs/c04-colating.md
-    - docs/c05-options.md
-    - docs/c06-references.md
+    - md/c01-introduction.md
+    - md/c02-principles.md
+    - md/c03-coding.md
+    - md/c04-colating.md
+    - md/c05-options.md
+    - md/c06-references.md
