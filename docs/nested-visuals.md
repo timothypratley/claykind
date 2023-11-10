@@ -48,9 +48,11 @@
 
 <link href="style.css" rel="stylesheet" type="text/css" />
 
-
-
-
+<pre><code>(require
+  '[reagent.core :as r]
+  '[reagent.dom :as dom]
+  '[clojure.str :as str])
+</code></pre>
 
 # Nested Visuals
 
@@ -60,17 +62,11 @@
   (:require [scicloj.kindly.v4.kind :as kind]))
 ```
 
-
-
 Intro
 
 ```clojure
 (def x 1)
 ```
-
-> ```clojure
-> #'blog.nested-visuals/x
-> ```
 
 ```clojure
 (def my-svg
@@ -90,8 +86,6 @@ Intro
 <pre><code>^#:kindly{:kind :kind/hiccup}
 [:svg {} [:circle {:r 50, :cx 50, :cy 50}]]
 </code></pre>
-
-
 
 Visualization requests
 

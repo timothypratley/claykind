@@ -47,10 +47,12 @@
 </style>
 
 <link href="style.css" rel="stylesheet" type="text/css" />
-
-
-
-
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script>
+<pre><code>(require
+  '[reagent.core :as r]
+  '[reagent.dom :as dom]
+  '[clojure.str :as str])
+</code></pre>
 
 # More experiments
 

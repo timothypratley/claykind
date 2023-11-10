@@ -10,16 +10,19 @@
    ;; value
    (value-hiccup/adapt context options)])
 
-(defn page [elements]
+(defn page [elements options]
   (page/html5
     [:head
      (page/include-css "style.css")
-     (apply page/include-js (value-hiccup/include-js))]
+     (apply page/include-js (value-hiccup/include-js))
+     (value-hiccup/scittle '[(require '[reagent.core :as r]
+                                      '[reagent.dom :as dom])]
+                           options)]
     (into [:body] elements)))
 
 ;; TODO: ways to control order... sort by metadata?
 (defn notes-to-html
   "Creates a markdown file from a notebook"
   [{:keys [contexts]} options]
-  (->> (mapv #(expr-result % options) contexts)
-       (page)))
+  (-> (mapv #(expr-result % options) contexts)
+      (page options)))

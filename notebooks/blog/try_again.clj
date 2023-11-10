@@ -1,3 +1,5 @@
+; # Try Again
+^:kind/hidden
 (ns blog.try-again)
 
 ; One thing that I love about Clojure is that the Read-Eval-Print-Loop (REPL)

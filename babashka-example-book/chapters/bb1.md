@@ -46,8 +46,12 @@
 }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script><script src="/js/portal-main.js" type="text/javascript"></script>
-<script type="application/x-scittle">(require '[reagent.core :as r] '[reagent.dom :as dom])
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script>
+<script type="application/x-scittle">(require
+  '[reagent.core :as r]
+  '[reagent.dom :as dom]
+  '[clojure.str :as str])
 </script>
 
 # More experiments
@@ -56,14 +60,10 @@
 (range 9)
 ```
 
-> ```clojure {.printedClojure}
-> (0 1 2 3 4 5 6 7 8)
-> ```
+<div class="kind_seq"><div style="border:1px solid grey;padding:2px;">8</div><div style="border:1px solid grey;padding:2px;">7</div><div style="border:1px solid grey;padding:2px;">6</div><div style="border:1px solid grey;padding:2px;">5</div><div style="border:1px solid grey;padding:2px;">4</div><div style="border:1px solid grey;padding:2px;">3</div><div style="border:1px solid grey;padding:2px;">2</div><div style="border:1px solid grey;padding:2px;">1</div><div style="border:1px solid grey;padding:2px;">0</div></div>
 
 ```clojure
 {:x (range 3)}
 ```
 
-> ```clojure {.printedClojure}
-> {:x (0 1 2)}
-> ```
+<div class="kind_map"><div style="border:1px solid grey;padding:2px;">:x</div><div style="border:1px solid grey;padding:2px;"><div class="kind_seq"><div style="border:1px solid grey;padding:2px;">2</div><div style="border:1px solid grey;padding:2px;">1</div><div style="border:1px solid grey;padding:2px;">0</div></div></div></div>

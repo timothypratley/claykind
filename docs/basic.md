@@ -48,13 +48,15 @@
 
 <link href="style.css" rel="stylesheet" type="text/css" />
 
-
+<pre><code>(require
+  '[reagent.core :as r]
+  '[reagent.dom :as dom]
+  '[clojure.str :as str])
+</code></pre>
 
 ```clojure
 (ns test.basic)
 ```
-
-
 
 # section 1
 
@@ -73,21 +75,13 @@
      9))
 ```
 
-> ```clojure
-> #'test.basic/f
-> ```
-
 ```clojure
 (f 20)
 ```
 
 29
 
-
-
 # section 2
-
-
 
 What if I told you
 
@@ -108,19 +102,13 @@ And that you can do HTML?
 
 <div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><div class="kind_seq"><div style="border:1px solid grey;padding:2px;">0</div><div style="border:1px solid grey;padding:2px;">1</div><div style="border:1px solid grey;padding:2px;">2</div><div style="border:1px solid grey;padding:2px;">3</div><div style="border:1px solid grey;padding:2px;">4</div><div style="border:1px solid grey;padding:2px;">5</div><div style="border:1px solid grey;padding:2px;">6</div><div style="border:1px solid grey;padding:2px;">7</div><div style="border:1px solid grey;padding:2px;">8</div><div style="border:1px solid grey;padding:2px;">9</div><div style="border:1px solid grey;padding:2px;">10</div><div style="border:1px solid grey;padding:2px;">11</div><div style="border:1px solid grey;padding:2px;">12</div><div style="border:1px solid grey;padding:2px;">13</div><div style="border:1px solid grey;padding:2px;">14</div><div style="border:1px solid grey;padding:2px;">15</div><div style="border:1px solid grey;padding:2px;">16</div><div style="border:1px solid grey;padding:2px;">17</div><div style="border:1px solid grey;padding:2px;">18</div><div style="border:1px solid grey;padding:2px;">19</div></div></div><div style="border:1px solid grey;padding:2px;"><div class="kind_seq"><div style="border:1px solid grey;padding:2px;">19</div><div style="border:1px solid grey;padding:2px;">18</div><div style="border:1px solid grey;padding:2px;">17</div><div style="border:1px solid grey;padding:2px;">16</div><div style="border:1px solid grey;padding:2px;">15</div><div style="border:1px solid grey;padding:2px;">14</div><div style="border:1px solid grey;padding:2px;">13</div><div style="border:1px solid grey;padding:2px;">12</div><div style="border:1px solid grey;padding:2px;">11</div><div style="border:1px solid grey;padding:2px;">10</div><div style="border:1px solid grey;padding:2px;">9</div><div style="border:1px solid grey;padding:2px;">8</div><div style="border:1px solid grey;padding:2px;">7</div><div style="border:1px solid grey;padding:2px;">6</div><div style="border:1px solid grey;padding:2px;">5</div><div style="border:1px solid grey;padding:2px;">4</div><div style="border:1px solid grey;padding:2px;">3</div><div style="border:1px solid grey;padding:2px;">2</div><div style="border:1px solid grey;padding:2px;">1</div><div style="border:1px solid grey;padding:2px;">0</div></div></div></div>
 
-
-
 We can add things that translate to the existing kindly specs...
 But! Now I have this different thing; SVG images, tables that have double rows.
 Pushing handling code out the display tools
 The categories of features
 
-
-
 Notice that there is only whitespace between this comment and the previous one,
 and that the whitespace was preserved in the markdown. Wonderful!
-
-
 
 Possible feature: Order of evaluation
 present the last form first!

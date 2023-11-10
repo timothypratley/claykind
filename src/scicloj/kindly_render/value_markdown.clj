@@ -4,15 +4,16 @@
             [hiccup.core :as hiccup]
             [scicloj.kindly-render.from-markdown :as from-markdown]
             [scicloj.kindly-render.value-hiccup :as value-hiccup]
-            [scicloj.kindly-advice.v1.api :as ka]))
+            [scicloj.read-kinds.notes :as notes]))
 
 (defmulti adapt :kind)
 
+;; TODO: might not be necessary??
+;; Don't show
+(defmethod adapt :kind/hidden [context options])
+
 (defmethod adapt :kind/code [{:keys [code]} options]
   code)
-
-(defmethod adapt :kind/comment [{:keys [value]} options]
-  value)
 
 (defmethod adapt :kind/md [{:keys [value]} options]
   (from-markdown/normalize-md value))
@@ -23,26 +24,9 @@
 
 (defn divide [xs options]
   ;; Calling html here makes everything inside the table HTML
-  (str "| " (str/join " | " (map #(html (ka/derefing-advise {:value %}) options)
+  (str "| " (str/join " | " (map #(html (notes/derefing-advise {:value %}) options)
                                  xs))
        " |"))
-
-#_(defn crystalize [x]
-  (cond (instance? clojure.lang.IDeref x) (crystalize @x)
-        (map-entry? x) (mapv crystalize x)
-        (coll? x) (into (empty x) (map crystalize) x)
-        :else x))
-#_(comment
-  (crystalize (atom 1))
-  (crystalize {:foo (atom 1)})
-  (crystalize {:foo #{(atom (atom 1))}}))
-
-#_
-(defn nested-kinds? [x]
-  (->> (tree-seq coll? seq x)
-       (filter value-hiccup/kind-request)
-       (first)
-       (boolean)))
 
 (defmethod adapt :kind/table [{:keys [value]} options]
   (let [{:keys [column-names row-vectors]} value]
@@ -89,8 +73,8 @@
 (defmethod adapt :kind/pprint [{:keys [value]} options]
   (result-pprint value options))
 
-(defmethod adapt :kind/var [{:keys [value]} options]
-  (result-block (str value) options))
+;; Don't show vars
+(defmethod adapt :kind/var [{:keys [value]} options])
 
 (comment
   ;; leaving collections to html to allow nesting consistently

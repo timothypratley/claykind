@@ -1,2 +1,3 @@
 {:targets   {"chapters" {:flavor "markdown"}}
+ :verbose true
  :evaluator :babashka}

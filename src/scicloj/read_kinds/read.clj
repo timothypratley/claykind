@@ -71,14 +71,6 @@
                (when (seq out-str) {:out out-str})
                (when (seq err-str) {:err err-str}))))))
 
-(defn read-string
-  "Parse and evaluate the first form in a string.
-  Suitable for sending text representing one thing for visualization."
-  ([code] (read-string code {}))
-  ([code options]
-   (-> (parser/parse-string code)
-       (eval-node options))))
-
 (defn- babashka? [node]
   (-> (node/string node)
       (str/starts-with? "#!/usr/bin/env bb")))
@@ -99,6 +91,21 @@
     ;; must be eager to restore current bindings
     (mapv #(eval-node % options) nodes)))
 
+
+;; TODO: DRY
+(defn read-string
+  "Parse and evaluate the first form in a string.
+  Suitable for sending text representing one thing for visualization."
+  ([code] (read-string code {}))
+  ([code options]
+   (validate-options options)
+   ;; preserve current bindings (they will be reset to original)
+   (binding [*ns* *ns*
+             *warn-on-reflection* *warn-on-reflection*
+             *unchecked-math* *unchecked-math*]
+     (-> (parser/parse-string code)
+         (eval-node options)))))
+
 (defn read-string-all
   "Parse and evaluate all forms in a string.
   Suitable for sending a selection of text for visualization.
@@ -106,14 +113,20 @@
   ([code] (read-string-all code {}))
   ([code options]
    (validate-options options)
-   (-> (parser/parse-string-all code)
-       (eval-ast options))))
+   ;; preserve current bindings (they will be reset to original)
+   (binding [*ns* *ns*
+             *warn-on-reflection* *warn-on-reflection*
+             *unchecked-math* *unchecked-math*]
+     (-> (parser/parse-string-all code)
+         (eval-ast options)))))
 
+;; TODO: DRY
 (defn read-file
   "Similar to `clojure.core/load-file`,
   but returns a representation of the forms and results of evaluation.
   Suitable for processing an entire namespace."
   [file options]
+  (validate-options options)
   ;; preserve current bindings (they will be reset to original)
   (binding [*ns* *ns*
             *warn-on-reflection* *warn-on-reflection*

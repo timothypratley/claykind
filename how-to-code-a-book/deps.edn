@@ -1,5 +1,5 @@
 {:paths ["src"]
- :deps {}
+ :deps {org.scicloj/kindly {:mvn/version "4-alpha7"}}
  :aliases
  ;; Build with `clojure -M:dev -m scicloj.claykind.main`
  {:dev {:extra-paths ["dev"]

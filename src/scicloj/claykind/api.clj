@@ -21,29 +21,30 @@
   {:paths            ["notebooks"]
    :flavor           "gfm"
    :targets          {"docs" {:flavor "gfm"}
-                      "md"   {:flavor "markdown"}}
+                      "md"   {:flavor "markdown"}
+                      "html" {:flavor "html"}}
    :verbose          false
    :fail-if-warnings false})
 
 (def flavors
-  {"html"     {:render         notes-html/notes-to-html
+  {"html"     {:render         #'notes-html/notes-to-html
                :file-extension "html"
                :docs           "https://developer.mozilla.org/en-US/docs/Learn/HTML"
                :spec           "https://www.w3.org/TR/2011/WD-html5-20110405/"}
-   "portal"   {:render         notes-portal/notes-to-html-portal
+   "portal"   {:render         #'notes-portal/notes-to-html-portal
                :file-extension "html"
                :docs           "https://github.com/djblue/portal"
                :spec           "https://github.com/djblue/portal/blob/master/src/portal/api.cljc"}
-   "markdown" {:render         notes-markdown/notes-to-md
+   "markdown" {:render         #'notes-markdown/notes-to-md
                :file-extension "md"
                :docs           "https://pandoc.org/MANUAL.html#pandocs-markdown"
                :spec           "https://pandoc.org/"}
-   "gfm"      {:render         notes-markdown/notes-to-md
+   "gfm"      {:render         #'notes-markdown/notes-to-md
                :file-extension "md"
                :docs           "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
                :spec           "https://github.github.com/gfm/"}})
 
-(defn- render* [target-dir ^File file {:keys [verbose file-extension flavor] :as options}]
+(defn- render* [target-dir ^File file notebook {:keys [verbose file-extension flavor] :as options}]
   (when verbose
     (println "Rendering" (notes/relative-path file)))
   (let [render (or (get-in flavors [flavor :render])
@@ -54,10 +55,8 @@
                       (get-in flavors [flavor :file-extension])
                       "md")
         target (clay.io/target target-dir file extension)
-        ;; TODO: should avoid re-reading for multiple targets
-        notebook (read-kinds/notebook file options)
         ;; TODO: should pass the source filename instead of putting scope here
-        result (value-hiccup/scope (str file) (render notebook options))]
+        result (render notebook options)]
     (clay.io/spit! target result)
     (when verbose
       (println "Wrote" (str target)))))
@@ -95,9 +94,15 @@
                :let [options (merge options target-options)
                      files (clay.io/clojure-files (:paths options))]]
          (when verbose
-           (println "Found" (count files) "source files to render into '" target-dir "'."))
+           (println "Found" (count files) "source files to render into" target-dir))
          (doseq [file files]
-           (render* target-dir file options)))
+           (let [
+                 ;; TODO: should avoid re-reading for multiple targets
+                 notebook (read-kinds/notebook file options)
+                 ;; can we just call other arity?
+                 ]
+
+             (render* target-dir file notebook options))))
        (throw (ex-info (str "No targets configured")
                        {:id      ::no-targets
                         :options options})))
@@ -108,10 +113,26 @@
          options (merge default-options
                         (clay.io/find-config)
                         options)
+         notebook (read-kinds/notebook file options)
          file-targets (find-file-targets file options)]
      (if (seq file-targets)
        (doseq [[target-dir options] file-targets]
-         (render* target-dir file options))
+         (render* target-dir file notebook options))
+       (throw (ex-info (str "Failed to render file '" path "': No targets configured")
+                       {:id      ::no-targets-for-file
+                        :options options})))))
+  ;; TODO: would it be more useful to take an s-expr instead of str?
+  ([code path options]
+   (let [file (io/file path)
+         options (merge default-options
+                        (clay.io/find-config)
+                        options)
+         notebook {:file file
+                   :contexts [(read-kinds/context code options)]}
+         file-targets (find-file-targets file options)]
+     (if (seq file-targets)
+       (doseq [[target-dir options] file-targets]
+         (render* target-dir file notebook options))
        (throw (ex-info (str "Failed to render file '" path "': No targets configured")
                        {:id      ::no-targets-for-file
                         :options options}))))))

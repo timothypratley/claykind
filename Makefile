@@ -3,7 +3,7 @@
 all: test notebooks babashka-example-book how-to-code-a-book build
 
 test:
-	clojure -M:dev:test
+	clojure -M:dev:test -m cognitect.test-runner
 
 notebooks:
 	clojure -M:dev -m scicloj.claykind.main

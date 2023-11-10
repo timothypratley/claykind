@@ -11,41 +11,41 @@
     "href": "md/c01-introduction.html",
     "title": "How to Code a Book",
     "section": "",
-    "text": "(ns how-to-code-a-book.c01-introduction)\n\nnil"
+    "text": "(ns how-to-code-a-book.c01-introduction)"
   },
   {
     "objectID": "md/c02-principles.html",
     "href": "md/c02-principles.html",
     "title": "How to Code a Book",
     "section": "",
-    "text": "(ns how-to-code-a-book.c02-principles)\n\nnil"
+    "text": "(ns how-to-code-a-book.c02-principles)"
   },
   {
     "objectID": "md/c03-coding.html",
     "href": "md/c03-coding.html",
     "title": "How to Code a Book",
     "section": "",
-    "text": "(ns how-to-code-a-book.c03-coding)\n\nnil"
+    "text": "(ns how-to-code-a-book.c03-coding)"
   },
   {
     "objectID": "md/c04-colating.html",
     "href": "md/c04-colating.html",
     "title": "How to Code a Book",
     "section": "",
-    "text": "(ns how-to-code-a-book.c04_colating)\n\nnil"
+    "text": "(ns how-to-code-a-book.c04_colating)"
   },
   {
     "objectID": "md/c05-options.html",
     "href": "md/c05-options.html",
     "title": "How to Code a Book",
     "section": "",
-    "text": "(ns how-to-code-a-book.c05-options)\n\nnil"
+    "text": "(ns how-to-code-a-book.c05-options)"
   },
   {
     "objectID": "md/c06-references.html",
     "href": "md/c06-references.html",
     "title": "How to Code a Book",
     "section": "",
-    "text": "(ns how-to-code-a-book.c06-references)\n\nnil"
+    "text": "(ns how-to-code-a-book.c06-references)"
   }
 ]

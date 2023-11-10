@@ -47,18 +47,16 @@
 </style>
 
 <link href="style.css" rel="stylesheet" type="text/css" />
-<script src="portal-main.js" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script>
-
-
-
+<script src="portal-main.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script>
+<script type="application/x-scittle">(require
+  '[reagent.core :as r]
+  '[reagent.dom :as dom]
+  '[clojure.str :as str])
+</script>
 
 # Hiccup flavors
 
-
-
 This article examines the performance, error reporting, and output of several Hiccup implementations.
-
-
 
 ![Hiccup is concise](https://i.redd.it/59i7rh6wt3271.jpg)
 
@@ -88,11 +86,7 @@ This article examines the performance, error reporting, and output of several Hi
 > Syntax error compiling at (0:0).
 > ```
 
-
-
 ## What is Hiccup?
-
-
 
 Hiccup is an approach to creating HTML strings.
 Hiccup uses vectors to represent HTML elements,
@@ -104,12 +98,6 @@ and maps to represent an element's attributes.
              [:em "World"]])
 ```
 
-> ```clojure {.printedClojure}
-> #'blog.hiccup-flavors/my-div
-> ```
-
-
-
 This data-structure can be compiled to an HTML string
 
 ```clojure
@@ -117,8 +105,6 @@ This data-structure can be compiled to an HTML string
 ```
 
 <div style="color:green;">Hello <em>World</em></div>
-
-
 
 And if we view the HTML in a browser, it will render it like so:
 
@@ -132,18 +118,12 @@ And if we view the HTML in a browser, it will render it like so:
 > Syntax error compiling at (0:0).
 > ```
 
-
-
 The transformation was:
-
-
 
 ```
 input data: [:tag {:attr "value"} ...child-elements...]
 output string: <tag attr="value">...child-elements...</tag>
 ```
-
-
 
 Here is a how we can construct a table
 
@@ -157,23 +137,15 @@ Here is a how we can construct a table
     [:tr [:td (Math/sqrt 3)] [:td (Math/pow 2 2)]]]])
 ```
 
-> ```clojure {.printedClojure}
-> #'blog.hiccup-flavors/my-table
-> ```
-
 ```clojure
 (str (hiccup2/html my-table))
 ```
 
 <table><thead><tr><th>header1</th><th>header2</th></tr></thead><tbody><tr><td>1</td><td>3</td></tr><tr><td>1.7320508075688772</td><td>4.0</td></tr></tbody></table>
 
-
-
 Notice that the in the string version it is harder to see the closing tags.
 Moreover, if you were editing the string, it is difficult to manage the hierarchy.
 One of the advantages of using a data-structure is that you can use structural editing to modify it.
-
-
 
 Here's what the resulting HTML looks like:
 
@@ -187,11 +159,7 @@ Here's what the resulting HTML looks like:
 > Syntax error compiling at (0:0).
 > ```
 
-
-
 ## Templating
-
-
 
 Did you notice in the table that we inserted some calculations?
 That wouldn't be possible when editing a string of HTML.
@@ -199,33 +167,21 @@ Using a data-structure to represent HTML allows us to intermix computation.
 Doing so is a form of templating.
 Hiccup leverages Clojure's data-literals to allow us to mix code and data.
 
-
-
 Without Hiccup, the string based approach to templating is to write a string like so:
 
-
-
 `"<div>Hello {{name}}<div>"`
-
-
 
 Templates are a mix of HTML and code which is easy to get wrong.
 And render it using a map of names to values like `{:name "World"}`.
 String templates and variable maps are more difficult to manage
 than just creating the data-structure you wanted in the first place.
 
-
-
 Whereas with hiccup it's impossible to have unbalanced tags,
 and the code semantics are clear.
 There is no new language, you just use the host language.
 So that's another advantage to using Hiccup.
 
-
-
 ## Flavors
-
-
 
 Hiccup quickly became a popular way for creating HTML in the Clojure community,
 and several different implementations have sprung forth each with some extra features or goals.
@@ -280,12 +236,6 @@ and several different implementations have sprung forth each with some extra fea
     :features #{"Babashka"}}])
 ```
 
-> ```clojure {.printedClojure}
-> #'blog.hiccup-flavors/hiccup-implementations
-> ```
-
-
-
 IDEA: feature matrix instead?
 
 ```clojure
@@ -301,23 +251,13 @@ IDEA: feature matrix instead?
 > Syntax error compiling at (0:0).
 > ```
 
-
-
 ## Error Handling
-
-
 
 ## Security (avoiding XSS)
 
-
-
 ### Escaping
 
-
-
 Handling of raw strings
-
-
 
 ## Extensibility
 
@@ -327,11 +267,7 @@ Handling of raw strings
 
 <div class="kind_vector"><div style="border:1px solid grey;padding:2px;">:div</div><div style="border:1px solid grey;padding:2px;">hello world</div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;"><div class="kind_seq"><div style="border:1px solid grey;padding:2px;">fn</div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"></div></div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;">:div</div><div style="border:1px solid grey;padding:2px;"><div class="kind_vector"><div style="border:1px solid grey;padding:2px;">myjscomponent</div></div></div></div></div></div></div></div></div></div>
 
-
-
 IDEA: something that just expands kinds might be better?
-
-
 
 TODO: but why does this even work?
 Markdown don't care, it's not escaped (but it could be)
@@ -379,10 +315,6 @@ but maybe we do? (after all we encourage scittle and reagent)
    ['("hello" "world")]
    [{:a 1, :b 2}]])
 ```
-
-> ```clojure {.printedClojure}
-> #'blog.hiccup-flavors/tests
-> ```
 
 ```clojure
 (str (hiccup2/html [:div 'hello " world"]))
@@ -515,8 +447,6 @@ world
 > ```
 > Syntax error compiling at (0:0).
 > ```
-
-
 
 **kind-hiccup transformer**
 "kind-hiccup" -> "standard hiccup"

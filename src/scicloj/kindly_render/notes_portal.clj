@@ -13,5 +13,5 @@
     [:div (:code context)]))
 
 (defn notes-to-html-portal [{:keys [contexts]} options]
-  (->> (mapv #(expr-result % options) contexts)
-       (notes-html/page)))
+  (-> (mapv #(expr-result % options) contexts)
+      (notes-html/page options)))

@@ -4,7 +4,9 @@
 
 (deftest parse-form-test
   (->> (read/read-string "(+ 1 2)")
-       (= {:code         "(+ 1 2)"
-           :form         '(+ 1 2)
-           :value        3})
+       (= {:column 1
+           :line   1
+           :code   "(+ 1 2)"
+           :form   '(+ 1 2)
+           :value  3})
        (is)))

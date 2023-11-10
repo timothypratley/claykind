@@ -2,7 +2,7 @@
  :deps  {org.clojure/clojure            {:mvn/version "1.11.1"}
          org.clojure/data.json          {:mvn/version "2.4.0"}
          org.clojure/tools.cli          {:mvn/version "1.0.219"}
-         org.scicloj/kindly-advice      {:local/root "../kindly-advice" #_#_:mvn/version "1-alpha4"}
+         org.scicloj/kindly-advice      {:mvn/version "1-alpha4"}
          rewrite-clj/rewrite-clj        {:mvn/version "1.1.47"}
          metosin/malli                  {:mvn/version "0.13.0"}
          hiccup/hiccup                  {:mvn/version "2.0.0-RC2"}
@@ -10,7 +10,6 @@
          io.github.nextjournal/markdown {:mvn/version "0.5.146"}
 
          ;; TODO: this is a large dependency but at the same time, it might be nice?
-         ;; or maybe use nextjournal?
          ;;com.vladsch.flexmark/flexmark-all {:mvn/version "0.64.8"}
          }
 

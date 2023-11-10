@@ -46,8 +46,12 @@
 }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script><script src="/js/portal-main.js" type="text/javascript"></script>
-<script type="application/x-scittle">(require '[reagent.core :as r] '[reagent.dom :as dom])
+<link href="style.css" rel="stylesheet" type="text/css" />
+
+<script type="application/x-scittle">(require
+  '[reagent.core :as r]
+  '[reagent.dom :as dom]
+  '[clojure.str :as str])
 </script>
 
 # Babashka notebooks
@@ -60,17 +64,13 @@ Babashka is, by design, as close to Clojure as possible.
 (+ 1 2)
 ```
 
-> ```clojure {.printedClojure}
-> 3
-> ```
+3
 
 ```clojure
 {:x (range 3)}
 ```
 
-> ```clojure {.printedClojure}
-> {:x (0 1 2)}
-> ```
+<div class="kind_map"><div style="border:1px solid grey;padding:2px;">:x</div><div style="border:1px solid grey;padding:2px;"><div class="kind_seq"><div style="border:1px solid grey;padding:2px;">2</div><div style="border:1px solid grey;padding:2px;">1</div><div style="border:1px solid grey;padding:2px;">0</div></div></div></div>
 
 ## Hiccup
 
@@ -88,41 +88,23 @@ Babashka is, by design, as close to Clojure as possible.
 (def now (java.time.ZonedDateTime/now))
 ```
 
-> ```clojure {.printedClojure}
-> "#'user/now"
-> ```
-
 ```clojure
 (def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))
 ```
-
-> ```clojure {.printedClojure}
-> "#'user/LA-timezone"
-> ```
 
 ```clojure
 (def LA-time (.withZoneSameInstant now LA-timezone))
 ```
 
-> ```clojure {.printedClojure}
-> "#'user/LA-time"
-> ```
-
 ```clojure
 (def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
 ```
-
-> ```clojure {.printedClojure}
-> "#'user/pattern"
-> ```
 
 ```clojure
 (.format LA-time pattern)
 ```
 
-> ```clojure {.printedClojure}
-> "12:52"
-> ```
+21:08
 
 ## Babashka vs clojure
 

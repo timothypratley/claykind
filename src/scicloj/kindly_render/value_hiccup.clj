@@ -4,7 +4,8 @@
             [clojure.string :as str]
             [scicloj.kind-portal.v1.impl :as kpi]
             [scicloj.kindly-advice.v1.api :as ka]
-            [scicloj.kindly-render.from-markdown :as from-markdown])
+            [scicloj.kindly-render.from-markdown :as from-markdown]
+            [scicloj.read-kinds.notes :as notes])
   (:import (clojure.lang IDeref)))
 
 (defmulti adapt :kind)
@@ -42,6 +43,10 @@
      [:code (pr-str value)]]
     (str value)))
 
+;; TODO: might not be necessary??
+;; Don't show
+(defmethod adapt :kind/hidden [context options])
+
 (defn pprint [value]
   [:pre [:code (binding [*print-meta* true]
                  (with-out-str (pprint/pprint value)))]])
@@ -50,7 +55,7 @@
   (pprint value))
 
 (defn adapt-value [v options]
-  (adapt (ka/derefing-advise {:value v}) options))
+  (adapt (notes/derefing-advise {:value v}) options))
 
 (defn grid [props vs options]
   (into [:div props]
@@ -77,14 +82,11 @@
     [:img {:src value}]
     [:div "Image kind not implemented"]))
 
-(defmethod adapt :kind/comment [{:keys [value]} options]
-  (from-markdown/hiccup value options))
-
 (defmethod adapt :kind/md [{:keys [value]} options]
   (from-markdown/hiccup value options))
 
-(defmethod adapt :kind/var [{:keys [value]} options]
-  [:pre [:code (str value)]])
+;; Don't show vars
+(defmethod adapt :kind/var [{:keys [value]} options])
 
 (defmethod adapt :kind/table [{:keys [value]} options]
   (let [{:keys [column-names row-vectors]} value]
@@ -92,12 +94,12 @@
      [:thead
       (into [:tr]
             (for [header column-names]
-              [:th (adapt header)]))]
+              [:th (adapt header options)]))]
      (into [:tbody]
            (for [row row-vectors]
              (into [:tr]
                    (for [column row]
-                     [:td (adapt column)]))))]))
+                     [:td (adapt column options)]))))]))
 
 (defn vega [value {:keys [flavor]}]
   (if (= flavor "gfm")
@@ -136,7 +138,7 @@
     (swap! *deps* conj :reagent))
   (let [id (gen-id)]
     [:div {:id id}
-     (-> [(list 'dom/render (list 'js/document.getElementById id) v)]
+     (-> [(list 'dom/render v (list 'js/document.getElementById id))]
          (scittle options))]))
 
 (defmethod adapt :kind/reagent [{:keys [value]} options]
@@ -176,7 +178,7 @@
            (= 'fn (first tag)))))
 
 (defn kind-request [x]
-  (let [context (ka/derefing-advise {:value x})]
+  (let [context (notes/derefing-advise {:value x})]
     (when (:kind-meta context)
       context)))
 
@@ -184,7 +186,7 @@
   (if-let [context (kind-request hiccup)]
     (adapt context)
     (cond (instance? IDeref hiccup)
-          (expand @hiccup options)
+          (recur @hiccup options)
 
           (vector? hiccup)
           (let [[tag & children] hiccup

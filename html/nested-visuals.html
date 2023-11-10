@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html><head><link href="style.css" rel="stylesheet" type="text/css"><script src="portal-main.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script><script type="application/x-scittle">(require '[reagent.core :as r] '[reagent.dom :as dom])
+</script></head><body><div><pre><code></code></pre><div><h1 id="nested-visuals">Nested Visuals</h1></div></div><div><pre><code>(ns blog.nested-visuals
+  "Wherein we nest Kindly visualizations for fun and profit"
+  (:require [scicloj.kindly.v4.kind :as kind]))</code></pre></div><div><pre><code></code></pre><div><p>Intro</p></div></div><div><pre><code>(def x 1)</code></pre></div><div><pre><code>(def my-svg
+  (kind/hiccup
+    [:svg {}
+     [:circle {:cx 50
+               :cy 50
+               :r  50}]]))</code></pre><svg><circle cx="50" cy="50" r="50"></circle></svg></div><div><pre><code>(kind/portal [my-svg])</code></pre><div><script>portal.extensions.vs_code_notebook.activate().renderOutputItem(
+  {"mime": "x-application/edn",
+   "text": (() => "^{:kindly/kind :kind/hiccup, :portal.viewer/default :portal.viewer/hiccup} [:svg {} [:circle {:r 50, :cx 50, :cy 50}]]")},
+  document.currentScript.parentElement);</script></div></div><div><pre><code></code></pre><div><p>Visualization requests</p></div></div><div><pre><code>(kind/table
+  {:column-names ["project" "features"]
+   :row-vectors  [[]
+                  []]})</code></pre><table><thead><tr><th></th><th></th></tr></thead><tbody><tr></tr><tr></tr></tbody></table></div><div><pre><code>^:kind/hiccup
+(def a
+  [:svg {}
+   [:circle {:cx 50
+             :cy 50
+             :r 20}]])</code></pre><svg><circle cx="50" cy="50" r="20"></circle></svg></div></body></html>

@@ -47,18 +47,16 @@
 </style>
 
 <link href="style.css" rel="stylesheet" type="text/css" />
-<script src="portal-main.js" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script>
-
-
-
+<script src="portal-main.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.js" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-lite@5" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script><script src="https://unpkg.com/react@18/umd/react.production.min.js" type="text/javascript"></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" type="text/javascript"></script><script src="https://scicloj.github.io/scittle/js/scittle.reagent.js" type="text/javascript"></script>
+<script type="application/x-scittle">(require
+  '[reagent.core :as r]
+  '[reagent.dom :as dom]
+  '[clojure.str :as str])
+</script>
 
 # Babashka notebooks
 
-
-
 Babashka is, by design, as close to Clojure as possible.
-
-
 
 ## Basic Examples
 
@@ -74,8 +72,6 @@ Babashka is, by design, as close to Clojure as possible.
 
 <div class="kind_map"><div style="border:1px solid grey;padding:2px;">:x</div><div style="border:1px solid grey;padding:2px;"><div class="kind_seq"><div style="border:1px solid grey;padding:2px;">0</div><div style="border:1px solid grey;padding:2px;">1</div><div style="border:1px solid grey;padding:2px;">2</div></div></div></div>
 
-
-
 ## Hiccup
 
 ```clojure
@@ -86,73 +82,43 @@ Babashka is, by design, as close to Clojure as possible.
 
 <div style="background-color:#effeef;"><big><big>3</big></big></div>
 
-
-
 ## Time
 
 ```clojure
 (def now (java.time.ZonedDateTime/now))
 ```
 
-> ```clojure {.printedClojure}
-> #'user/now
-> ```
-
 ```clojure
 (def LA-timezone (java.time.ZoneId/of "America/Los_Angeles"))
 ```
-
-> ```clojure {.printedClojure}
-> #'user/LA-timezone
-> ```
 
 ```clojure
 (def LA-time (.withZoneSameInstant now LA-timezone))
 ```
 
-> ```clojure {.printedClojure}
-> #'user/LA-time
-> ```
-
 ```clojure
 (def pattern (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
 ```
-
-> ```clojure {.printedClojure}
-> #'user/pattern
-> ```
 
 ```clojure
 (.format LA-time pattern)
 ```
 
-22:42
-
-
+21:08
 
 ## Babashka vs clojure
 
-
-
 The notable differences are:
-
-
 
 * Code is evaluated with [Sci](https://github.com/babashka/SCI)
 * Not all of Clojure is available
 * Files start with a shell directive instead of a namespace
 
-
-
 Did you know that Clojure treats `#!` as a comment?
-
-
 
 So you can already create Babashka notebooks if you ignore the differences,
 but this project (claykind) will detect Babashka and use Sci,
 which will make it more directly compatible.
-
-
 
 Would it be interesting thing to try is running claykind from babashka?
 What possibilities does that open up?

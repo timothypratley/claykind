@@ -12,19 +12,20 @@
 ;; which are combined with double newline.
 
 (defn join [a b]
-  (str a \newline \newline b))
+  (if (str/blank? a)
+    b
+    (str a \newline \newline b)))
 
 (defn render-context
   "Transforms a context with advice into a markdown string"
   [context options]
-  (str/trim-newline
-    (let [{:keys [code exception out err]} context
-          show-value (contains? context :value)]
+  (let [{:keys [code exception out err kind]} context]
+    (str/trim-newline
       (cond-> ""
               code (str (value-markdown/block code "clojure"))
               out (join (value-markdown/message out "stdout"))
               err (join (value-markdown/message err "stderr"))
-              show-value (join (value-markdown/adapt context options))
+              (contains? context :value) (join (value-markdown/adapt context options))
               exception (join (value-markdown/message (ex-message exception) "exception"))))))
 
 ;; TODO: DRY and move to a css file
@@ -105,7 +106,12 @@
       (hiccup/html (apply page/include-js (value-hiccup/include-js))) \newline
       ;; TODO: this could should only exist when user needs it,
       ;; either detected, or requested, or they could just add it as hiccup??
-      ;; (kind/hiccup '[(require [reagent.core :as r] [reagent.dom :as dom])])
+
+      (hiccup/html
+        (value-hiccup/scittle '[(require '[reagent.core :as r]
+                                         '[reagent.dom :as dom]
+                                         '[clojure.str :as str])]
+                              options))
       )))
 
 (defn notes-to-md
